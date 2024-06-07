@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: gymanager-api
+  datasource:
+    username: faroc
+    password: changeit
+    url: jdbc:postgresql://localhost:5432/gymanager
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    user: faroc
+    password: changeit
+    url: jdbc:postgresql://localhost:5432/postgres
+    locations: classpath:db/migration
+    enabled: true
