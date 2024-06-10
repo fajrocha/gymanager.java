@@ -1,0 +1,5 @@
+@host = http://localhost:8080
+@userId = c06e8b72-fb5e-494d-b900-d779d8bc3499
+
+POST {{host}}/users/{{userId}}/profiles/admin
+Content-Type: application/json
