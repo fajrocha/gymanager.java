@@ -46,6 +46,17 @@
             <artifactId>pipelinr</artifactId>
             <version>0.8</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.mvallim</groupId>
+            <artifactId>java-fluent-validator</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.jooq</groupId>

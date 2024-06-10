@@ -12,8 +12,3 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     locations: classpath:db/migration
     enabled: true
-logging:
-  level:
-    org:
-      springframework:
-        security: debug
