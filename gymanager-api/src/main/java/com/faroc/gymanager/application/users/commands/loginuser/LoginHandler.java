@@ -1,6 +1,7 @@
 package com.faroc.gymanager.application.users.commands.loginuser;
 
 import an.awesome.pipelinr.Command;
+import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.users.DTOs.AuthDTO;
 import com.faroc.gymanager.application.users.exceptions.UnauthorizedException;
 import com.faroc.gymanager.application.users.exceptions.UserNotFound;
@@ -25,7 +26,7 @@ public class LoginHandler implements Command.Handler<LoginCommand, AuthDTO> {
         var userEmail = loginCommand.email();
         var user = usersGateway
                 .findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFound(UserErrors.notFound(userEmail), UserErrors.AUTH_FAILED));
+                .orElseThrow(() -> new ResourceNotFoundException(UserErrors.notFound(userEmail), UserErrors.AUTH_FAILED));
 
         if (!user.validatePassword(loginCommand.password(), passwordHasher))
             throw new UnauthorizedException(UserErrors.authFailed(user.getId()), UserErrors.AUTH_FAILED);

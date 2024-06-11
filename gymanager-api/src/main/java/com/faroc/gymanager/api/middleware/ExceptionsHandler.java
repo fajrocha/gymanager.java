@@ -2,6 +2,7 @@ package com.faroc.gymanager.api.middleware;
 
 import com.faroc.gymanager.application.shared.exceptions.CrudOperationFailed;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
+import com.faroc.gymanager.application.shared.exceptions.ValidationException;
 import com.faroc.gymanager.application.users.exceptions.UnauthorizedException;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionsHandler {
     Logger logger = LogManager.getLogger(ExceptionsHandler.class);
+
+    @ExceptionHandler(ValidationException.class)
+    public ProblemDetail handleConflicts(ValidationException ex) {
+        logger.error("Validation failed on request.", ex);
+
+        var problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getDetail());
+
+        problem.setProperty("errors", ex.getModelState());
+
+        return problem;
+    }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ProblemDetail handleUnauthorized(UnauthorizedException ex) {

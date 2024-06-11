@@ -129,7 +129,6 @@
                     <generator>
                         <database>
                             <includes>.*</includes>
-                            <excludes></excludes>
                             <inputSchema>public</inputSchema>
                         </database>
                         <target>
