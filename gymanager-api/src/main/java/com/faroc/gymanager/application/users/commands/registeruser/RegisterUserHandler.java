@@ -37,24 +37,6 @@ public class RegisterUserHandler implements Command.Handler<RegisterUserCommand,
     public AuthDTO handle(RegisterUserCommand registerUserCommand) {
         var validationResult = validator.validate(registerUserCommand);
 
-        Map<String, List<String>> modelState = new HashMap<>();
-
-        validationResult.getErrors().stream().forEach(errorToAdd -> {
-            var fieldName = errorToAdd.getField();
-            var errorMessage = errorToAdd.getMessage();
-
-            List<String> errors;
-            if (modelState.containsKey(fieldName)) {
-                errors = modelState.get(fieldName);
-                errors.add(errorMessage);
-            }
-            else {
-                errors = new ArrayList<>();
-                errors.add(errorMessage);
-            }
-            modelState.put(fieldName, errors);
-        });
-
         if (usersGateway.emailExists(registerUserCommand.email()))
             throw new EmailAlreadyExistsException(UserErrors.EMAIL_ALREADY_EXISTS);
 
