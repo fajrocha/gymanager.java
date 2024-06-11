@@ -9,6 +9,8 @@ import com.faroc.gymanager.domain.users.User;
 import com.faroc.gymanager.domain.users.abstractions.PasswordHasher;
 import com.faroc.gymanager.domain.users.errors.UserErrors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,23 +22,18 @@ import java.util.Map;
 public class RegisterUserHandler implements Command.Handler<RegisterUserCommand, AuthDTO>{
     private final UsersGateway usersGateway;
     private final PasswordHasher passwordHasher;
-    private final AbstractValidator<RegisterUserCommand> validator;
 
     @Autowired
     public RegisterUserHandler(
             UsersGateway usersGateway,
-            PasswordHasher passwordHasher,
-            AbstractValidator<RegisterUserCommand> validator
+            PasswordHasher passwordHasher
     ) {
         this.usersGateway = usersGateway;
         this.passwordHasher = passwordHasher;
-        this.validator = validator;
     }
 
     @Override
     public AuthDTO handle(RegisterUserCommand registerUserCommand) {
-        var validationResult = validator.validate(registerUserCommand);
-
         if (usersGateway.emailExists(registerUserCommand.email()))
             throw new EmailAlreadyExistsException(UserErrors.EMAIL_ALREADY_EXISTS);
 
