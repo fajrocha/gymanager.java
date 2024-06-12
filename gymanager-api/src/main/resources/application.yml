@@ -12,3 +12,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     locations: classpath:db/migration
     enabled: true
+jwt:
+  private:
+    key: classpath:app.key
+  public:
+    key: classpath:app.pub

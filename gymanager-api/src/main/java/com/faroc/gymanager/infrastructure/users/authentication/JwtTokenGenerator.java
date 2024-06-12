@@ -11,12 +11,11 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import java.time.Instant;
 
 public class JwtTokenGenerator {
-    @Value("spring.application.name")
+    @Value("${spring.application.name}")
     private String issuer;
 
     private final JwtEncoder jwtEncoder;
 
-    @Autowired
     public JwtTokenGenerator(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }

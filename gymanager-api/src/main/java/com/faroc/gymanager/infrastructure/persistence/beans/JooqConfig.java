@@ -1,4 +1,4 @@
-package com.faroc.gymanager.infrastructure.beans;
+package com.faroc.gymanager.infrastructure.persistence.beans;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
