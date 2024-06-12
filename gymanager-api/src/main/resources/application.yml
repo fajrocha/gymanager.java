@@ -14,6 +14,6 @@ spring:
     enabled: true
 jwt:
   private:
-    key: classpath:app.key
+    key: "classpath:private_key.pem"
   public:
-    key: classpath:app.pub
+    key: "classpath:public_key.pem"

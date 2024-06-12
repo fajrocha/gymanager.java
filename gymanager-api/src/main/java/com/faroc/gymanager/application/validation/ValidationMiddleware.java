@@ -20,24 +20,28 @@ public class ValidationMiddleware implements Command.Middleware {
     @SuppressWarnings("unchecked")
     public <R, C extends Command<R>> R invoke(C command, Next<R> next) {
         var validator = (AbstractValidator<C>)validatorsAggregator.getValidatorHashMap().get(command.getClass());
+
+        if (validator == null)
+            return next.invoke();
+
         var result = validator.validate(command);
 
         if (result.isValid())
-            next.invoke();
+            return next.invoke();
 
-        Map<String, List<String>> modelState = getStringListMap(result);
+        Map<String, List<String>> modelState = getErrorsMap(result);
 
         throw new ValidationException(
                 "Validation for " + command.getClass() + " request was invalid.",
                 modelState);
     }
 
-    private static Map<String, List<String>> getStringListMap(ValidationResult result) {
+    private static Map<String, List<String>> getErrorsMap(ValidationResult result) {
         Map<String, List<String>> modelState = new HashMap<>();
 
-        for (var e : result.getErrors()) {
-            var fieldName = e.getField();
-            var errorMessage = e.getMessage();
+        result.getErrors().forEach(error -> {
+            var fieldName = error.getField();
+            var errorMessage = error.getMessage();
 
             List<String> errors;
             if (modelState.containsKey(fieldName)) {
@@ -49,7 +53,8 @@ public class ValidationMiddleware implements Command.Middleware {
                 errors.add(errorMessage);
             }
             modelState.put(fieldName, errors);
-        }
+        });
+
         return modelState;
     }
 }

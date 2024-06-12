@@ -1,5 +1,6 @@
 package com.faroc.gymanager.infrastructure.users.authentication;
 
+import com.faroc.gymanager.application.users.gateways.TokenGenerator;
 import com.faroc.gymanager.domain.admins.permissions.AdminPermissions;
 import com.faroc.gymanager.domain.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-public class JwtTokenGenerator {
+@Service
+public class JwtTokenGenerator implements TokenGenerator {
     @Value("${spring.application.name}")
     private String issuer;
 
@@ -36,7 +41,12 @@ public class JwtTokenGenerator {
                 });
 
         addRoleIds(user, claimsBuilder);
-        user.getUserProfiles().forEach(p -> claimsBuilder.claim(RolesClaims.ROLES, p.name()));
+        user.getUserProfiles().forEach(profile -> {
+            List<String> roles = new ArrayList<>();
+            roles.add(profile.name());
+
+            claimsBuilder.claim(RolesClaims.ROLES, roles);
+        });
 
         addPermissions(user, claimsBuilder);
 
@@ -60,9 +70,11 @@ public class JwtTokenGenerator {
     }
 
     public void addPermissions(User user, JwtClaimsSet.Builder claimsBuilder) {
+        List<String> permissions = new ArrayList<>();
+
         if (user.getAdminId() != null) {
-            claimsBuilder.claim(PermissionsClaims.PERMISSIONS, AdminPermissions.CREATE_GYM);
-            claimsBuilder.claim(PermissionsClaims.PERMISSIONS, AdminPermissions.UPDATE_GYM);
+            permissions.add(AdminPermissions.CREATE_GYM);
+            permissions.add(AdminPermissions.UPDATE_GYM);
         }
 
         if (user.getTrainerId() != null) {
@@ -72,5 +84,7 @@ public class JwtTokenGenerator {
         if (user.getParticipantId() != null) {
             // TODO: Add participant permissions
         }
+
+        claimsBuilder.claim(PermissionsClaims.PERMISSIONS, permissions);
     }
 }

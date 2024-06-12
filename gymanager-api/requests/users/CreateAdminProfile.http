@@ -1,5 +1,7 @@
 @host = http://localhost:8080
-@userId = c06e8b72-fb5e-494d-b900-d779d8bc3499
+@userId = d7d2915a-bdb0-417e-9542-3d205b72e003
+@token = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJneW1hbmFnZXItYXBpIiwibmFtZSI6IkZhYmlvIiwiaWQiOiJMYW56b25pIiwiZXhwIjoxNzE4MjMxNTA4LCJpYXQiOjE3MTgyMjc5MDgsImZhbWlseV9uYW1lIjoiTGFuem9uaSIsImVtYWlsIjoicmVhbGZhYmlvQG1vZGVsLmNvbSJ9.MUHdcXqO0vrLhgfTcChkrD5eegN5W0zBGRIObqhptQgGNwk30zgeA_JjwxHjj8eA5L7qs2ENMfRvVh-XjnmcXrgNLsLdWkllRtxE5ls5f_Cxcpcd0KJTKHPsGx09SMcbc8dodnZu-uUDQYvS3S0o92t3MAxUDOfZTHyH5tabDriXv6_sqglkIVYhZW3yjgAhS3LKfu8UlnFfwUgP4bl5aKNDPT9xAjKs5YDcr90ItH9uaJfHk7LRxWPqGxXEqMwWHNB686XVainO1c3HQY-GqXY8xkvdIMsiDzvOsuYnczE1R31nhciBlz-J5IzanAPIIfNN0k2RYxFrnqj1uTcXYw
 
 POST {{host}}/users/{{userId}}/profiles/admin
 Content-Type: application/json
+Authorization: Bearer {{token}}
