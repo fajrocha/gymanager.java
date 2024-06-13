@@ -36,7 +36,7 @@ public class User {
         this.adminId = adminId;
         this.trainerId = trainerId;
         this.participantId = participantId;
-    };
+    }
 
     public User(String firstName, String lastName, String email, String passwordHash) {
         this.id = UUID.randomUUID();
@@ -59,7 +59,7 @@ public class User {
     }
 
     public boolean validatePassword(String password, PasswordHasher passwordHasher) {
-        return passwordHasher.ValidatePassword(password, passwordHash);
+        return passwordHasher.validatePassword(password, passwordHash);
     }
 
     public UUID createAdminProfile() throws ConflictException {

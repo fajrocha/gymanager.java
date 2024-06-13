@@ -71,7 +71,7 @@ public class UsersRepository implements UsersGateway {
     }
 
     @Override
-    public int save(User user) {
+    public void save(User user) {
         var userRecord = new UsersRecord();
 
         userRecord.setId(user.getId());
@@ -80,12 +80,12 @@ public class UsersRepository implements UsersGateway {
         userRecord.setEmail(user.getEmail());
         userRecord.setPasswordHash(user.getPasswordHash());
 
-        return context.insertInto(USERS).set(userRecord).execute();
+        context.insertInto(USERS).set(userRecord).execute();
     }
 
     @Override
-    public int update(User user) {
-        return context.update(USERS)
+    public void update(User user) {
+        context.update(USERS)
                 .set(USERS.FIRST_NAME, user.getFirstName())
                 .set(USERS.LAST_NAME, user.getLastName())
                 .set(USERS.EMAIL, user.getEmail())

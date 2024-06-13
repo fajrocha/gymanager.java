@@ -3,6 +3,10 @@ package com.faroc.gymanager.domain.users.errors;
 import java.util.UUID;
 
 public class UserErrors {
+    public static final String ADD_USER = "Failed to register user.";
+    public static String addUser(String email) {
+        return "Failed to add user with given email: " + email + " .";
+    }
     public static final String CONFLICT_ADMIN_PROFILE = "Admin profile already exists.";
 
     public static String conflictAdminProfile(UUID userId) {

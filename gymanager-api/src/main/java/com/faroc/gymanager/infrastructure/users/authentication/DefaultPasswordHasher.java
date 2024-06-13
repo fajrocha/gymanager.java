@@ -12,7 +12,7 @@ public class DefaultPasswordHasher implements PasswordHasher {
     private static final String PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
 
     @Override
-    public String HashPassword(String password) {
+    public String hashPassword(String password) {
         if (!Pattern.compile(PASSWORD_REGEX).matcher(password).matches()) {
             throw new PasswordRegexNotMatchedException("Password did not match the regex rules.");
         }
@@ -21,7 +21,7 @@ public class DefaultPasswordHasher implements PasswordHasher {
     }
 
     @Override
-    public boolean ValidatePassword(String password, String hash) {
+    public boolean validatePassword(String password, String hash) {
         return new BCryptPasswordEncoder().matches(password, hash);
     }
 }

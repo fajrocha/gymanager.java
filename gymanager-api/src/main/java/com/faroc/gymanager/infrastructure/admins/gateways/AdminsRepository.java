@@ -19,9 +19,8 @@ public class AdminsRepository implements AdminsGateway {
     }
 
     @Override
-    public int save(Admin admin) {
-         return context
-                .insertInto(ADMINS, ADMINS.ID, ADMINS.USER_ID, ADMINS.SUBSCRIPTION_ID)
+    public void save(Admin admin) {
+         context.insertInto(ADMINS, ADMINS.ID, ADMINS.USER_ID, ADMINS.SUBSCRIPTION_ID)
                 .values(admin.getId(), admin.getUserId(), admin.getSubscriptionId())
                 .execute();
     }

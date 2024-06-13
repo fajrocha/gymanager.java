@@ -2,7 +2,7 @@ package com.faroc.gymanager.application.users.commands.addadmin;
 
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
-import com.faroc.gymanager.application.shared.exceptions.CrudOperationFailed;
+import com.faroc.gymanager.application.shared.exceptions.StoreRequestFailed;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.users.gateways.UsersGateway;
 import com.faroc.gymanager.domain.admins.Admin;
@@ -37,19 +37,8 @@ public class AddAdminHandler implements Command.Handler<AddAdminCommand, UUID> {
         var adminId = user.createAdminProfile();
         var admin = new Admin(user.getId());
 
-        var userQueryResult = userGateway.update(user);
-
-        if (userQueryResult == 0)
-            throw new CrudOperationFailed(
-                    UserErrors.conflictAdminProfile(userId),
-                    UserErrors.ADD_ADMIN_PROFILE);
-
-        var adminQueryResult = adminsGateway.save(admin);
-
-        if (adminQueryResult == 0)
-            throw new CrudOperationFailed(
-                    AdminErrors.createAdminProfile(userId),
-                    AdminErrors.CREATE_ADMIN_PROFILE);
+        userGateway.update(user);
+        adminsGateway.save(admin);
 
         return adminId;
     }
