@@ -1,4 +1,4 @@
-package com.faroc.gymanager.infrastructure.users.authentication;
+package com.faroc.gymanager.infrastructure.security.claims;
 
 public class ProfileClaims {
     public static final String ADMIN_ID = "admin_id";

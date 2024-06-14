@@ -1,9 +1,12 @@
-package com.faroc.gymanager.infrastructure.users.authentication;
+package com.faroc.gymanager.infrastructure.security;
 
 import com.faroc.gymanager.application.users.gateways.TokenGenerator;
 import com.faroc.gymanager.domain.admins.permissions.AdminPermissions;
 import com.faroc.gymanager.domain.users.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.faroc.gymanager.infrastructure.security.claims.PermissionsClaims;
+import com.faroc.gymanager.infrastructure.security.claims.ProfileClaims;
+import com.faroc.gymanager.infrastructure.security.claims.RegisteredClaims;
+import com.faroc.gymanager.infrastructure.security.claims.RolesClaims;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -34,10 +37,10 @@ public class JwtTokenGenerator implements TokenGenerator {
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
                 .claims(map -> {
+                    map.put(RegisteredClaims.ID, user.getId());
                     map.put(RegisteredClaims.NAME, user.getFirstName());
                     map.put(RegisteredClaims.FAMILY_NAME, user.getLastName());
                     map.put(RegisteredClaims.EMAIL, user.getEmail());
-                    map.put(RegisteredClaims.ID, user.getLastName());
                 });
 
         addRoleIds(user, claimsBuilder);

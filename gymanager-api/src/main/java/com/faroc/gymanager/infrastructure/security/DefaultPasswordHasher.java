@@ -1,7 +1,7 @@
-package com.faroc.gymanager.infrastructure.users.authentication;
+package com.faroc.gymanager.infrastructure.security;
 
 import com.faroc.gymanager.domain.users.abstractions.PasswordHasher;
-import com.faroc.gymanager.infrastructure.users.exceptions.PasswordRegexNotMatchedException;
+import com.faroc.gymanager.application.security.exceptions.PasswordComplexityException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class DefaultPasswordHasher implements PasswordHasher {
     @Override
     public String hashPassword(String password) {
         if (!Pattern.compile(PASSWORD_REGEX).matcher(password).matches()) {
-            throw new PasswordRegexNotMatchedException("Password did not match the regex rules.");
+            throw new PasswordComplexityException("Password did not match the regex rules.");
         }
 
         return new BCryptPasswordEncoder().encode(password);

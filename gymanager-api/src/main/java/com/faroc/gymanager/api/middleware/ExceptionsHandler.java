@@ -3,7 +3,7 @@ package com.faroc.gymanager.api.middleware;
 import com.faroc.gymanager.application.shared.exceptions.StoreRequestFailed;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.shared.exceptions.ValidationException;
-import com.faroc.gymanager.application.users.exceptions.UnauthorizedException;
+import com.faroc.gymanager.application.security.exceptions.UnauthorizedException;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

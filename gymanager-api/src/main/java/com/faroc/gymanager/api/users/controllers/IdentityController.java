@@ -4,7 +4,7 @@ import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.api.users.mappers.UsersRequestMappers;
 import com.faroc.gymanager.api.users.mappers.UsersResponseMappers;
 import com.faroc.gymanager.application.users.exceptions.EmailAlreadyExistsException;
-import com.faroc.gymanager.infrastructure.users.exceptions.PasswordRegexNotMatchedException;
+import com.faroc.gymanager.application.security.exceptions.PasswordComplexityException;
 import com.faroc.gymanager.users.requests.LoginRequest;
 import com.faroc.gymanager.users.requests.RegisterRequest;
 import com.faroc.gymanager.users.responses.AuthResponse;
@@ -42,8 +42,8 @@ public class IdentityController {
         return UsersResponseMappers.toResponse(result);
     }
 
-    @ExceptionHandler(PasswordRegexNotMatchedException.class)
-    public ProblemDetail handlePasswordRegexException(PasswordRegexNotMatchedException ex) {
+    @ExceptionHandler(PasswordComplexityException.class)
+    public ProblemDetail handlePasswordRegexException(PasswordComplexityException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getDetail());
     }
 

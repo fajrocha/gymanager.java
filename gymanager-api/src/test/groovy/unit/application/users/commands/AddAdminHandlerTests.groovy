@@ -1,6 +1,9 @@
 package unit.application.users.commands
 
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway
+import com.faroc.gymanager.application.security.CurrentUserProvider
+import com.faroc.gymanager.application.security.DTOs.CurrentUserDTO
+import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.application.users.commands.addadmin.AddAdminCommand
 import com.faroc.gymanager.application.users.commands.addadmin.AddAdminHandler
@@ -17,6 +20,7 @@ class AddAdminHandlerTests extends Specification {
     UUID userId
     UsersGateway mockUsersGateway
     AdminsGateway mockAdminsGateway
+    CurrentUserProvider mockCurrentUserProvider
     AddAdminCommand command
     AddAdminHandler sut
     Faker faker
@@ -38,17 +42,30 @@ class AddAdminHandlerTests extends Specification {
 
         mockUsersGateway = Mock(UsersGateway);
         mockAdminsGateway = Mock(AdminsGateway);
+        mockCurrentUserProvider = Mock(CurrentUserProvider);
         command = new AddAdminCommand(userId);
         
         sut = new AddAdminHandler(
                 mockUsersGateway,
-                mockAdminsGateway
+                mockAdminsGateway,
+                mockCurrentUserProvider
         )
+    }
+
+    def "when current user does not match user on request"() {
+        given:
+        mockCurrentUserProvider.getCurrentUser() >> new CurrentUserDTO(UUID.randomUUID(), List.of(), List.of())
+
+        when:
+        sut.handle(command)
+
+        then:
+        thrown(UnauthorizedException)
     }
 
     def "when user to add admin profile not found should throw not found exception"() {
         given:
-
+        mockCurrentUserProvider.getCurrentUser() >> new CurrentUserDTO(userId, List.of(), List.of())
         mockUsersGateway.findById(userId) >> Optional.empty()
 
         when:
@@ -62,7 +79,7 @@ class AddAdminHandlerTests extends Specification {
     def "when user exists should return admin id and create admin profile"() {
         given:
         var user = User.MapFromStorage(
-                UUID.randomUUID(),
+                userId,
                 firstName,
                 lastName,
                 email,
@@ -71,6 +88,7 @@ class AddAdminHandlerTests extends Specification {
                 null,
                 null
         )
+        mockCurrentUserProvider.getCurrentUser() >> new CurrentUserDTO(userId, List.of(), List.of())
         mockUsersGateway.findById(userId) >> Optional.of(user)
 
         when:

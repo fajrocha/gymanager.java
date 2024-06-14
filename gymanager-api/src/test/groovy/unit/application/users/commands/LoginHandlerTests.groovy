@@ -4,7 +4,7 @@ import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundExcepti
 import com.faroc.gymanager.application.users.DTOs.AuthDTO
 import com.faroc.gymanager.application.users.commands.loginuser.LoginCommand
 import com.faroc.gymanager.application.users.commands.loginuser.LoginHandler
-import com.faroc.gymanager.application.users.exceptions.UnauthorizedException
+import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
 import com.faroc.gymanager.application.users.gateways.TokenGenerator
 import com.faroc.gymanager.application.users.gateways.UsersGateway
 import com.faroc.gymanager.domain.users.User
