@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class User {
-    private UUID id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String passwordHash;
+    private final UUID id;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final String passwordHash;
     private UUID adminId;
     private UUID participantId;
     private UUID trainerId;

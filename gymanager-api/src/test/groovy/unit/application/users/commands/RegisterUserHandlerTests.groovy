@@ -1,4 +1,4 @@
-package unittests.application.users.commands
+package unit.application.users.commands
 
 import com.faroc.gymanager.application.users.DTOs.AuthDTO
 import com.faroc.gymanager.application.users.commands.registeruser.RegisterUserCommand
@@ -48,7 +48,7 @@ class RegisterUserHandlerTests extends Specification {
         )
     }
 
-    def "should throw exception when registering user and email already exists"() {
+    def "when registering user and email already exists should throw exception "() {
         given:
         var registerUserCommand = new RegisterUserCommand(
                 firstName,
@@ -66,7 +66,7 @@ class RegisterUserHandlerTests extends Specification {
         thrown(EmailAlreadyExistsException)
     }
 
-    def "should save user when email given does not exist"() {
+    def "when email given is not in use should save user"() {
         given:
         var registerUserCommand = new RegisterUserCommand(
                 firstName,
@@ -98,7 +98,7 @@ class RegisterUserHandlerTests extends Specification {
         actualAuthDto.token() == expectedAuthDTO.token()
     }
 
-    def "should rethrow exception when generating password hash throws exception"() {
+    def "when generating password hash throws exception should rethrow exception"() {
         given:
         var registerUserCommand = new RegisterUserCommand(
                 firstName,
@@ -117,7 +117,7 @@ class RegisterUserHandlerTests extends Specification {
         thrown(RuntimeException)
     }
 
-    def "should rethrow exception when saving user throws exception"() {
+    def "when saving user throws exception should rethrow exception "() {
         given:
         var registerUserCommand = new RegisterUserCommand(
                 firstName,
@@ -137,7 +137,7 @@ class RegisterUserHandlerTests extends Specification {
         thrown(RuntimeException)
     }
 
-    def "should rethrow exception when generating token throws exception"() {
+    def "when generating token throws exception should rethrow exception"() {
         given:
         var registerUserCommand = new RegisterUserCommand(
                 firstName,

@@ -8,4 +8,7 @@ public class AdminErrors {
     public static String createAdminProfile(UUID userId) {
         return "Failed to create admin profile for user " + userId + " .";
     }
+
+    public static final String SUBSCRIPTION_ID_NOT_MATCHING
+            = "Subscription id given does not match with user subscription.";
 }

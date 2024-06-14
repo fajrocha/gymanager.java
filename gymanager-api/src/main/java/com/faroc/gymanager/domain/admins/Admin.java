@@ -1,14 +1,21 @@
 package com.faroc.gymanager.domain.admins;
 
+import com.faroc.gymanager.domain.admins.exceptions.SubscriptionIdNotMatching;
+
 import java.util.UUID;
 
 public class Admin {
-    private UUID id;
-    private UUID userId;
+    private final UUID id;
+    private final UUID userId;
     private UUID subscriptionId;
 
     public Admin(UUID userId) {
         this.id = UUID.randomUUID();
+        this.userId = userId;
+    }
+
+    public Admin(UUID id, UUID userId) {
+        this.id = id;
         this.userId = userId;
     }
 
@@ -30,7 +37,9 @@ public class Admin {
 
     public void deleteSubscription(UUID subscriptionId) {
         if (this.subscriptionId != subscriptionId)
-            throw new IllegalArgumentException("Subscription id does not match.");
+            throw new SubscriptionIdNotMatching(
+                    "Deleting subscription failed. Subscription given + " + subscriptionId + " + for user " + id +
+                            " does not match with user subscription.");
 
         this.subscriptionId = null;
     }

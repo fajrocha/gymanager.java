@@ -1,4 +1,4 @@
-package unittests.application.users.commands
+package unit.application.users.commands
 
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.application.users.DTOs.AuthDTO
@@ -53,7 +53,7 @@ class LoginHandlerTests extends Specification {
         loginCommand = new LoginCommand(email, password)
     }
 
-    def "should throw ResourceNotFoundException when email does not exist"() {
+    def "when email does not exist should throw not found exception"() {
         given:
         mockUsersGateway.findByEmail(email) >> Optional.empty()
 
@@ -64,18 +64,7 @@ class LoginHandlerTests extends Specification {
         thrown(ResourceNotFoundException)
     }
 
-    def "should throw not found exception when email does not exist"() {
-        given:
-        mockUsersGateway.findByEmail(email) >> Optional.empty()
-
-        when:
-        sut.handle(loginCommand)
-
-        then:
-        thrown(ResourceNotFoundException)
-    }
-
-    def "should throw unauthorized exception when password does not match"() {
+    def "when password does not match should throw unauthorized exception"() {
         given:
         var loginCommand = new LoginCommand(email, wrongPassword)
         var user = User.MapFromStorage(
@@ -99,7 +88,7 @@ class LoginHandlerTests extends Specification {
         thrown(UnauthorizedException)
     }
 
-    def "should login and generate token when password matches"() {
+    def "when password matches should login and generate token"() {
         given:
         var user = User.MapFromStorage(
                 UUID.randomUUID(),

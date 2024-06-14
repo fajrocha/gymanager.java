@@ -35,7 +35,7 @@ public class AddAdminHandler implements Command.Handler<AddAdminCommand, UUID> {
                                 UserErrors.NOT_FOUND));
 
         var adminId = user.createAdminProfile();
-        var admin = new Admin(user.getId());
+        var admin = new Admin(adminId, user.getId());
 
         userGateway.update(user);
         adminsGateway.save(admin);
