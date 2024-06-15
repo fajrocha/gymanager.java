@@ -20,7 +20,6 @@ public class IdentityController {
 
     @Autowired
     public IdentityController(Pipeline pipeline) {
-
         this.pipeline = pipeline;
     }
 

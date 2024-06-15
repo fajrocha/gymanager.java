@@ -1,9 +1,13 @@
 package com.faroc.gymanager.domain.admins;
 
+import com.faroc.gymanager.domain.admins.errors.AdminErrors;
 import com.faroc.gymanager.domain.admins.exceptions.SubscriptionIdNotMatching;
+import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import lombok.Getter;
 
 import java.util.UUID;
 
+@Getter
 public class Admin {
     private final UUID id;
     private final UUID userId;
@@ -19,19 +23,23 @@ public class Admin {
         this.userId = userId;
     }
 
-    public UUID getId() {
-        return id;
+    private Admin(UUID id, UUID userId, UUID subscriptionId) {
+        this.id = id;
+        this.userId = userId;
+        this.subscriptionId = subscriptionId;
     }
 
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public UUID getSubscriptionId() {
-        return subscriptionId;
+    public static Admin MapFromStorage(UUID id, UUID userId, UUID subscriptionId) {
+        return new Admin(id, userId, subscriptionId);
     }
 
     public void setSubscription(UUID subscriptionId) {
+        if (this.subscriptionId != null)
+            throw new ConflictException(
+                    AdminErrors.conflictSubscription(id),
+                    AdminErrors.CONFLICT_SUBSCRIPTION
+            );
+
         this.subscriptionId = subscriptionId;
     }
 

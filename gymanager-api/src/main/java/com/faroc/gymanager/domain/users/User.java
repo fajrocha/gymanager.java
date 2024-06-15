@@ -3,11 +3,13 @@ package com.faroc.gymanager.domain.users;
 import com.faroc.gymanager.domain.users.abstractions.PasswordHasher;
 import com.faroc.gymanager.domain.users.errors.UserErrors;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
 public class User {
     private final UUID id;
     private final String firstName;
@@ -88,30 +90,5 @@ public class User {
             userProfiles.add(UserProfileTypes.PARTICIPANT);
 
         return userProfiles;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-    public String getFirstName() {
-        return firstName;
-    }
-    public String getLastName() {
-        return lastName;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-    public UUID getAdminId() {
-        return adminId;
-    }
-    public UUID getTrainerId() {
-        return trainerId;
-    }
-    public UUID getParticipantId() {
-        return participantId;
     }
 }
