@@ -1,6 +1,5 @@
 package com.faroc.gymanager.domain.subscriptions;
 
-import an.awesome.pipelinr.Notification;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import lombok.Getter;
 
@@ -21,7 +20,6 @@ public class Subscription {
     private final int maxGyms;
     @Getter
     private final Set<UUID> gymIds = new HashSet<>();
-    private final List<Notification> domainEvents = new ArrayList<>();
 
     public Subscription(UUID adminId, SubscriptionType subscriptionType) {
         this.id = UUID.randomUUID();
@@ -39,23 +37,23 @@ public class Subscription {
         gymIds.add(gymId);
     }
 
+    private Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
+        this.id = id;
+        this.adminId = adminId;
+        this.subscriptionType = subscriptionType;
+        this.maxGyms = maxGyms;
+    }
+
+    public static Subscription mapFromStorage(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
+        return new Subscription(id, adminId, subscriptionType, maxGyms);
+    }
+
     public void removeGym(UUID gymId) {
         gymIds.remove(gymId);
     }
 
     public boolean hasGym(UUID gymId) {
         return gymIds.contains(gymId);
-    }
-
-    public void addDomainEvents(Notification event) {
-        domainEvents.add(event);
-    }
-
-    public List<Notification> popEvents() {
-        var domainEvents = this.domainEvents;
-        this.domainEvents.clear();
-
-        return domainEvents;
     }
 
     private int maxGymsFromSubType() {

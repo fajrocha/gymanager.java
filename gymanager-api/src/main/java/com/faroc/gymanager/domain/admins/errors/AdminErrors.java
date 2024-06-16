@@ -3,6 +3,11 @@ package com.faroc.gymanager.domain.admins.errors;
 import java.util.UUID;
 
 public class AdminErrors {
+    public static final String NOT_FOUND = "Admin profile not found.";
+    public static String notFound(UUID adminId) {
+        return "Admin profile with id " + adminId + "not found to complete request.";
+    }
+
     public static final String CREATE_ADMIN_PROFILE = "Failed to create admin profile.";
 
     public static String createAdminProfile(UUID userId) {

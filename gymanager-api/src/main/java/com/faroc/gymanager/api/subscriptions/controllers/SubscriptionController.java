@@ -3,13 +3,14 @@ package com.faroc.gymanager.api.subscriptions.controllers;
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.api.subscriptions.mappers.SubscriptionRequestMappers;
 import com.faroc.gymanager.api.subscriptions.mappers.SubscriptionResponseMappers;
+import com.faroc.gymanager.application.subscriptions.commands.deletesubscription.DeleteSubscriptionCommand;
 import com.faroc.gymanager.subscriptions.requests.CreateSubscriptionRequest;
 import com.faroc.gymanager.subscriptions.responses.SubscriptionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/subscriptions")
@@ -28,5 +29,13 @@ public class SubscriptionController {
         var subscription = command.execute(pipeline);
 
         return SubscriptionResponseMappers.toResponse(subscription);
+    }
+
+    @DeleteMapping("{subscriptionId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void createSubscription(@PathVariable UUID subscriptionId) {
+        var command = new DeleteSubscriptionCommand(subscriptionId);
+
+        command.execute(pipeline);
     }
 }

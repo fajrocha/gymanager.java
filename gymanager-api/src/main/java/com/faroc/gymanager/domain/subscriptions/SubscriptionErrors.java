@@ -3,6 +3,11 @@ package com.faroc.gymanager.domain.subscriptions;
 import java.util.UUID;
 
 public class SubscriptionErrors {
+    public static final String NOT_FOUND = "Subscription not found.";
+    public static String notFound(UUID subscriptionId) {
+        return "Subscription id " + subscriptionId + "not found to complete request.";
+    }
+
     public static final String CONFLICT_GYM = "Gym already exists on this subscription.";
     public static String conflictGym(UUID gymId, UUID subscriptionId) {
         return "Gym with id " + gymId + "already exists on subscription " + subscriptionId + ".";
