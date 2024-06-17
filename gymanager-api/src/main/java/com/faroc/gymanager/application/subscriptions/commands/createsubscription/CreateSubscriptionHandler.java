@@ -5,7 +5,7 @@ import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.domain.subscriptions.Subscription;
-import com.faroc.gymanager.domain.subscriptions.SubscriptionErrors;
+import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

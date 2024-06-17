@@ -35,6 +35,16 @@ public class SubscriptionsRepository implements SubscriptionsGateway {
     }
 
     @Override
+    public void update(Subscription subscription) {
+        context.update(SUBSCRIPTIONS)
+                .set(SUBSCRIPTIONS.ADMIN_ID, subscription.getAdminId())
+                .set(SUBSCRIPTIONS.SUBSCRIPTION_TYPE, subscription.getSubscriptionType().toString())
+                .set(SUBSCRIPTIONS.GYM_IDS, subscription.getGymIds().toArray(new UUID[0]))
+                .set(SUBSCRIPTIONS.MAX_GYMS, subscription.getMaxGyms())
+                .execute();
+    }
+
+    @Override
     public Optional<Subscription> findById(UUID id) {
         var subscriptionRecord = context.selectFrom(SUBSCRIPTIONS).where(SUBSCRIPTIONS.ID.eq(id)).fetchOne();
 
@@ -45,7 +55,8 @@ public class SubscriptionsRepository implements SubscriptionsGateway {
                 subscriptionRecord.getId(),
                 subscriptionRecord.getAdminId(),
                 SubscriptionType.valueOf(subscriptionRecord.getSubscriptionType()),
-                subscriptionRecord.getMaxGyms());
+                subscriptionRecord.getMaxGyms(),
+                subscriptionRecord.getGymIds());
 
         return Optional.of(subscription);
     }

@@ -2,7 +2,7 @@ package unit.domain.admins
 
 import com.faroc.gymanager.domain.admins.Admin
 import com.faroc.gymanager.domain.admins.errors.AdminErrors
-import com.faroc.gymanager.domain.admins.exceptions.SubscriptionIdNotMatching
+import com.faroc.gymanager.domain.admins.exceptions.SubscriptionIdNotMatchingException
 import spock.lang.Specification
 
 class AdminTests extends Specification {
@@ -20,7 +20,7 @@ class AdminTests extends Specification {
         admin.deleteSubscription(invalidSubscriptionId)
 
         then:
-        var ex = thrown(SubscriptionIdNotMatching)
+        var ex = thrown(SubscriptionIdNotMatchingException)
         ex.getDetail() == AdminErrors.SUBSCRIPTION_ID_NOT_MATCHING
     }
 

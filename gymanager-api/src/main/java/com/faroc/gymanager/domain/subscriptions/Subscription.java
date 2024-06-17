@@ -1,6 +1,8 @@
 package com.faroc.gymanager.domain.subscriptions;
 
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
+import com.faroc.gymanager.domain.subscriptions.exceptions.MaxGymsReachedException;
 import lombok.Getter;
 
 import java.util.*;
@@ -34,6 +36,9 @@ public class Subscription {
                     SubscriptionErrors.conflictGym(gymId, id),
                     SubscriptionErrors.CONFLICT_GYM);
 
+        if (gymIds.size() == maxGyms)
+            throw new MaxGymsReachedException(SubscriptionErrors.maxGymsReached(id));
+
         gymIds.add(gymId);
     }
 
@@ -44,8 +49,16 @@ public class Subscription {
         this.maxGyms = maxGyms;
     }
 
-    public static Subscription mapFromStorage(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
-        return new Subscription(id, adminId, subscriptionType, maxGyms);
+    public static Subscription mapFromStorage(
+            UUID id,
+            UUID adminId,
+            SubscriptionType subscriptionType,
+            int maxGyms,
+            UUID[] gymIds) {
+        var subscription = new Subscription(id, adminId, subscriptionType, maxGyms);
+        Arrays.stream(gymIds).forEach(gymId -> subscription.getGymIds().add(gymId));
+
+        return subscription;
     }
 
     public void removeGym(UUID gymId) {

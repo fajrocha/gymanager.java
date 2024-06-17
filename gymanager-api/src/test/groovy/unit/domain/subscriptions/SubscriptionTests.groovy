@@ -2,7 +2,7 @@ package unit.domain.subscriptions
 
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException
 import com.faroc.gymanager.domain.subscriptions.Subscription
-import com.faroc.gymanager.domain.subscriptions.SubscriptionErrors
+import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors
 import com.faroc.gymanager.domain.subscriptions.SubscriptionType
 import net.datafaker.Faker
 import spock.lang.Specification
