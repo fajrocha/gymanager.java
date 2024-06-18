@@ -31,7 +31,6 @@ public class AddAdminHandler implements Command.Handler<AddAdminCommand, UUID> {
     @Override
     @Transactional
     public UUID handle(AddAdminCommand command) {
-
         var currentUser = currentUserProvider.getCurrentUser();
         var commandUserId = command.userId();
         var currentUserId = currentUser.id();

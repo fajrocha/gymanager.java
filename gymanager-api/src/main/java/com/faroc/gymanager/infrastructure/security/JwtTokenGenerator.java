@@ -78,6 +78,7 @@ public class JwtTokenGenerator implements TokenGenerator {
         if (user.getAdminId() != null) {
             permissions.add(AdminPermissions.CREATE_GYM);
             permissions.add(AdminPermissions.UPDATE_GYM);
+            permissions.add(AdminPermissions.DELETE_GYM);
         }
 
         if (user.getTrainerId() != null) {

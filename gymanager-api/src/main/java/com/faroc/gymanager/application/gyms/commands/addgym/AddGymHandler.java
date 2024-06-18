@@ -2,6 +2,7 @@ package com.faroc.gymanager.application.gyms.commands.addgym;
 
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.gyms.gateways.GymsGateway;
+import com.faroc.gymanager.application.security.authorization.Authorize;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.domain.gyms.Gym;

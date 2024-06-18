@@ -1,9 +1,6 @@
 package com.faroc.gymanager.api.middleware;
 
-import com.faroc.gymanager.application.shared.exceptions.StoreRequestFailed;
-import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
-import com.faroc.gymanager.application.shared.exceptions.UnexpectedException;
-import com.faroc.gymanager.application.shared.exceptions.ValidationException;
+import com.faroc.gymanager.application.shared.exceptions.*;
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +29,14 @@ public class ExceptionsHandler {
     public ProblemDetail handleUnauthorized(UnauthorizedException ex) {
         logger.error("Unauthorized user.", ex);
 
-        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getDetail());
+        return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getDetail());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ProblemDetail handleForbiddenException(ForbiddenException ex) {
+        logger.error("Forbidden user.", ex);
+
+        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getDetail());
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
