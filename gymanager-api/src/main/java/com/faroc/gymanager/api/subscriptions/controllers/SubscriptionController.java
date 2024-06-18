@@ -8,6 +8,7 @@ import com.faroc.gymanager.subscriptions.requests.CreateSubscriptionRequest;
 import com.faroc.gymanager.subscriptions.responses.SubscriptionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -23,12 +24,12 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    public SubscriptionResponse createSubscription(@RequestBody CreateSubscriptionRequest createSubscriptionRequest) {
+    public ResponseEntity<SubscriptionResponse> createSubscription(@RequestBody CreateSubscriptionRequest createSubscriptionRequest) {
         var command = SubscriptionRequestMappers.toCommand(createSubscriptionRequest);
 
         var subscription = command.execute(pipeline);
 
-        return SubscriptionResponseMappers.toResponse(subscription);
+        return new ResponseEntity<>(SubscriptionResponseMappers.toResponse(subscription), HttpStatus.CREATED);
     }
 
     @DeleteMapping("{subscriptionId}")

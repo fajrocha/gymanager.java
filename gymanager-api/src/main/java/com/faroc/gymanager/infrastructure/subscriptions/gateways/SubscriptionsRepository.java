@@ -62,9 +62,14 @@ public class SubscriptionsRepository implements SubscriptionsGateway {
     }
 
     @Override
-    public void delete(Subscription subscription) {
+    public void delete(UUID subscriptionId) {
         context.delete(SUBSCRIPTIONS)
-                .where(SUBSCRIPTIONS.ID.eq(subscription.getId()))
+                .where(SUBSCRIPTIONS.ID.eq(subscriptionId))
                 .execute();
+    }
+
+    @Override
+    public void delete(Subscription subscription) {
+        this.delete(subscription.getId());
     }
 }

@@ -17,13 +17,6 @@ public class DeleteSubscriptionEventHandler implements Notification.Handler<Subs
 
     @Override
     public void handle(SubscriptionDeletedEvent subscriptionDeletedEvent) {
-        var subscriptionId = subscriptionDeletedEvent.subscriptionId();
-        var subscription = subscriptionsGateway.findById(subscriptionId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        SubscriptionErrors.notFound(subscriptionId),
-                        SubscriptionErrors.NOT_FOUND
-                ));
-
-        subscriptionsGateway.delete(subscription);
+        subscriptionsGateway.delete(subscriptionDeletedEvent.subscriptionId());
     }
 }
