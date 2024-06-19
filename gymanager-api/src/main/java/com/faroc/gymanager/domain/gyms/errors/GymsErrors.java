@@ -2,7 +2,7 @@ package com.faroc.gymanager.domain.gyms.errors;
 
 import java.util.UUID;
 
-public class GymErrors {
+public class GymsErrors {
     public static String NOT_FOUND = "Gym not found.";
     public static String NOT_FOUND_ON_SUBSCRIPTION = "Gym not found for given subscription.";
     public static String notFound(UUID gymId, UUID subscriptionId) {

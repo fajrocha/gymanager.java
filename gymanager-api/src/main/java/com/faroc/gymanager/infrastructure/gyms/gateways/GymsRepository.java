@@ -41,7 +41,7 @@ public class GymsRepository implements GymsGateway {
         if (gymRecord == null)
             return Optional.empty();
 
-        var gym = Gym.MapFromStorage(
+        var gym = Gym.mapFromStorage(
                 gymRecord.getId(),
                 gymRecord.getSubscriptionId(),
                 gymRecord.getName(),
@@ -59,7 +59,7 @@ public class GymsRepository implements GymsGateway {
         List<Gym> gyms = new ArrayList<>();
 
         Arrays.stream(gymsRecords).forEach(gymRecord ->
-            gyms.add(Gym.MapFromStorage(
+            gyms.add(Gym.mapFromStorage(
                     gymRecord.getId(),
                     gymRecord.getSubscriptionId(),
                     gymRecord.getName(),

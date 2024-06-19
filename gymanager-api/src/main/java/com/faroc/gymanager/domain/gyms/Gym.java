@@ -30,7 +30,7 @@ public class Gym {
         this.maxRooms = maxRooms;
     }
 
-    public static Gym MapFromStorage(
+    public static Gym mapFromStorage(
             UUID id,
             UUID subscriptionId,
             String name,

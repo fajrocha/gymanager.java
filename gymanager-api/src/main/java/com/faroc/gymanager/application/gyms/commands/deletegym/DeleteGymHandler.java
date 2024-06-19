@@ -6,7 +6,7 @@ import com.faroc.gymanager.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
-import com.faroc.gymanager.domain.gyms.errors.GymErrors;
+import com.faroc.gymanager.domain.gyms.errors.GymsErrors;
 import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +27,8 @@ public class DeleteGymHandler implements Command.Handler<DeleteGymCommand, Voidy
 
         var gym = gymsGateway.findById(gymId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        GymErrors.notFound(gymId, subscriptionId),
-                        GymErrors.NOT_FOUND
+                        GymsErrors.notFound(gymId, subscriptionId),
+                        GymsErrors.NOT_FOUND
                 ));
 
         var subscription = subscriptionsGateway.findById(subscriptionId)
@@ -39,8 +39,8 @@ public class DeleteGymHandler implements Command.Handler<DeleteGymCommand, Voidy
 
         if (!subscription.hasGym(gymId))
             throw new UnexpectedException(
-                    GymErrors.notFound(gymId, subscriptionId),
-                    GymErrors.NOT_FOUND_ON_SUBSCRIPTION);
+                    GymsErrors.notFound(gymId, subscriptionId),
+                    GymsErrors.NOT_FOUND_ON_SUBSCRIPTION);
 
         subscription.removeGym(gymId);
 
