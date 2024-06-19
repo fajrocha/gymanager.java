@@ -1,9 +1,9 @@
 package com.faroc.gymanager.domain.admins;
 
 import an.awesome.pipelinr.Notification;
+import com.faroc.gymanager.application.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.admins.errors.AdminErrors;
 import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent;
-import com.faroc.gymanager.domain.admins.exceptions.SubscriptionIdNotMatchingException;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import lombok.Getter;
 
@@ -34,7 +34,7 @@ public class Admin {
         this.subscriptionId = subscriptionId;
     }
 
-    public static Admin MapFromStorage(UUID id, UUID userId, UUID subscriptionId) {
+    public static Admin mapFromStorage(UUID id, UUID userId, UUID subscriptionId) {
         return new Admin(id, userId, subscriptionId);
     }
 
@@ -42,17 +42,16 @@ public class Admin {
         if (this.subscriptionId != null)
             throw new ConflictException(
                     AdminErrors.conflictSubscription(id),
-                    AdminErrors.CONFLICT_SUBSCRIPTION
-            );
+                    AdminErrors.CONFLICT_SUBSCRIPTION);
 
         this.subscriptionId = subscriptionId;
     }
 
     public void deleteSubscription(UUID subscriptionId) {
         if (!this.subscriptionId.equals(subscriptionId))
-            throw new SubscriptionIdNotMatchingException(
-                    "Deleting subscription failed. Subscription given " + subscriptionId + " for user " + id +
-                            " does not match with user subscription.");
+            throw new UnexpectedException(
+                    AdminErrors.subscriptionIdNotMatching(subscriptionId, userId),
+                    AdminErrors.SUBSCRIPTION_ID_NOT_MATCHING);
 
         domainEvents.add(new SubscriptionDeletedEvent(subscriptionId));
 

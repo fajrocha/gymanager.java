@@ -4,6 +4,7 @@ import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
+import com.faroc.gymanager.domain.admins.errors.AdminErrors;
 import com.faroc.gymanager.domain.subscriptions.Subscription;
 import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,8 @@ public class CreateSubscriptionHandler implements Command.Handler<CreateSubscrip
 
         var admin = adminsGateway.findById(adminId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        SubscriptionErrors.adminNotFound(adminId),
-                        SubscriptionErrors.ADMIN_NOT_FOUND));
+                        AdminErrors.notFound(adminId),
+                        AdminErrors.NOT_FOUND));
 
         var subscription = new Subscription(
                 adminId,

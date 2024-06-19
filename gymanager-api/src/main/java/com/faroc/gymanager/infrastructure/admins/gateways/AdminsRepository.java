@@ -3,7 +3,6 @@ package com.faroc.gymanager.infrastructure.admins.gateways;
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.domain.admins.Admin;
 import org.jooq.DSLContext;
-import org.jooq.codegen.maven.gymanager.tables.records.AdminsRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -44,7 +43,7 @@ public class AdminsRepository implements AdminsGateway {
         if (admin == null)
             return Optional.empty();
 
-        var adminDomain = Admin.MapFromStorage(admin.getId(), admin.getUserId(), admin.getSubscriptionId());
+        var adminDomain = Admin.mapFromStorage(admin.getId(), admin.getUserId(), admin.getSubscriptionId());
 
         return Optional.of(adminDomain);
     }
