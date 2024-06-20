@@ -25,31 +25,31 @@
 
 # Invariants 📝
 
-## Session
+## Sessions
 
 - A `session` cannot contain more than the maximum number of `participants`.
 
-## Gym
+## Gyms
 
 - A `gym` cannot have more `rooms` than the `subscription` allows.
 
-## Room
+## Rooms
 
 - A `room` cannot have more `sessions` than the `subscription` allows.
 - A `room` cannot have two or more overlapping sessions.
 
-# Subscription
+## Subscriptions
 
 - A `subscription` cannot have more `gyms` than the `subscription` allows.
 
-# Trainer
+## Trainers
 
 - A `trainer` cannot `teach` overlapping `sessions`.
 
-# Participant
+## Participants
 
 - A `participant` cannot `reserve` overlapping `sessions`.
 
-# Admin
+## Admins
 
 - An `admin` cannot have more than one `active subscription`.
