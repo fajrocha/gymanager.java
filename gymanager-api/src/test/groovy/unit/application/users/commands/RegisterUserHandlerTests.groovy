@@ -50,7 +50,7 @@ class RegisterUserHandlerTests extends Specification {
 
     def "when registering user and email already exists should throw exception "() {
         given:
-        var registerUserCommand = new RegisterUserCommand(
+        def registerUserCommand = new RegisterUserCommand(
                 firstName,
                 lastName,
                 email,
@@ -68,7 +68,7 @@ class RegisterUserHandlerTests extends Specification {
 
     def "when email given is not in use should save user"() {
         given:
-        var registerUserCommand = new RegisterUserCommand(
+        def registerUserCommand = new RegisterUserCommand(
                 firstName,
                 lastName,
                 email,
@@ -79,7 +79,7 @@ class RegisterUserHandlerTests extends Specification {
         mockPasswordHasher.hashPassword(password) >> passwordHash
         mockTokenGenerator.generate(_ as User) >> token
 
-        var expectedAuthDTO = new AuthDTO(
+        def expectedAuthDTO = new AuthDTO(
                 UUID.randomUUID(),
                 firstName,
                 lastName,
@@ -88,7 +88,7 @@ class RegisterUserHandlerTests extends Specification {
         )
 
         when:
-        var actualAuthDto = sut.handle(registerUserCommand)
+        def actualAuthDto = sut.handle(registerUserCommand)
 
         then:
         1 * mockUsersGateway.save(_ as User)
@@ -100,7 +100,7 @@ class RegisterUserHandlerTests extends Specification {
 
     def "when generating password hash throws exception should rethrow exception"() {
         given:
-        var registerUserCommand = new RegisterUserCommand(
+        def registerUserCommand = new RegisterUserCommand(
                 firstName,
                 lastName,
                 email,
@@ -119,7 +119,7 @@ class RegisterUserHandlerTests extends Specification {
 
     def "when saving user throws exception should rethrow exception "() {
         given:
-        var registerUserCommand = new RegisterUserCommand(
+        def registerUserCommand = new RegisterUserCommand(
                 firstName,
                 lastName,
                 email,
@@ -139,7 +139,7 @@ class RegisterUserHandlerTests extends Specification {
 
     def "when generating token throws exception should rethrow exception"() {
         given:
-        var registerUserCommand = new RegisterUserCommand(
+        def registerUserCommand = new RegisterUserCommand(
                 firstName,
                 lastName,
                 email,

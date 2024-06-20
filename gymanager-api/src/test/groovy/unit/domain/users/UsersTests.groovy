@@ -35,7 +35,7 @@ class UsersTests extends Specification {
 
     def "when creating admin profile should add profile"() {
         given:
-        var user = new User(firstName, lastName, email, passwordHash)
+        def user = new User(firstName, lastName, email, passwordHash)
 
         when:
         user.createAdminProfile()
@@ -46,7 +46,7 @@ class UsersTests extends Specification {
 
     def "when admin profile already exists should throw conflict exception"() {
         given:
-        var user = new User(firstName, lastName, email, passwordHash)
+        def user = new User(firstName, lastName, email, passwordHash)
 
         when:
         user.createAdminProfile()
@@ -59,11 +59,11 @@ class UsersTests extends Specification {
 
     def "when password is valid should return true"() {
         given:
-        var user = new User(firstName, lastName, email, passwordHash)
+        def user = new User(firstName, lastName, email, passwordHash)
         mockPasswordHasher.validatePassword(password, passwordHash) >> true
 
         when:
-        var validResult = user.validatePassword(password, mockPasswordHasher)
+        def validResult = user.validatePassword(password, mockPasswordHasher)
 
         then:
         validResult
@@ -71,11 +71,11 @@ class UsersTests extends Specification {
 
     def "when password is invalid should return false"() {
         given:
-        var user = new User(firstName, lastName, email, passwordHash)
+        def user = new User(firstName, lastName, email, passwordHash)
         mockPasswordHasher.validatePassword(wrongPassword, passwordHash) >> false
 
         when:
-        var validResult = user.validatePassword(password, mockPasswordHasher)
+        def validResult = user.validatePassword(password, mockPasswordHasher)
 
         then:
         !validResult
@@ -83,12 +83,12 @@ class UsersTests extends Specification {
 
     def "when user has profiles should return them"() {
         given:
-        var user = new User(firstName, lastName, email, passwordHash)
+        def user = new User(firstName, lastName, email, passwordHash)
         user.createAdminProfile()
-        var expectedProfiles = List.of(UserProfileTypes.ADMIN);
+        def expectedProfiles = List.of(UserProfileTypes.ADMIN);
 
         when:
-        var actualProfiles = user.getUserProfiles();
+        def actualProfiles = user.getUserProfiles();
 
         then:
         actualProfiles == expectedProfiles

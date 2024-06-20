@@ -11,23 +11,30 @@ import static java.util.function.Predicate.not;
 
 @Component
 public class LoginUserValidator extends AbstractValidator<LoginCommand> {
+    public static final String EMAIL_FIELD_NAME = "email";
+    public static final String EMAIL_EMPTY_MESSAGE = "Email must not be empty or omitted.";
+    public static final String EMAIL_INVALID_MESSAGE = "Email provided must be valid.";
+
+    public static final String PASSWORD_FIELD_NAME = "password";
+    public static final String PASSWORD_EMPTY_MESSAGE = "Password must not be empty or omitted.";
+
     @Override
     public void rules() {
         // Email
         ruleFor(LoginCommand::email)
                 .must(not(stringEmptyOrNull()))
-                .withFieldName("email")
-                .withMessage("Email must not be empty or omitted.");
+                .withFieldName(EMAIL_FIELD_NAME)
+                .withMessage(EMAIL_EMPTY_MESSAGE);
 
         ruleFor(LoginCommand::email)
                 .must(isTrue(email -> EmailValidator.getInstance().isValid(email)))
-                .withFieldName("email")
-                .withMessage("Email provided must be valid.");
+                .withFieldName(EMAIL_FIELD_NAME)
+                .withMessage(EMAIL_INVALID_MESSAGE);
 
         // Password
         ruleFor(LoginCommand::password)
                 .must(not(stringEmptyOrNull()))
-                .withFieldName("password")
-                .withMessage("Password must not be empty or omitted.");
+                .withFieldName(PASSWORD_FIELD_NAME)
+                .withMessage(PASSWORD_EMPTY_MESSAGE);
     }
 }

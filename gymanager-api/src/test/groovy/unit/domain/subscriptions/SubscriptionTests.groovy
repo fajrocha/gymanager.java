@@ -26,7 +26,7 @@ class SubscriptionTests extends Specification {
 
     def "when subscription is free should have corresponding max gyms"() {
         given:
-        var subscription = new Subscription(
+        def subscription = new Subscription(
                 adminId,
                 SubscriptionType.Free
         )
@@ -37,7 +37,7 @@ class SubscriptionTests extends Specification {
 
     def "when subscription is starter should have corresponding max gyms"() {
         given:
-        var subscription = new Subscription(
+        def subscription = new Subscription(
                 adminId,
                 SubscriptionType.Starter
         )
@@ -48,7 +48,7 @@ class SubscriptionTests extends Specification {
 
     def "when subscription is pro should have corresponding max gyms"() {
         given:
-        var subscription = new Subscription(
+        def subscription = new Subscription(
                 adminId,
                 SubscriptionType.Pro
         )
@@ -73,7 +73,7 @@ class SubscriptionTests extends Specification {
         subscription.addGym(gymId)
 
         then:
-        var ex = thrown(ConflictException)
+        def ex = thrown(ConflictException)
         ex.getDetail() == SubscriptionErrors.CONFLICT_GYM
     }
 
