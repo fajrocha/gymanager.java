@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.faroc</groupId>
-    <artifactId>gymanager-api</artifactId>
+    <artifactId>api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>gymanager-api</name>
     <description>gymanager-api</description>
@@ -82,8 +82,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>gymanager-api-contracts</artifactId>
+            <groupId>com.faroc</groupId>
+            <artifactId>contracts</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

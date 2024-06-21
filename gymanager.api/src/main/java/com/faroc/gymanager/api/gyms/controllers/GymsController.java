@@ -2,7 +2,6 @@ package com.faroc.gymanager.api.gyms.controllers;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.api.gyms.mappers.GymResponseMappers;
-import com.faroc.gymanager.api.gyms.mappers.GymsRequestMappers;
 import com.faroc.gymanager.application.gyms.commands.addgym.AddGymCommand;
 import com.faroc.gymanager.application.gyms.commands.deletegym.DeleteGymCommand;
 import com.faroc.gymanager.application.gyms.queries.getsubscriptiongyms.GetSubscriptionGymsQuery;
