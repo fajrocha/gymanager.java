@@ -72,13 +72,13 @@ class AddAdminHandlerTests extends Specification {
         sut.handle(command)
 
         then:
-        var ex = thrown(ResourceNotFoundException)
+        def ex = thrown(ResourceNotFoundException)
         ex.detail == UserErrors.NOT_FOUND
     }
 
     def "when user exists should return admin id and create admin profile"() {
         given:
-        var user = User.MapFromStorage(
+        def user = User.MapFromStorage(
                 userId,
                 firstName,
                 lastName,
@@ -92,7 +92,7 @@ class AddAdminHandlerTests extends Specification {
         mockUsersGateway.findById(userId) >> Optional.of(user)
 
         when:
-        var actualResult = sut.handle(command)
+        def actualResult = sut.handle(command)
 
         then:
         1 * mockUsersGateway.update(user)

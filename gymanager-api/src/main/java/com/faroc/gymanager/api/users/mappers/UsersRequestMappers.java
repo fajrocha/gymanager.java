@@ -6,19 +6,19 @@ import com.faroc.gymanager.users.requests.LoginRequest;
 import com.faroc.gymanager.users.requests.RegisterRequest;
 
 public class UsersRequestMappers {
-    public static RegisterUserCommand toCommand(RegisterRequest registerRequest) {
+    public static RegisterUserCommand toCommand(RegisterRequest request) {
         return new RegisterUserCommand(
-                registerRequest.firstName(),
-                registerRequest.lastName(),
-                registerRequest.email(),
-                registerRequest.password()
+                request.firstName(),
+                request.lastName(),
+                request.email(),
+                request.password()
         );
     }
 
-    public static LoginCommand toCommand(LoginRequest loginRequest) {
+    public static LoginCommand toCommand(LoginRequest request) {
         return new LoginCommand(
-                loginRequest.email(),
-                loginRequest.password()
+                request.email(),
+                request.password()
         );
     }
 }

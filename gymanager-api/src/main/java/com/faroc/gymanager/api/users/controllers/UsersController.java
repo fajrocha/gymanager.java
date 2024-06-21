@@ -16,7 +16,6 @@ public class UsersController {
 
     @Autowired
     public UsersController(Pipeline pipeline) {
-
         this.pipeline = pipeline;
     }
 

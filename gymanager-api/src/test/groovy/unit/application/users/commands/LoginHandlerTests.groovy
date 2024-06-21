@@ -66,8 +66,8 @@ class LoginHandlerTests extends Specification {
 
     def "when password does not match should throw unauthorized exception"() {
         given:
-        var loginCommand = new LoginCommand(email, wrongPassword)
-        var user = User.MapFromStorage(
+        def loginCommand = new LoginCommand(email, wrongPassword)
+        def user = User.MapFromStorage(
                 UUID.randomUUID(),
                 firstName,
                 lastName,
@@ -90,7 +90,7 @@ class LoginHandlerTests extends Specification {
 
     def "when password matches should login and generate token"() {
         given:
-        var user = User.MapFromStorage(
+        def user = User.MapFromStorage(
                 UUID.randomUUID(),
                 firstName,
                 lastName,
@@ -105,7 +105,7 @@ class LoginHandlerTests extends Specification {
         mockPasswordHasher.validatePassword(loginCommand.password(), passwordHash) >> true
         mockTokenGenerator.generate(user) >> token
 
-        var expectedResult = new AuthDTO(
+        def expectedResult = new AuthDTO(
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
@@ -114,7 +114,7 @@ class LoginHandlerTests extends Specification {
         )
 
         when:
-        var actualResult = sut.handle(loginCommand)
+        def actualResult = sut.handle(loginCommand)
 
         then:
         actualResult == expectedResult

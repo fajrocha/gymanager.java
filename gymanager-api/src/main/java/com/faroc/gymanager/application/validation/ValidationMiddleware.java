@@ -4,11 +4,13 @@ import an.awesome.pipelinr.Command;
 import br.com.fluentvalidator.AbstractValidator;
 import br.com.fluentvalidator.context.ValidationResult;
 import com.faroc.gymanager.application.shared.exceptions.ValidationException;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
+@Order(2)
 public class ValidationMiddleware implements Command.Middleware {
     private final ValidatorsAggregator<?, ?> validatorsAggregator;
 
