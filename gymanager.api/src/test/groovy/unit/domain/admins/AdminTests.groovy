@@ -1,6 +1,6 @@
 package unit.domain.admins
 
-import com.faroc.gymanager.application.shared.exceptions.UnexpectedException
+import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
 import com.faroc.gymanager.domain.admins.Admin
 import com.faroc.gymanager.domain.admins.errors.AdminErrors
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException

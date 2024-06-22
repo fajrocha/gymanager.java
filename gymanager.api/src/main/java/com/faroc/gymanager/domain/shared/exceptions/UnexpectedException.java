@@ -1,4 +1,4 @@
-package com.faroc.gymanager.application.shared.exceptions;
+package com.faroc.gymanager.domain.shared.exceptions;
 
 public class UnexpectedException extends RuntimeException {
     private String detail = "Unexpected behavior occurred.";

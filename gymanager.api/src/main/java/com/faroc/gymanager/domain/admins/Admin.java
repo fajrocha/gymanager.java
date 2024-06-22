@@ -1,7 +1,7 @@
 package com.faroc.gymanager.domain.admins;
 
 import an.awesome.pipelinr.Notification;
-import com.faroc.gymanager.application.shared.exceptions.UnexpectedException;
+import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.admins.errors.AdminErrors;
 import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;

@@ -3,6 +3,7 @@ package com.faroc.gymanager.api.middleware;
 import com.faroc.gymanager.application.shared.exceptions.*;
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;

@@ -18,7 +18,8 @@
 ## Participants
 
 - A `user` can `create` a `participant profile`.
-- `Participants` can `reserve` a `spot` in a `session`.
+- `Participants` can make a `reservation` to participate in a `session`.
+- `Participants` can only `cancel` their `reservation` in `session` 24h or more before `start time`.
 - A `session` takes place in a `room`.
 - A `session` has a single `trainer` and a `maximum number` of `participants`.
 - A `gym` can have multiple `rooms`.
@@ -28,6 +29,7 @@
 ## Sessions
 
 - A `session` cannot contain more than the maximum number of `participants`.
+- A `reservation` cannot be `cancelled` less than 24h before the `session` `start time`. 
 
 ## Gyms
 
