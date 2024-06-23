@@ -1,15 +1,14 @@
 package com.faroc.gymanager.domain.schedules;
 
-import com.faroc.gymanager.domain.shared.TimeSlot;
+import com.faroc.gymanager.domain.schedules.errors.ScheduleErrors;
+import com.faroc.gymanager.domain.timeslots.TimeSlot;
+import com.faroc.gymanager.domain.shared.TimeUtils;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.shared.strategicpatterns.Entity;
 import lombok.Getter;
 
-import java.sql.Time;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 @Getter
@@ -23,8 +22,8 @@ public class Schedule extends Entity {
         super(id);
     }
 
-    public void reserveTimeSlot(TimeSlot timeSlot) {
-        LocalDate localDate = getLocalDateFromInstant(timeSlot.getStartTime());
+    public void makeReservation(TimeSlot timeSlot) {
+        LocalDate localDate = TimeUtils.toLocalDateUtcFromInstant(timeSlot.getStartTime());
 
         if (!calendar.containsKey(localDate)) {
             calendar.put(localDate, new HashSet<>(List.of(timeSlot)));
@@ -34,23 +33,53 @@ public class Schedule extends Entity {
         var slotsReserved = calendar.get(localDate);
 
         if (anyOverlap(slotsReserved, timeSlot))
-            throw new ConflictException("", "");
+            throw new ConflictException(
+                    ScheduleErrors.timeslotOverlap(timeSlot),
+                    ScheduleErrors.TIMESLOT_OVERLAP
+            );
 
         slotsReserved.add(timeSlot);
+    }
+
+    public void updateReservation(TimeSlot previousTimeSlot, TimeSlot newTimeSlot) {
+        cancelReservation(previousTimeSlot);
+        makeReservation(newTimeSlot);
+    }
+
+    public boolean hasReservation(TimeSlot timeSlot) {
+        LocalDate localDate = TimeUtils.toLocalDateUtcFromInstant(timeSlot.getStartTime());
+
+        if (!calendar.containsKey(localDate))
+            return false;
+
+        var slotsReserved = calendar.get(localDate);
+
+        return slotsReserved.contains(timeSlot);
+    }
+
+    public void cancelReservation(TimeSlot timeSlot) {
+        LocalDate localDate = TimeUtils.toLocalDateUtcFromInstant(timeSlot.getStartTime());
+
+        if (!calendar.containsKey(localDate))
+            throw new UnexpectedException(
+                    ScheduleErrors.reservationDateNotFound(localDate),
+                    ScheduleErrors.RESERVATION_DATE_NOT_FOUND
+            );
+
+        var slotsReserved = calendar.get(localDate);
+
+        if (!slotsReserved.remove(timeSlot))
+            throw new UnexpectedException(
+                    ScheduleErrors.reservationTimeslotNotFound(timeSlot),
+                    ScheduleErrors.RESERVATION_TIMESLOT_NOT_FOUND
+            );
     }
 
     private boolean anyOverlap(Set<TimeSlot> slotsReserved, TimeSlot timeSlot) {
         return slotsReserved.stream().anyMatch(t -> t.overlapsWith(timeSlot));
     }
 
-    private LocalDate getLocalDateFromInstant(Instant instant) {
-        ZoneId zoneId = ZoneId.of("UTC");
-        ZonedDateTime zonedDateTime = instant.atZone(zoneId);
-
-        return zonedDateTime.toLocalDate();
-    }
-
-    public static Schedule empty() {
+    public static Schedule createEmpty() {
         return new Schedule();
     }
 }

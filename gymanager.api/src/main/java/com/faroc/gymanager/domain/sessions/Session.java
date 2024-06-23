@@ -1,6 +1,6 @@
 package com.faroc.gymanager.domain.sessions;
 
-import com.faroc.gymanager.domain.shared.TimeSlot;
+import com.faroc.gymanager.domain.timeslots.TimeSlot;
 import com.faroc.gymanager.domain.shared.strategicpatterns.Entity;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.participants.Participant;
@@ -11,7 +11,6 @@ import com.faroc.gymanager.domain.shared.abstractions.InstantProvider;
 import lombok.Getter;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -22,7 +21,6 @@ public class Session extends Entity {
 
     private final UUID trainerId;
     private final TimeSlot timeSlot;
-
     private final Set<UUID> participantsIds = new HashSet<>();
     private final int maximumNumberParticipant;
 
@@ -66,8 +64,7 @@ public class Session extends Entity {
         var participantId = participant.getId();
         if (participantsIds.size() == maximumNumberParticipant)
             throw new MaxParticipantsReachedException(
-                    SessionErrors.maxParticipantsReached(id, participantId),
-                    SessionErrors.MAX_PARTICIPANTS_REACHED
+                    SessionErrors.maxParticipantsReached(id, participantId)
             );
 
         participantsIds.add(participantId);

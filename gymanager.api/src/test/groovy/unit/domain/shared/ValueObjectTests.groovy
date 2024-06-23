@@ -1,12 +1,13 @@
 package unit.domain.shared
 
-import com.faroc.gymanager.domain.shared.TimeSlot
+import com.faroc.gymanager.domain.timeslots.TimeSlot
 import spock.lang.Specification
+import unit.domain.testutils.TimeProvider
 
 import java.time.Instant
-import java.time.LocalTime
-import java.time.ZoneId
 import java.time.temporal.ChronoUnit
+
+import static unit.domain.testutils.TimeProvider.EPOCH_SECONDS
 
 class ValueObjectTests extends Specification {
 
@@ -15,8 +16,8 @@ class ValueObjectTests extends Specification {
     TimeSlot timeRange
 
     def setup() {
-        startTime = Instant.now()
-        endTime = Instant.now().plus(1, ChronoUnit.HOURS)
+        startTime = Instant.ofEpochSecond(EPOCH_SECONDS)
+        endTime = Instant.ofEpochSecond(EPOCH_SECONDS).plus(1, ChronoUnit.HOURS)
         timeRange = new TimeSlot(startTime, endTime)
     }
 
@@ -31,7 +32,7 @@ class ValueObjectTests extends Specification {
 
     def "when 2 value objects have different values should be not be equal and hashcode should not match"() {
         when:
-        def endTime = Instant.now().plus(1, ChronoUnit.HOURS)
+        def endTime = Instant.ofEpochSecond(EPOCH_SECONDS).plus(2, ChronoUnit.HOURS)
         def anotherTimeRange = new TimeSlot(startTime, endTime)
 
         then:

@@ -1,10 +1,9 @@
-package com.faroc.gymanager.domain.shared;
+package com.faroc.gymanager.domain.timeslots;
 
 import com.faroc.gymanager.domain.shared.strategicpatterns.ValueObject;
 import lombok.Getter;
 
 import java.time.Instant;
-import java.time.LocalTime;
 import java.util.List;
 
 @Getter

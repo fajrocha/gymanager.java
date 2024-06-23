@@ -5,7 +5,7 @@ import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.domain.sessions.errors.SessionErrors
 import com.faroc.gymanager.domain.sessions.exceptions.CancellationTooCloseToSession
 import com.faroc.gymanager.domain.sessions.exceptions.MaxParticipantsReachedException
-import com.faroc.gymanager.domain.shared.TimeSlot
+import com.faroc.gymanager.domain.timeslots.TimeSlot
 import com.faroc.gymanager.domain.shared.abstractions.InstantProvider
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
 import spock.lang.Specification
@@ -26,9 +26,11 @@ class SessionsTests extends Specification {
         def maxParticipants = 1
         participant = ParticipantFactory.create(participantId)
 
+        def startTime = Instant.now()
+        def endTime = Instant.now().plus(1, ChronoUnit.HOURS)
         def timeRange = new TimeSlot(
-                Instant.now(),
-                Instant.now().plus(1, ChronoUnit.HOURS)
+                startTime,
+                endTime
         )
 
         instantProvider = Mock(InstantProvider)

@@ -1,18 +1,17 @@
-package unit.domain.shared
+package unit.domain.timeslots
 
-import com.faroc.gymanager.domain.shared.TimeSlot
+import com.faroc.gymanager.domain.timeslots.TimeSlot
 import spock.lang.Specification
-
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
-class TimeSlotTests extends Specification {
+import static unit.domain.testutils.TimeProvider.EPOCH_SECONDS
 
-    int EPOCH_SECONDS
+
+class TimeSlotTests extends Specification {
     TimeSlot timeSlot
 
     def setup() {
-        EPOCH_SECONDS = 1719095117;
         def END_TIME_DELTA = 1
         def startTime = Instant.ofEpochSecond(EPOCH_SECONDS)
         def endTime = Instant.ofEpochSecond(EPOCH_SECONDS).plus(END_TIME_DELTA, ChronoUnit.HOURS)
