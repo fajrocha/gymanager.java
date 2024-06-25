@@ -1,7 +1,8 @@
 package com.faroc.gymanager.domain.sessions;
 
-import com.faroc.gymanager.domain.timeslots.TimeSlot;
-import com.faroc.gymanager.domain.shared.strategicpatterns.Entity;
+import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
+import com.faroc.gymanager.domain.shared.Entity;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.participants.Participant;
 import com.faroc.gymanager.domain.sessions.errors.SessionErrors;
@@ -21,7 +22,7 @@ public class Session extends Entity {
 
     private final UUID trainerId;
     private final TimeSlot timeSlot;
-    private final Set<UUID> participantsIds = new HashSet<>();
+    private final Set<Reservation> reservations = new HashSet<>();
     private final int maximumNumberParticipant;
 
     public Session(
@@ -41,8 +42,8 @@ public class Session extends Entity {
         this.maximumNumberParticipant = maximumNumberParticipant;
     }
 
-    public void cancelReservation(Participant participant, InstantProvider instantProvider) {
-        var participantId = participant.getId();
+    public void cancelReservation(Reservation reservation, InstantProvider instantProvider) {
+        var participantId = reservation.getParticipantId();
         var now = instantProvider.now();
 
         var timeDifference = Duration.between(now, timeSlot.getStartTime());
@@ -53,27 +54,37 @@ public class Session extends Entity {
                     SessionErrors.CANCELLATION_CLOSE_TO_START
             );
 
-        if (!participantsIds.remove(participantId))
+        if (!reservations.remove(reservation))
             throw new UnexpectedException(
                     SessionErrors.participantNotFound(id, participantId),
                     SessionErrors.PARTICIPANT_NOT_FOUND
             );
     }
 
-    public void makeReservation(Participant participant) {
-        var participantId = participant.getId();
-        if (participantsIds.size() == maximumNumberParticipant)
+    public void makeReservation(Reservation reservation) {
+        var participantId = reservation.getParticipantId();
+
+        if (reservations.size() == maximumNumberParticipant)
             throw new MaxParticipantsReachedException(
                     SessionErrors.maxParticipantsReached(id, participantId)
             );
 
-        participantsIds.add(participantId);
+        if (reservations.contains(reservation)) {
+            throw new ConflictException(
+                    SessionErrors.conflictParticipant(id, participantId),
+                    SessionErrors.CONFLICT_PARTICIPANT);
+        }
+
+        reservations.add(reservation);
     }
 
-    public boolean hasParticipant(Participant participant) {
-        return participantsIds.contains(participant.getId());
+    public boolean hasReservation(Reservation reservation) {
+        return reservations.contains(reservation);
     }
 
+    public boolean hasReservation(Participant participant) {
+        return reservations.stream().anyMatch(r -> r.getParticipantId() == participant.getId());
+    }
 
     private boolean tooCloseToSession(Duration timeDifference) {
         return timeDifference.toHours() < MIN_CANCELLATION_HOURS;

@@ -1,5 +1,6 @@
 package com.faroc.gymanager.domain.subscriptions;
 
+import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
 import com.faroc.gymanager.domain.subscriptions.exceptions.MaxGymsReachedException;
@@ -7,24 +8,18 @@ import lombok.Getter;
 
 import java.util.*;
 
-public class Subscription {
+@Getter
+public class Subscription extends AggregateRoot {
     public static final int MAX_GYMS_FREE = 1;
     public static final int MAX_GYMS_STARTER = 3;
     public static final int MAX_GYMS_PRO = Integer.MAX_VALUE;
 
-    @Getter
-    private final UUID id;
-    @Getter
     private final UUID adminId;
-    @Getter
     private final SubscriptionType subscriptionType;
-    @Getter
     private final int maxGyms;
-    @Getter
     private final Set<UUID> gymIds = new HashSet<>();
 
     public Subscription(UUID adminId, SubscriptionType subscriptionType) {
-        this.id = UUID.randomUUID();
         this.adminId = adminId;
         this.subscriptionType = subscriptionType;
         maxGyms = maxGymsFromSubType();
@@ -43,7 +38,7 @@ public class Subscription {
     }
 
     private Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
-        this.id = id;
+        super(id);
         this.adminId = adminId;
         this.subscriptionType = subscriptionType;
         this.maxGyms = maxGyms;

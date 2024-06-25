@@ -1,9 +1,9 @@
 package com.faroc.gymanager.domain.trainers;
 
-import com.faroc.gymanager.domain.schedules.Schedule;
+import com.faroc.gymanager.domain.shared.AggregateRoot;
+import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
 import com.faroc.gymanager.domain.sessions.Session;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
-import com.faroc.gymanager.domain.shared.strategicpatterns.Entity;
 import com.faroc.gymanager.domain.trainers.errors.TrainerErrors;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter
-public class Trainer extends Entity {
+public class Trainer extends AggregateRoot {
     private final UUID userId;
     private final Set<UUID> sessionsIds = new HashSet<>();
     private final Schedule schedule;

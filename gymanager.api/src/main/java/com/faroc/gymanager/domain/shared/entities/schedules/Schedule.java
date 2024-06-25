@@ -1,11 +1,10 @@
-package com.faroc.gymanager.domain.schedules;
+package com.faroc.gymanager.domain.shared.entities.schedules;
 
-import com.faroc.gymanager.domain.schedules.errors.ScheduleErrors;
-import com.faroc.gymanager.domain.timeslots.TimeSlot;
-import com.faroc.gymanager.domain.shared.TimeUtils;
+import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
+import com.faroc.gymanager.domain.shared.time.TimeUtils;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
-import com.faroc.gymanager.domain.shared.strategicpatterns.Entity;
+import com.faroc.gymanager.domain.shared.Entity;
 import lombok.Getter;
 
 import java.time.LocalDate;

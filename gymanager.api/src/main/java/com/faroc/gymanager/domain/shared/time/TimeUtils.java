@@ -1,4 +1,4 @@
-package com.faroc.gymanager.domain.shared;
+package com.faroc.gymanager.domain.shared.time;
 
 import java.time.Instant;
 import java.time.LocalDate;

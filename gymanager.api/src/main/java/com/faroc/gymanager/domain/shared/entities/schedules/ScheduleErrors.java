@@ -1,6 +1,6 @@
-package com.faroc.gymanager.domain.schedules.errors;
+package com.faroc.gymanager.domain.shared.entities.schedules;
 
-import com.faroc.gymanager.domain.timeslots.TimeSlot;
+import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 
 import java.time.LocalDate;
 

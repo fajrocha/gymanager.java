@@ -1,10 +1,10 @@
 package com.faroc.gymanager.domain.participants;
 
 import com.faroc.gymanager.domain.participants.errors.ParticipantErrors;
-import com.faroc.gymanager.domain.schedules.Schedule;
+import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
 import com.faroc.gymanager.domain.sessions.Session;
+import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
-import com.faroc.gymanager.domain.shared.strategicpatterns.Entity;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -12,13 +12,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter
-public class Participant extends Entity {
+public class Participant extends AggregateRoot {
     private final UUID userId;
     private final Set<UUID> sessionsIds = new HashSet<>();
     private final Schedule schedule;
 
     public Participant(UUID userId) {
-        super();
         this.schedule = Schedule.createEmpty();
         this.userId = userId;
     }

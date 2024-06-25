@@ -5,5 +5,4 @@ import java.time.ZonedDateTime;
 
 public interface InstantProvider {
     Instant now();
-    ZonedDateTime zonedDateTimeUtcNow();
 }

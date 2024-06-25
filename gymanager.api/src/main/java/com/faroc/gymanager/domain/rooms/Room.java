@@ -2,10 +2,10 @@ package com.faroc.gymanager.domain.rooms;
 
 import com.faroc.gymanager.domain.rooms.errors.RoomErrors;
 import com.faroc.gymanager.domain.rooms.exceptions.MaxSessionsReachedException;
-import com.faroc.gymanager.domain.schedules.Schedule;
+import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
 import com.faroc.gymanager.domain.sessions.Session;
+import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
-import com.faroc.gymanager.domain.shared.strategicpatterns.Entity;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter
-public class Room extends Entity {
+public class Room extends AggregateRoot {
     private final UUID gymId;
     private final Set<UUID> sessionsIds = new HashSet<>();
     private final int maxDailySessions;

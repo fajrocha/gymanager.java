@@ -1,4 +1,4 @@
-package com.faroc.gymanager.domain.shared.strategicpatterns;
+package com.faroc.gymanager.domain.shared;
 
 import java.util.List;
 
