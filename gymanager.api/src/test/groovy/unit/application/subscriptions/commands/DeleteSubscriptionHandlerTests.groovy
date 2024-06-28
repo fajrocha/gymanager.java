@@ -1,6 +1,6 @@
 package unit.application.subscriptions.commands
 
-import an.awesome.pipelinr.Pipeline
+
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.application.subscriptions.commands.deletesubscription.DeleteSubscriptionCommand
@@ -19,7 +19,7 @@ class DeleteSubscriptionHandlerTests extends Specification {
     Faker faker
     AdminsGateway mockAdminsGateway
     SubscriptionsGateway mockSubscriptionsGateway
-    ApplicationEventPublisher mockPipeline
+    ApplicationEventPublisher mockAppEventPublisher
     UUID subscriptionId
     UUID adminId
     SubscriptionType subscriptionType
@@ -32,7 +32,7 @@ class DeleteSubscriptionHandlerTests extends Specification {
         faker = new Faker()
         mockAdminsGateway = Mock(AdminsGateway)
         mockSubscriptionsGateway = Mock(SubscriptionsGateway)
-        mockPipeline = Mock(ApplicationEventPublisher)
+        mockAppEventPublisher = Mock(ApplicationEventPublisher)
         subscriptionId = UUID.randomUUID()
         adminId = UUID.randomUUID()
         subscriptionType = SubscriptionType.Free
@@ -46,7 +46,7 @@ class DeleteSubscriptionHandlerTests extends Specification {
                 new UUID[0]
         )
 
-        sut = new DeleteSubscriptionHandler(mockAdminsGateway, mockSubscriptionsGateway, mockPipeline)
+        sut = new DeleteSubscriptionHandler(mockAdminsGateway, mockSubscriptionsGateway, mockAppEventPublisher)
     }
     
 
@@ -92,6 +92,6 @@ class DeleteSubscriptionHandlerTests extends Specification {
 
         then:
         admin.getSubscriptionId() == null
-        1 * mockPipeline._
+        1 * mockAppEventPublisher._
     }
 }
