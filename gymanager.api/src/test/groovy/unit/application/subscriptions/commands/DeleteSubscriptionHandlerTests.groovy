@@ -12,13 +12,14 @@ import com.faroc.gymanager.domain.subscriptions.Subscription
 import com.faroc.gymanager.domain.subscriptions.SubscriptionType
 import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors
 import net.datafaker.Faker
+import org.springframework.context.ApplicationEventPublisher
 import spock.lang.Specification
 
 class DeleteSubscriptionHandlerTests extends Specification {
     Faker faker
     AdminsGateway mockAdminsGateway
     SubscriptionsGateway mockSubscriptionsGateway
-    Pipeline mockPipeline
+    ApplicationEventPublisher mockPipeline
     UUID subscriptionId
     UUID adminId
     SubscriptionType subscriptionType
@@ -31,7 +32,7 @@ class DeleteSubscriptionHandlerTests extends Specification {
         faker = new Faker()
         mockAdminsGateway = Mock(AdminsGateway)
         mockSubscriptionsGateway = Mock(SubscriptionsGateway)
-        mockPipeline = Mock(Pipeline)
+        mockPipeline = Mock(ApplicationEventPublisher)
         subscriptionId = UUID.randomUUID()
         adminId = UUID.randomUUID()
         subscriptionType = SubscriptionType.Free
@@ -45,7 +46,7 @@ class DeleteSubscriptionHandlerTests extends Specification {
                 new UUID[0]
         )
 
-        sut = new DeleteSubscriptionHandler(mockPipeline, mockAdminsGateway, mockSubscriptionsGateway)
+        sut = new DeleteSubscriptionHandler(mockAdminsGateway, mockSubscriptionsGateway, mockPipeline)
     }
     
 
