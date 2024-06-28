@@ -11,5 +11,5 @@ public interface GymsGateway {
     Optional<Gym> findById(UUID id);
     List<Gym> findBySubscriptionId(UUID subscriptionId);
     void delete(Gym gym);
-    void deleteBySubscriptionId(UUID subscriptionId);
+    void deleteBySubscription(UUID subscriptionId);
 }

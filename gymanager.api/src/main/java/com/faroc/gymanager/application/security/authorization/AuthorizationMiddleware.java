@@ -29,18 +29,19 @@ public class AuthorizationMiddleware implements Command.Middleware {
 
         var user = currentUserProvider.getCurrentUser();
 
-        if (hasEnoughPermissions(requiredPermissions, new HashSet<>(user.permissions())))
+        if (hasEnoughPermissions(requiredPermissions, user.permissions()))
             return next.invoke();
 
         throw new ForbiddenException(
                 "User with id " + user.id() + "does not have the permissions to do the request " + c.getClass());
     }
 
-    private static boolean hasEnoughPermissions(String[] requiredPermissions, Set<String> userPermissions) {
+    private static boolean hasEnoughPermissions(String[] requiredPermissions, List<String> userPermissions) {
+        Set<String> userPermissionsSet = new HashSet<>(userPermissions);
         boolean permissionsValidation = false;
 
         for (var permission : requiredPermissions) {
-            permissionsValidation = userPermissions.contains(permission);
+            permissionsValidation = userPermissionsSet.contains(permission);
         }
 
         return permissionsValidation;

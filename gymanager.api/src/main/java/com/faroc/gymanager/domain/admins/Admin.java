@@ -1,22 +1,18 @@
 package com.faroc.gymanager.domain.admins;
 
-import an.awesome.pipelinr.Notification;
 import com.faroc.gymanager.domain.shared.AggregateRoot;
+import com.faroc.gymanager.domain.shared.abstractions.DomainEventsTracker;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.admins.errors.AdminErrors;
 import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import lombok.Getter;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 public class Admin extends AggregateRoot {
     private final UUID userId;
     private UUID subscriptionId;
-    private final List<Notification> domainEvents = new ArrayList<>();
 
     public Admin(UUID userId) {
         this.userId = userId;

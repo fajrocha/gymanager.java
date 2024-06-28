@@ -1,4 +1,4 @@
-package com.faroc.gymanager.domain.subscriptions;
+ package com.faroc.gymanager.domain.subscriptions;
 
 import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;

@@ -78,7 +78,7 @@ public class GymsRepository implements GymsGateway {
     }
 
     @Override
-    public void deleteBySubscriptionId(UUID subscriptionId) {
+    public void deleteBySubscription(UUID subscriptionId) {
         context.delete(GYMS).where(GYMS.SUBSCRIPTION_ID.eq(subscriptionId)).execute();
     }
 }
