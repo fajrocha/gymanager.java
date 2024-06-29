@@ -6,9 +6,9 @@
 ## Admins
 
 - A `user` can `create` an `admin profile`.
-- An `admin` can have an `active subscription`.
+- An `admin` can have an `active subscription` on the platform by `subscribing`.
 - An `active subscription` can be of type `Free`, `Starter` or `Pro`.
-- A `subscription` can have multiple and a `maximum number` of `gyms` depending on the `active subscription` type.
+- A `subscription` has a `maximum number` of `gyms`, `rooms` and `sessions` depending on the `active subscription` type.
 
 ## Trainers
 

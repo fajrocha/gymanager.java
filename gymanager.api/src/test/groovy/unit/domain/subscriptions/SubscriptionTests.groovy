@@ -6,30 +6,22 @@ import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors
 import com.faroc.gymanager.domain.subscriptions.SubscriptionType
 import net.datafaker.Faker
 import spock.lang.Specification
+import unit.domain.subscriptions.utils.SubscriptionsFactory
 
 class SubscriptionTests extends Specification {
-
-    Faker faker
     UUID adminId
     UUID gymId
     Subscription subscription
 
     def setup() {
-        faker = new Faker()
         adminId = UUID.randomUUID()
         gymId = UUID.randomUUID()
-        subscription = new Subscription(
-                adminId,
-                SubscriptionType.Free
-        )
+        subscription = SubscriptionsFactory.create()
     }
 
     def "when subscription is free should have corresponding max gyms"() {
         given:
-        def subscription = new Subscription(
-                adminId,
-                SubscriptionType.Free
-        )
+        def subscription = SubscriptionsFactory.create(SubscriptionType.Free)
 
         expect:
         subscription.getMaxGyms() == Subscription.MAX_GYMS_FREE
@@ -37,10 +29,7 @@ class SubscriptionTests extends Specification {
 
     def "when subscription is starter should have corresponding max gyms"() {
         given:
-        def subscription = new Subscription(
-                adminId,
-                SubscriptionType.Starter
-        )
+        def subscription = SubscriptionsFactory.create(SubscriptionType.Starter)
 
         expect:
         subscription.getMaxGyms() == Subscription.MAX_GYMS_STARTER
@@ -48,10 +37,7 @@ class SubscriptionTests extends Specification {
 
     def "when subscription is pro should have corresponding max gyms"() {
         given:
-        def subscription = new Subscription(
-                adminId,
-                SubscriptionType.Pro
-        )
+        def subscription = SubscriptionsFactory.create(SubscriptionType.Pro)
 
         expect:
         subscription.getMaxGyms() == Subscription.MAX_GYMS_PRO

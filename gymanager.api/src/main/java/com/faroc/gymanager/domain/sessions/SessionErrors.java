@@ -1,4 +1,4 @@
-package com.faroc.gymanager.domain.sessions.errors;
+package com.faroc.gymanager.domain.sessions;
 
 import java.util.UUID;
 

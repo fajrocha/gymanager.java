@@ -1,20 +1,18 @@
 package com.faroc.gymanager.application.subscriptions.events;
 
-import an.awesome.pipelinr.Notification;
-import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
+import com.faroc.gymanager.domain.admins.events.SubscriptionCreatedEvent;
 import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
-import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
-public class DeleteSubscriptionEventHandler {
+public class SubscriptionEventHandler {
     private final SubscriptionsGateway subscriptionsGateway;
 
-    public DeleteSubscriptionEventHandler(SubscriptionsGateway subscriptionsGateway) {
+    public SubscriptionEventHandler(SubscriptionsGateway subscriptionsGateway) {
         this.subscriptionsGateway = subscriptionsGateway;
     }
 
@@ -24,10 +22,21 @@ public class DeleteSubscriptionEventHandler {
         var subscriptionId = subscriptionDeletedEvent.subscriptionId();
 
         try {
-            Thread.sleep(10_000);
             subscriptionsGateway.delete(subscriptionId);
         } catch (Exception ex) {
             throw new EventualConsistencyException("Error while deleting subscription with id " + subscriptionId);
+        }
+    }
+
+    @TransactionalEventListener
+    @Async
+    public void handle(SubscriptionCreatedEvent subscriptionDeletedEvent) {
+        var subscription = subscriptionDeletedEvent.subscription();
+
+        try {
+            subscriptionsGateway.save(subscription);
+        } catch (Exception ex) {
+            throw new EventualConsistencyException("Error while creating subscription with id " + subscription.getId());
         }
     }
 }

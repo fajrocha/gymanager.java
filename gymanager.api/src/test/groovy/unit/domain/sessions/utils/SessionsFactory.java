@@ -1,21 +1,26 @@
 package unit.domain.sessions.utils;
 
 import com.faroc.gymanager.domain.sessions.Session;
+import com.faroc.gymanager.domain.sessions.SessionCategory;
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
+import net.datafaker.Faker;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
-public class SessionsFactory {
-    public static Session create(int maxNumberParticipants) {
-        var startTime = Instant.now();
-        var endTime = Instant.now().plus(1, ChronoUnit.HOURS);
-        var timeSlot = new TimeSlot(startTime, endTime);
+import static unit.domain.sessions.utils.SessionConstants.*;
 
+public class SessionsFactory {
+
+    public static Session create(int maxNumberParticipants) {
         return new Session(
                 UUID.randomUUID(),
-                timeSlot,
+                SESSION_TIMESLOT,
+                SESSION_NAME,
+                SESSION_DESCRIPTION,
+                SESSION_CATEGORIES,
                 maxNumberParticipants);
     }
 
@@ -23,6 +28,9 @@ public class SessionsFactory {
         return new Session(
                 UUID.randomUUID(),
                 timeSlot,
+                SESSION_NAME,
+                SESSION_DESCRIPTION,
+                SESSION_CATEGORIES,
                 maxNumberParticipants);
     }
 
@@ -31,6 +39,9 @@ public class SessionsFactory {
                 id,
                 UUID.randomUUID(),
                 timeSlot,
+                SESSION_NAME,
+                SESSION_DESCRIPTION,
+                SESSION_CATEGORIES,
                 maxNumberParticipants);
     }
 }

@@ -1,11 +1,13 @@
 package com.faroc.gymanager.domain.admins;
 
+import com.faroc.gymanager.domain.admins.events.SubscriptionCreatedEvent;
 import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.abstractions.DomainEventsTracker;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.admins.errors.AdminErrors;
 import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import com.faroc.gymanager.domain.subscriptions.Subscription;
 import lombok.Getter;
 import java.util.UUID;
 
@@ -33,13 +35,15 @@ public class Admin extends AggregateRoot {
         return new Admin(id, userId, subscriptionId);
     }
 
-    public void setSubscription(UUID subscriptionId) {
+    public void setSubscription(Subscription subscription) {
         if (this.subscriptionId != null)
             throw new ConflictException(
                     AdminErrors.conflictSubscription(id),
                     AdminErrors.CONFLICT_SUBSCRIPTION);
 
-        this.subscriptionId = subscriptionId;
+        domainEvents.add(new SubscriptionCreatedEvent(subscription));
+
+        this.subscriptionId = subscription.getId();
     }
 
     public void deleteSubscription(UUID subscriptionId) {

@@ -5,41 +5,61 @@ import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import com.faroc.gymanager.domain.shared.Entity;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.participants.Participant;
-import com.faroc.gymanager.domain.sessions.errors.SessionErrors;
 import com.faroc.gymanager.domain.sessions.exceptions.CancellationTooCloseToSession;
 import com.faroc.gymanager.domain.sessions.exceptions.MaxParticipantsReachedException;
 import com.faroc.gymanager.domain.shared.abstractions.InstantProvider;
+import jdk.jfr.Category;
 import lombok.Getter;
 
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
-@Getter
 public class Session extends Entity {
     public static final int MIN_CANCELLATION_HOURS = 24;
 
+    @Getter
     private final UUID trainerId;
+    @Getter
     private final TimeSlot timeSlot;
+    @Getter
+    private final String name;
+    @Getter
+    private final String description;
+    @Getter
+    private final int maximumNumberParticipants;
     private final Set<Reservation> reservations = new HashSet<>();
-    private final int maximumNumberParticipant;
+    private final List<SessionCategory> categories;
 
     public Session(
             UUID trainerId,
             TimeSlot timeSlot,
+            String name,
+            String description,
+            List<SessionCategory> categories,
             int maxNumberParticipants) {
-        super();
         this.trainerId = trainerId;
         this.timeSlot = timeSlot;
-        this.maximumNumberParticipant = maxNumberParticipants;
+        this.name = name;
+        this.description = description;
+        this.categories = categories;
+        this.maximumNumberParticipants = maxNumberParticipants;
     }
 
-    public Session(UUID id, UUID trainerId, TimeSlot timeSlot, int maximumNumberParticipant) {
+    public Session(
+            UUID id,
+            UUID trainerId,
+            TimeSlot timeSlot,
+            String name,
+            String description,
+            List<SessionCategory> categories,
+            int maximumNumberParticipant) {
         super(id);
         this.trainerId = trainerId;
         this.timeSlot = timeSlot;
-        this.maximumNumberParticipant = maximumNumberParticipant;
+        this.name = name;
+        this.description = description;
+        this.categories = categories;
+        this.maximumNumberParticipants = maximumNumberParticipant;
     }
 
     public void cancelReservation(Reservation reservation, InstantProvider instantProvider) {
@@ -64,7 +84,7 @@ public class Session extends Entity {
     public void makeReservation(Reservation reservation) {
         var participantId = reservation.getParticipantId();
 
-        if (reservations.size() == maximumNumberParticipant)
+        if (reservations.size() == maximumNumberParticipants)
             throw new MaxParticipantsReachedException(
                     SessionErrors.maxParticipantsReached(id, participantId)
             );
@@ -82,8 +102,8 @@ public class Session extends Entity {
         return reservations.contains(reservation);
     }
 
-    public boolean hasReservation(Participant participant) {
-        return reservations.stream().anyMatch(r -> r.getParticipantId() == participant.getId());
+    public List<SessionCategory> getCategories() {
+        return Collections.unmodifiableList(categories);
     }
 
     private boolean tooCloseToSession(Duration timeDifference) {

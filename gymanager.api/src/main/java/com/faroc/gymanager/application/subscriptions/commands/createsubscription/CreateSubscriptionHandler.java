@@ -3,23 +3,21 @@ package com.faroc.gymanager.application.subscriptions.commands.createsubscriptio
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.domain.admins.errors.AdminErrors;
 import com.faroc.gymanager.domain.subscriptions.Subscription;
-import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class CreateSubscriptionHandler implements Command.Handler<CreateSubscriptionCommand, Subscription>{
     private final AdminsGateway adminsGateway;
-    private final SubscriptionsGateway subscriptionsGateway;
+    private final ApplicationEventPublisher eventPublisher;
 
     public CreateSubscriptionHandler(
-            AdminsGateway adminsGateway,
-            SubscriptionsGateway subscriptionsGateway) {
+            AdminsGateway adminsGateway, ApplicationEventPublisher publisher) {
         this.adminsGateway = adminsGateway;
-        this.subscriptionsGateway = subscriptionsGateway;
+        this.eventPublisher = publisher;
     }
 
     @Override
@@ -37,10 +35,12 @@ public class CreateSubscriptionHandler implements Command.Handler<CreateSubscrip
                 createSubscriptionCommand.subscriptionType()
         );
 
-        admin.setSubscription(subscription.getId());
-
-        subscriptionsGateway.save(subscription);
+        admin.setSubscription(subscription);
         adminsGateway.update(admin);
+
+        while (admin.hasDomainEvents()) {
+            eventPublisher.publishEvent(admin.popEvent());
+        }
 
         return subscription;
     }

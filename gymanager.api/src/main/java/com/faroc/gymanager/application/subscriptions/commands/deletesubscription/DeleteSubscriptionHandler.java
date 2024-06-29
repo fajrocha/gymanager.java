@@ -53,7 +53,9 @@ public class DeleteSubscriptionHandler implements Command.Handler<DeleteSubscrip
         admin.deleteSubscription(subscriptionId);
         adminsGateway.update(admin);
 
-        admin.getDomainEvents().forEach(eventsPublisher::publishEvent);
+        while (admin.hasDomainEvents()) {
+            eventsPublisher.publishEvent(admin.popEvent());
+        }
 
         return new Voidy();
     }

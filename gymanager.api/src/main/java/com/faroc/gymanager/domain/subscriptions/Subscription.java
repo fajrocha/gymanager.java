@@ -25,6 +25,13 @@ public class Subscription extends AggregateRoot {
         maxGyms = maxGymsFromSubType();
     }
 
+    public Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType) {
+        super(id);
+        this.adminId = adminId;
+        this.subscriptionType = subscriptionType;
+        maxGyms = maxGymsFromSubType();
+    }
+
     public void addGym(UUID gymId) {
         if (gymIds.contains(gymId))
             throw new ConflictException(

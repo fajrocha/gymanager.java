@@ -7,15 +7,17 @@ import com.faroc.gymanager.application.subscriptions.commands.createsubscription
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
 import com.faroc.gymanager.domain.admins.Admin
 import com.faroc.gymanager.domain.admins.errors.AdminErrors
+import com.faroc.gymanager.domain.shared.events.DomainEvent
 import com.faroc.gymanager.domain.subscriptions.Subscription
 import com.faroc.gymanager.domain.subscriptions.SubscriptionType
 import net.datafaker.Faker
+import org.springframework.context.ApplicationEventPublisher
 import spock.lang.Specification
 
 class CreateSubscriptionHandlerTests extends Specification {
     Faker faker
     AdminsGateway mockAdminsGateway
-    SubscriptionsGateway mockSubscriptionsGateway
+    ApplicationEventPublisher mockEventPublisher
     UUID adminId
     CreateSubscriptionHandler sut
     UUID userId
@@ -26,14 +28,14 @@ class CreateSubscriptionHandlerTests extends Specification {
     def setup() {
         faker = new Faker()
         mockAdminsGateway = Mock(AdminsGateway)
-        mockSubscriptionsGateway = Mock(SubscriptionsGateway)
+        mockEventPublisher = Mock(ApplicationEventPublisher)
         subscriptionType = SubscriptionType.Free
         adminId = UUID.randomUUID()
         userId = UUID.randomUUID()
         admin = new Admin(adminId, userId)
         command = new CreateSubscriptionCommand(subscriptionType, adminId)
 
-        sut = new CreateSubscriptionHandler(mockAdminsGateway, mockSubscriptionsGateway)
+        sut = new CreateSubscriptionHandler(mockAdminsGateway, mockEventPublisher)
     }
     
 
@@ -59,7 +61,7 @@ class CreateSubscriptionHandlerTests extends Specification {
         then:
         subscription.getAdminId() == adminId
         subscription.getSubscriptionType() == subscriptionType
-        1 * mockAdminsGateway.update (_ as Admin)
-        1 * mockSubscriptionsGateway.save(_ as Subscription)
+        1 * mockAdminsGateway.update (admin)
+        1 * mockEventPublisher.publishEvent(_ as DomainEvent)
     }
 }

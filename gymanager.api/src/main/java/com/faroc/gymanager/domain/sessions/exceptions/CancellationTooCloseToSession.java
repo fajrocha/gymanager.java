@@ -1,6 +1,6 @@
 package com.faroc.gymanager.domain.sessions.exceptions;
 
-import com.faroc.gymanager.domain.sessions.errors.SessionErrors;
+import com.faroc.gymanager.domain.sessions.SessionErrors;
 import lombok.Getter;
 
 @Getter
