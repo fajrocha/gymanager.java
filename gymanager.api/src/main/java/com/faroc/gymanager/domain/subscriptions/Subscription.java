@@ -8,13 +8,22 @@ import lombok.Getter;
 
 import java.util.*;
 
-@Getter
 public class Subscription extends AggregateRoot {
     public static final int MAX_GYMS_FREE = 1;
     public static final int MAX_GYMS_STARTER = 3;
     public static final int MAX_GYMS_PRO = Integer.MAX_VALUE;
 
+    public static final int MAX_ROOMS_FREE = 1;
+    public static final int MAX_ROOMS_STARTER = 10;
+    public static final int MAX_ROOMS_PRO = Integer.MAX_VALUE;
+
+    public static final int MAX_SESSIONS_FREE = 3;
+    public static final int MAX_SESSIONS_STARTER = Integer.MAX_VALUE;
+    public static final int MAX_SESSIONS_PRO = Integer.MAX_VALUE;
+
+    @Getter
     private final UUID adminId;
+    @Getter
     private final SubscriptionType subscriptionType;
     private final int maxGyms;
     private final Set<UUID> gymIds = new HashSet<>();
@@ -22,14 +31,14 @@ public class Subscription extends AggregateRoot {
     public Subscription(UUID adminId, SubscriptionType subscriptionType) {
         this.adminId = adminId;
         this.subscriptionType = subscriptionType;
-        maxGyms = maxGymsFromSubType();
+        maxGyms = getMaxGyms();
     }
 
     public Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType) {
         super(id);
         this.adminId = adminId;
         this.subscriptionType = subscriptionType;
-        maxGyms = maxGymsFromSubType();
+        maxGyms = getMaxGyms();
     }
 
     public void addGym(UUID gymId) {
@@ -58,7 +67,7 @@ public class Subscription extends AggregateRoot {
             int maxGyms,
             UUID[] gymIds) {
         var subscription = new Subscription(id, adminId, subscriptionType, maxGyms);
-        Arrays.stream(gymIds).forEach(gymId -> subscription.getGymIds().add(gymId));
+        subscription.gymIds.addAll(Arrays.asList(gymIds));
 
         return subscription;
     }
@@ -71,11 +80,31 @@ public class Subscription extends AggregateRoot {
         return gymIds.contains(gymId);
     }
 
-    private int maxGymsFromSubType() {
+    public Set<UUID> getGymIds() {
+        return Collections.unmodifiableSet(gymIds);
+    }
+
+    public int getMaxGyms() {
         return switch (subscriptionType) {
             case Free -> MAX_GYMS_FREE;
             case Starter -> MAX_GYMS_STARTER;
             case Pro -> MAX_GYMS_PRO;
+        };
+    }
+
+    public int getMaxRooms() {
+        return switch (subscriptionType) {
+            case Free -> MAX_ROOMS_FREE;
+            case Starter -> MAX_ROOMS_STARTER;
+            case Pro -> MAX_ROOMS_PRO;
+        };
+    }
+
+    public int getMaxDailySessions() {
+        return switch (subscriptionType) {
+            case Free -> MAX_SESSIONS_FREE;
+            case Starter -> MAX_SESSIONS_STARTER;
+            case Pro -> MAX_SESSIONS_PRO;
         };
     }
 }

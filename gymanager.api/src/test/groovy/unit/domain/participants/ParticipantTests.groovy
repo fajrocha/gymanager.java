@@ -37,6 +37,6 @@ class ParticipantTests extends Specification {
         participant.makeReservation(session)
 
         then:
-        participant.hasSessionReservation(session)
+        participant.hasReservation(session)
     }
 }

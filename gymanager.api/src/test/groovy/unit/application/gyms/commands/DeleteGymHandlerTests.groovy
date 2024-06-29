@@ -37,14 +37,13 @@ class DeleteGymHandlerTests extends Specification {
         adminId = UUID.randomUUID()
         gymId = UUID.randomUUID()
         anotherGymId = UUID.randomUUID()
-        gym = Gym.mapFromStorage(
+        gym = new Gym(
                 gymId,
                 subscriptionId,
                 gymName,
                 Integer.MAX_VALUE,
-                new UUID[0],
-                new UUID[0],
         )
+
         subscription = Subscription.mapFromStorage(
                 subscriptionId,
                 adminId,

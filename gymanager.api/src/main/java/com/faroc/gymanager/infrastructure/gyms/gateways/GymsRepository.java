@@ -41,14 +41,14 @@ public class GymsRepository implements GymsGateway {
         if (gymRecord == null)
             return Optional.empty();
 
-        var gym = Gym.mapFromStorage(
+        var gym = new Gym(
                 gymRecord.getId(),
                 gymRecord.getSubscriptionId(),
                 gymRecord.getName(),
-                gymRecord.getMaxRooms(),
-                gymRecord.getRoomIds(),
-                gymRecord.getTrainerIds()
+                gymRecord.getMaxRooms()
         );
+        Arrays.stream(gymRecord.getRoomIds()).forEach(gym::addRoom);
+        Arrays.stream(gymRecord.getTrainerIds()).forEach(gym::addTrainer);
 
         return Optional.of(gym);
     }
@@ -58,16 +58,19 @@ public class GymsRepository implements GymsGateway {
         var gymsRecords = context.selectFrom(GYMS).where(GYMS.SUBSCRIPTION_ID.eq(subscriptionId)).fetchArray();
         List<Gym> gyms = new ArrayList<>();
 
-        Arrays.stream(gymsRecords).forEach(gymRecord ->
-            gyms.add(Gym.mapFromStorage(
+       Arrays.stream(gymsRecords).forEach(gymRecord -> {
+            var gym = new Gym(
                     gymRecord.getId(),
                     gymRecord.getSubscriptionId(),
                     gymRecord.getName(),
-                    gymRecord.getMaxRooms(),
-                    gymRecord.getRoomIds(),
-                    gymRecord.getTrainerIds()
-            ))
-        );
+                    gymRecord.getMaxRooms()
+            );
+
+            Arrays.stream(gymRecord.getRoomIds()).forEach(gym::addRoom);
+            Arrays.stream(gymRecord.getTrainerIds()).forEach(gym::addTrainer);
+
+           gyms.add(gym);
+        });
 
         return gyms;
     }

@@ -29,7 +29,7 @@ public class AddGymHandler implements Command.Handler<AddGymCommand, Gym> {
                         SubscriptionErrors.notFound(subscriptionId),
                         SubscriptionErrors.NOT_FOUND));
 
-        var gym = new Gym(subscriptionId, addGymCommand.name());
+        var gym = new Gym(subscriptionId, addGymCommand.name(), subscription.getMaxRooms());
         gymsGateway.save(gym);
 
         subscription.addGym(gym.getId());
