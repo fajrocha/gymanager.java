@@ -8,15 +8,21 @@ import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import lombok.Getter;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Getter
 public class Room extends AggregateRoot {
+    @Getter
     private final UUID gymId;
-    private final Set<UUID> sessionsIds = new HashSet<>();
+    private final HashMap<LocalDate, Set<UUID>> sessionsIds = new HashMap<>();
+
+    @Getter
     private final int maxDailySessions;
+
+    @Getter
     private final Schedule schedule;
 
     public Room(UUID gymId, int maxDailySessions) {
@@ -26,22 +32,31 @@ public class Room extends AggregateRoot {
     }
 
     public void makeReservation(Session session) {
+        var sessionDate = session.getDate();
         var sessionId = session.getId();
-        if (sessionsIds.contains(sessionId))
+
+        if (!sessionsIds.containsKey(sessionDate))
+            sessionsIds.put(sessionDate, new HashSet<>());
+
+        var sessionIdsOnDate = sessionsIds.get(sessionDate);
+
+        if (sessionIdsOnDate.contains(sessionId))
             throw new ConflictException(
                     RoomErrors.conflictGym(sessionId, id),
                     RoomErrors.CONFLICT_SESSION);
 
-        if (sessionsIds.size() >= maxDailySessions)
+        if (sessionIdsOnDate.size() >= maxDailySessions)
             throw new MaxSessionsReachedException(RoomErrors.maxSessionsReached(sessionId, id));
 
         schedule.makeReservation(session.getTimeSlot());
 
-        sessionsIds.add(sessionId);
+        sessionIdsOnDate.add(sessionId);
     }
 
     public boolean hasSessionReservation(Session session) {
-        return sessionsIds.contains(session.getId()) && schedule.hasReservation(session.getTimeSlot());
+        var sessionIdsOnDate = sessionsIds.get(session.getDate());
+
+        return sessionIdsOnDate.contains(session.getId()) && schedule.hasReservation(session.getTimeSlot());
     }
 }
 

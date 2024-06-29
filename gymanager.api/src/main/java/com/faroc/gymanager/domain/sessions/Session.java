@@ -12,6 +12,7 @@ import jdk.jfr.Category;
 import lombok.Getter;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Session extends Entity {
@@ -27,6 +28,9 @@ public class Session extends Entity {
     private final String description;
     @Getter
     private final int maximumNumberParticipants;
+    @Getter
+    private final LocalDate date;
+
     private final Set<Reservation> reservations = new HashSet<>();
     private final List<SessionCategory> categories;
 
@@ -36,13 +40,15 @@ public class Session extends Entity {
             String name,
             String description,
             List<SessionCategory> categories,
-            int maxNumberParticipants) {
+            int maxNumberParticipants,
+            LocalDate date) {
         this.trainerId = trainerId;
         this.timeSlot = timeSlot;
         this.name = name;
         this.description = description;
         this.categories = categories;
         this.maximumNumberParticipants = maxNumberParticipants;
+        this.date = date;
     }
 
     public Session(
@@ -52,7 +58,8 @@ public class Session extends Entity {
             String name,
             String description,
             List<SessionCategory> categories,
-            int maximumNumberParticipant) {
+            int maximumNumberParticipant,
+            LocalDate date) {
         super(id);
         this.trainerId = trainerId;
         this.timeSlot = timeSlot;
@@ -60,6 +67,7 @@ public class Session extends Entity {
         this.description = description;
         this.categories = categories;
         this.maximumNumberParticipants = maximumNumberParticipant;
+        this.date = date;
     }
 
     public void cancelReservation(Reservation reservation, InstantProvider instantProvider) {

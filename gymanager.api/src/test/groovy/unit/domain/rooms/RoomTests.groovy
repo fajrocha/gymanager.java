@@ -23,7 +23,7 @@ class RoomTests extends Specification {
         room = RoomsFactory.create(MAX_DAILY_SESSIONS)
     }
 
-    def "when session reservation already exists on room should throw conflict exception"() {
+    def "when session reservation already made on room should throw conflict exception"() {
         given:
         room.makeReservation(session)
 
@@ -48,7 +48,7 @@ class RoomTests extends Specification {
         ex.getDetail() == RoomErrors.MAX_SESSIONS_REACHED
     }
 
-    def "when new reservation is added to room should add the session to schedule"() {
+    def "when new reservation is made to room should add the session to schedule"() {
         when:
         room.makeReservation(session)
 
