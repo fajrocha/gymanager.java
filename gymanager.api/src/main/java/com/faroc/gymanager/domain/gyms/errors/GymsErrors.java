@@ -10,13 +10,6 @@ public class GymsErrors {
                 ". Max rooms reached for this gym.";
     }
 
-    public static final String MAX_TRAINERS_REACHED = "Reached the maximum amount of trainers for this gym.";
-
-    public static String maxTrainersReached(UUID trainerId, UUID gymId) {
-        return "Failed to add trainer " + trainerId + " to gym " + gymId +
-                ". Max trainers reached for this gym.";
-    }
-
     public static final String NOT_FOUND = "Gym not found.";
     public static final String NOT_FOUND_ON_SUBSCRIPTION = "Gym not found for given subscription.";
     public static String notFound(UUID gymId, UUID subscriptionId) {

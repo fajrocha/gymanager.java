@@ -44,8 +44,8 @@ public class Gym extends AggregateRoot {
     public void addRoom(UUID roomId) {
         if (roomIds.contains(roomId))
             throw new ConflictException(
-                    GymsErrors.CONFLICT_ROOM,
-                    GymsErrors.conflictRoom(roomId, id)
+                    GymsErrors.conflictRoom(roomId, id),
+                    GymsErrors.CONFLICT_ROOM
             );
 
         if (roomIds.size() >= maxRooms)
@@ -54,20 +54,36 @@ public class Gym extends AggregateRoot {
         roomIds.add(roomId);
     }
 
+    public boolean hasRoom(Room room) {
+        return hasRoom(room.getId());
+    }
+
+    public boolean hasRoom(UUID roomId) {
+        return roomIds.contains(roomId);
+    }
+
     public void addTrainer(Trainer trainer) {
         var trainerId = trainer.getId();
 
-        addRoom(trainerId);
+        addTrainer(trainerId);
     }
 
     public void addTrainer(UUID trainerId) {
         if (trainerIds.contains(trainerId))
             throw new ConflictException(
-                    GymsErrors.CONFLICT_TRAINER,
-                    GymsErrors.conflictTrainer(trainerId, id)
+                    GymsErrors.conflictTrainer(trainerId, id),
+                    GymsErrors.CONFLICT_TRAINER
             );
 
         trainerIds.add(trainerId);
+    }
+    
+    public boolean hasTrainer(Trainer trainer) {
+        return hasTrainer(trainer.getId());
+    }
+
+    private boolean hasTrainer(UUID trainerId) {
+        return trainerIds.contains(trainerId);
     }
 
     public Set<UUID> getRoomIds() {
