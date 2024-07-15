@@ -1,8 +1,12 @@
 package com.faroc.gymanager.domain.users;
 
+import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.users.abstractions.PasswordHasher;
 import com.faroc.gymanager.domain.users.errors.UserErrors;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import com.faroc.gymanager.domain.users.events.AddAdminEvent;
+import com.faroc.gymanager.domain.users.events.AddParticipantEvent;
+import com.faroc.gymanager.domain.users.events.AddTrainerEvent;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-public class User  {
+public class User extends AggregateRoot {
     private final UUID id;
     private final String firstName;
     private final String lastName;
@@ -64,7 +68,7 @@ public class User  {
         return passwordHasher.validatePassword(password, passwordHash);
     }
 
-    public UUID createAdminProfile() throws ConflictException {
+    public UUID createAdminProfile() {
         if (adminId != null) {
             throw new ConflictException(
                     UserErrors.conflictAdminProfile(id),
@@ -72,8 +76,35 @@ public class User  {
         }
 
         adminId = UUID.randomUUID();
+        domainEvents.add(new AddAdminEvent(adminId, id));
 
         return adminId;
+    }
+
+    public UUID createTrainerProfile() {
+        if (trainerId != null) {
+            throw new ConflictException(
+                    UserErrors.conflictTrainerProfile(id),
+                    UserErrors.CONFLICT_TRAINER_PROFILE);
+        }
+
+        trainerId = UUID.randomUUID();
+        domainEvents.add(new AddTrainerEvent(trainerId, id));
+
+        return trainerId;
+    }
+
+    public UUID createParticipantProfile() {
+        if (participantId != null) {
+            throw new ConflictException(
+                    UserErrors.conflictParticipantProfile(id),
+                    UserErrors.CONFLICT_PARTICIPANT_PROFILE);
+        }
+
+        participantId = UUID.randomUUID();
+        domainEvents.add(new AddParticipantEvent(participantId, id));
+
+        return participantId;
     }
 
     public List<UserProfileTypes> getUserProfiles()

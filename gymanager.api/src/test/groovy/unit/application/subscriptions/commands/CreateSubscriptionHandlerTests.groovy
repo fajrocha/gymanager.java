@@ -1,14 +1,12 @@
 package unit.application.subscriptions.commands
 
-import com.faroc.gymanager.application.admins.gateways.AdminsGateway
+import com.faroc.gymanager.application.users.gateways.AdminsGateway
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.application.subscriptions.commands.createsubscription.CreateSubscriptionCommand
 import com.faroc.gymanager.application.subscriptions.commands.createsubscription.CreateSubscriptionHandler
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
 import com.faroc.gymanager.domain.admins.Admin
 import com.faroc.gymanager.domain.admins.errors.AdminErrors
 import com.faroc.gymanager.domain.shared.events.DomainEvent
-import com.faroc.gymanager.domain.subscriptions.Subscription
 import com.faroc.gymanager.domain.subscriptions.SubscriptionType
 import net.datafaker.Faker
 import org.springframework.context.ApplicationEventPublisher

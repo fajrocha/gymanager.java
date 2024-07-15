@@ -1,15 +1,14 @@
 package com.faroc.gymanager.domain.gyms;
 
 import com.faroc.gymanager.domain.gyms.errors.GymsErrors;
+import com.faroc.gymanager.domain.gyms.events.AddRoomEvent;
 import com.faroc.gymanager.domain.gyms.exceptions.MaxRoomsReachedException;
 import com.faroc.gymanager.domain.rooms.Room;
-import com.faroc.gymanager.domain.rooms.exceptions.MaxSessionsReachedException;
 import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import com.faroc.gymanager.domain.trainers.Trainer;
 import lombok.Getter;
 
-import javax.swing.plaf.SeparatorUI;
 import java.util.*;
 
 public class Gym extends AggregateRoot {
@@ -39,6 +38,8 @@ public class Gym extends AggregateRoot {
         var roomId = room.getId();
 
         addRoom(roomId);
+
+        domainEvents.add(new AddRoomEvent(room));
     }
 
     public void addRoom(UUID roomId) {

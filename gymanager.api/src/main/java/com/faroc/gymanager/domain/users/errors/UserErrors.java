@@ -7,10 +7,22 @@ public class UserErrors {
     public static String addUser(String email) {
         return "Failed to add user with given email: " + email + " .";
     }
-    public static final String CONFLICT_ADMIN_PROFILE = "Admin profile already exists.";
+    public static final String CONFLICT_ADMIN_PROFILE = "User is already an admin.";
 
     public static String conflictAdminProfile(UUID userId) {
       return "The user " + userId + " already has an admin profile.";
+    }
+
+    public static final String CONFLICT_TRAINER_PROFILE = "User is already a trainer.";
+
+    public static String conflictTrainerProfile(UUID userId) {
+        return "The user " + userId + " already has a trainer profile.";
+    }
+
+    public static final String CONFLICT_PARTICIPANT_PROFILE = "User is already a participant.";
+
+    public static String conflictParticipantProfile(UUID userId) {
+        return "The user " + userId + " already has a participant profile.";
     }
 
     public static final String ADD_ADMIN_PROFILE = "Failed to add admin profile.";

@@ -2,9 +2,11 @@ package com.faroc.gymanager.infrastructure.gyms.gateways;
 
 import com.faroc.gymanager.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.domain.gyms.Gym;
+import com.faroc.gymanager.infrastructure.gyms.mappers.GymMappers;
 import org.jooq.DSLContext;
 import org.jooq.codegen.maven.gymanager.tables.records.GymsRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -22,16 +24,16 @@ public class GymsRepository implements GymsGateway {
 
     @Override
     public void save(Gym gym) {
-        var gymRecord = new GymsRecord();
-
-        gymRecord.setId(gym.getId());
-        gymRecord.setSubscriptionId(gym.getSubscriptionId());
-        gymRecord.setName(gym.getName());
-        gymRecord.setMaxRooms(gym.getMaxRooms());
-        gymRecord.setRoomIds(gym.getRoomIds().toArray(new UUID[0]));
-        gymRecord.setTrainerIds(gym.getTrainerIds().toArray(new UUID[0]));
+        var gymRecord = GymMappers.toRecord(gym);
 
         context.insertInto(GYMS).set(gymRecord).execute();
+    }
+
+    @Override
+    public void update(Gym gym) {
+        var gymRecord = GymMappers.toRecord(gym);
+
+        context.update(GYMS).set(gymRecord).execute();
     }
 
     @Override

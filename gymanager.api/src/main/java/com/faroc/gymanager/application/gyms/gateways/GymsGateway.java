@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public interface GymsGateway {
     void save(Gym gym);
+    void update(Gym gym);
     Optional<Gym> findById(UUID id);
     List<Gym> findBySubscriptionId(UUID subscriptionId);
     void delete(Gym gym);

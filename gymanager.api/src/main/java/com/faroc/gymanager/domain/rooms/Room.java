@@ -9,10 +9,7 @@ import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class Room extends AggregateRoot {
     @Getter
@@ -25,9 +22,13 @@ public class Room extends AggregateRoot {
     @Getter
     private final Schedule schedule;
 
-    public Room(UUID gymId, int maxDailySessions) {
+    @Getter
+    private final String name;
+
+    public Room(UUID gymId, String name, int maxDailySessions) {
         this.gymId = gymId;
         this.maxDailySessions = maxDailySessions;
+        this.name = name;
         this.schedule = Schedule.createEmpty();
     }
 
@@ -57,6 +58,10 @@ public class Room extends AggregateRoot {
         var sessionIdsOnDate = sessionsIds.get(session.getDate());
 
         return sessionIdsOnDate.contains(session.getId()) && schedule.hasReservation(session.getTimeSlot());
+    }
+
+    public Map<LocalDate, Set<UUID>> getSessionsIds(){
+        return Collections.unmodifiableMap(sessionsIds);
     }
 }
 

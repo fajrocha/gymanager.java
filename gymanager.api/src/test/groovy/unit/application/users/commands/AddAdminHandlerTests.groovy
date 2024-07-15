@@ -1,6 +1,6 @@
 package unit.application.users.commands
 
-import com.faroc.gymanager.application.admins.gateways.AdminsGateway
+import com.faroc.gymanager.application.users.gateways.AdminsGateway
 import com.faroc.gymanager.application.security.CurrentUserProvider
 import com.faroc.gymanager.application.security.DTOs.CurrentUserDTO
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
@@ -96,7 +96,7 @@ class AddAdminHandlerTests extends Specification {
 
         then:
         1 * mockUsersGateway.update(user)
-        1 * mockAdminsGateway.save(_ as Admin)
+        1 * mockAdminsGateway.create(_ as Admin)
         actualResult == user.getAdminId()
     }
 }

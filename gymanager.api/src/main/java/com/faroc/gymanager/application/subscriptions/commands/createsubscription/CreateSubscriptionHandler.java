@@ -1,7 +1,7 @@
 package com.faroc.gymanager.application.subscriptions.commands.createsubscription;
 
 import an.awesome.pipelinr.Command;
-import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
+import com.faroc.gymanager.application.users.gateways.AdminsGateway;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.domain.admins.errors.AdminErrors;
 import com.faroc.gymanager.domain.subscriptions.Subscription;
