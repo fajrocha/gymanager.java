@@ -1,4 +1,4 @@
-package com.faroc.gymanager.infrastructure.admins.gateways;
+package com.faroc.gymanager.infrastructure.users.gateways;
 
 import com.faroc.gymanager.application.users.gateways.AdminsGateway;
 import com.faroc.gymanager.domain.admins.Admin;

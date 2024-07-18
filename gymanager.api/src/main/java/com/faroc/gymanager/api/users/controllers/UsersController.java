@@ -5,7 +5,9 @@ import com.faroc.gymanager.api.users.mappers.UsersResponseMappers;
 import com.faroc.gymanager.application.users.commands.addadmin.AddAdminCommand;
 import com.faroc.gymanager.application.users.commands.addparticpant.AddParticipantCommand;
 import com.faroc.gymanager.application.users.commands.addtrainer.AddTrainerCommand;
-import com.faroc.gymanager.users.responses.ProfileCreatedResponse;
+import com.faroc.gymanager.users.responses.AdminCreatedResponse;
+import com.faroc.gymanager.users.responses.ParticipantCreatedResponse;
+import com.faroc.gymanager.users.responses.TrainerCreatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,29 +24,29 @@ public class UsersController {
     }
 
     @PostMapping("/admin")
-    public ProfileCreatedResponse createAdminProfile(@PathVariable UUID userId) {
+    public AdminCreatedResponse createAdminProfile(@PathVariable UUID userId) {
         var command = new AddAdminCommand(userId);
 
         var adminId = command.execute(pipeline);
 
-        return UsersResponseMappers.toResponse(adminId);
+        return new AdminCreatedResponse(adminId);
     }
 
     @PostMapping("/trainer")
-    public ProfileCreatedResponse createTrainerProfile(@PathVariable UUID userId) {
+    public TrainerCreatedResponse createTrainerProfile(@PathVariable UUID userId) {
         var command = new AddTrainerCommand(userId);
 
         var trainerId = command.execute(pipeline);
 
-        return UsersResponseMappers.toResponse(trainerId);
+        return new TrainerCreatedResponse(trainerId);
     }
 
     @PostMapping("/participant")
-    public ProfileCreatedResponse createParticipantProfile(@PathVariable UUID userId) {
+    public ParticipantCreatedResponse createParticipantProfile(@PathVariable UUID userId) {
         var command = new AddParticipantCommand(userId);
 
         var participantId = command.execute(pipeline);
 
-        return UsersResponseMappers.toResponse(participantId);
+        return new ParticipantCreatedResponse(participantId);
     }
 }

@@ -1,4 +1,4 @@
-package com.faroc.gymanager.infrastructure.users;
+package com.faroc.gymanager.infrastructure.users.gateways;
 
 import com.faroc.gymanager.application.users.gateways.UsersGateway;
 import com.faroc.gymanager.domain.users.User;

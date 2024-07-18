@@ -32,6 +32,19 @@ public class Room extends AggregateRoot {
         this.schedule = Schedule.createEmpty();
     }
 
+    public Room(
+            UUID id,
+            UUID gymId,
+            String name,
+            int maxDailySessions,
+            Schedule schedule) {
+        super(id);
+        this.gymId = gymId;
+        this.maxDailySessions = maxDailySessions;
+        this.name = name;
+        this.schedule = schedule;
+    }
+
     public void makeReservation(Session session) {
         var sessionDate = session.getDate();
         var sessionId = session.getId();

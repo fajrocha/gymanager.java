@@ -1,6 +1,7 @@
 package com.faroc.gymanager.domain.shared.valueobjects.timeslots;
 
 import com.faroc.gymanager.domain.shared.ValueObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -33,6 +34,7 @@ public class TimeSlot extends ValueObject {
     }
 
     @Override
+    @JsonIgnore
     public List<Object> getEqualityComponents() {
         return List.of(
                 startTime,

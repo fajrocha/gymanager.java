@@ -2,7 +2,7 @@ package com.faroc.gymanager.application.rooms.commands.addroom;
 
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.gyms.gateways.GymsGateway;
-import com.faroc.gymanager.application.shared.abstractions.DomainEventsHandler;
+import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.domain.rooms.Room;
 import com.faroc.gymanager.domain.rooms.errors.RoomErrors;
@@ -15,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class AddRoomHandler implements Command.Handler<AddRoomCommand, Room> {
     private final GymsGateway gymsGateway;
     private final SubscriptionsGateway subscriptionsGateway;
-    private final DomainEventsHandler domainEventsHandler;
+    private final DomainEventsPublisher domainEventsHandler;
 
     @Autowired
     public AddRoomHandler(
             GymsGateway gymsGateway,
             SubscriptionsGateway subscriptionsGateway,
-            DomainEventsHandler domainEventsHandler
+            DomainEventsPublisher domainEventsHandler
     ) {
         this.gymsGateway = gymsGateway;
         this.subscriptionsGateway = subscriptionsGateway;
@@ -55,7 +55,7 @@ public class AddRoomHandler implements Command.Handler<AddRoomCommand, Room> {
         gym.addRoom(room);
 
         gymsGateway.update(gym);
-        domainEventsHandler.publishEvents(gym);
+        domainEventsHandler.publishEventsFromAggregate(gym);
 
         return room;
     }

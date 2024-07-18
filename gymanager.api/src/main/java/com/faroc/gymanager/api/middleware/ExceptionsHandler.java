@@ -4,10 +4,13 @@ import com.faroc.gymanager.application.shared.exceptions.*;
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -59,5 +62,12 @@ public class ExceptionsHandler {
         logger.error("Unexpected behavior has occurred on request.", ex);
 
         return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getDetail());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ProblemDetail handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        logger.error("Failed to properly deserialize the request.", ex);
+
+        return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
     }
 }

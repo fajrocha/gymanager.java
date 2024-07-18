@@ -22,6 +22,12 @@ public class Trainer extends AggregateRoot {
         this.schedule = Schedule.createEmpty();
     }
 
+    public Trainer(UUID id, UUID userId) {
+        super(id);
+        this.userId = userId;
+        this.schedule = Schedule.createEmpty();
+    }
+
     public void makeReservation(Session session) {
         var sessionId = session.getId();
         if (sessionsIds.contains(sessionId))

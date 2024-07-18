@@ -13,6 +13,7 @@ import lombok.Getter;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Session extends Entity {
@@ -32,21 +33,21 @@ public class Session extends Entity {
     private final LocalDate date;
 
     private final Set<Reservation> reservations = new HashSet<>();
-    private final List<SessionCategory> categories;
+    private final SessionCategory category;
 
     public Session(
             UUID trainerId,
             TimeSlot timeSlot,
             String name,
             String description,
-            List<SessionCategory> categories,
+            SessionCategory categories,
             int maxNumberParticipants,
             LocalDate date) {
         this.trainerId = trainerId;
         this.timeSlot = timeSlot;
         this.name = name;
         this.description = description;
-        this.categories = categories;
+        this.category = categories;
         this.maximumNumberParticipants = maxNumberParticipants;
         this.date = date;
     }
@@ -57,7 +58,7 @@ public class Session extends Entity {
             TimeSlot timeSlot,
             String name,
             String description,
-            List<SessionCategory> categories,
+            SessionCategory category,
             int maximumNumberParticipant,
             LocalDate date) {
         super(id);
@@ -65,7 +66,7 @@ public class Session extends Entity {
         this.timeSlot = timeSlot;
         this.name = name;
         this.description = description;
-        this.categories = categories;
+        this.category = category;
         this.maximumNumberParticipants = maximumNumberParticipant;
         this.date = date;
     }
@@ -108,10 +109,6 @@ public class Session extends Entity {
 
     public boolean hasReservation(Reservation reservation) {
         return reservations.contains(reservation);
-    }
-
-    public List<SessionCategory> getCategories() {
-        return Collections.unmodifiableList(categories);
     }
 
     private boolean tooCloseToSession(Duration timeDifference) {

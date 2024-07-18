@@ -18,7 +18,7 @@ public class SessionsFactory {
                 SESSION_TIMESLOT_DEFAULT,
                 NAME_DEFAULT,
                 DESCRIPTION_DEFAULT,
-                CATEGORIES_DEFAULT,
+                CATEGORY_DEFAULT,
                 maxNumberParticipants,
                 DATE_DEFAULT);
     }
@@ -29,7 +29,7 @@ public class SessionsFactory {
                 timeSlot,
                 NAME_DEFAULT,
                 DESCRIPTION_DEFAULT,
-                CATEGORIES_DEFAULT,
+                CATEGORY_DEFAULT,
                 maxNumberParticipants,
                 DATE_DEFAULT);
     }
@@ -41,7 +41,7 @@ public class SessionsFactory {
                 timeSlot,
                 NAME_DEFAULT,
                 DESCRIPTION_DEFAULT,
-                CATEGORIES_DEFAULT,
+                CATEGORY_DEFAULT,
                 maxNumberParticipants,
                 DATE_DEFAULT);
     }

@@ -3,7 +3,7 @@ package com.faroc.gymanager.application.users.commands.addparticpant;
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.security.CurrentUserProvider;
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException;
-import com.faroc.gymanager.application.shared.abstractions.DomainEventsHandler;
+import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.users.gateways.UsersGateway;
 import com.faroc.gymanager.domain.users.errors.UserErrors;
@@ -15,12 +15,12 @@ import java.util.UUID;
 public class AddParticipantHandler implements Command.Handler<AddParticipantCommand, UUID> {
     private final UsersGateway userGateway;
     private final CurrentUserProvider currentUserProvider;
-    private final DomainEventsHandler domainEventsHandler;
+    private final DomainEventsPublisher domainEventsHandler;
 
     public AddParticipantHandler(
             UsersGateway userGateway,
             CurrentUserProvider currentUserProvider,
-            DomainEventsHandler domainEventsHandler) {
+            DomainEventsPublisher domainEventsHandler) {
         this.userGateway = userGateway;
         this.currentUserProvider = currentUserProvider;
         this.domainEventsHandler = domainEventsHandler;
@@ -45,7 +45,7 @@ public class AddParticipantHandler implements Command.Handler<AddParticipantComm
 
         var participantId = user.createParticipantProfile();
         userGateway.update(user);
-        domainEventsHandler.publishEvents(user);
+        domainEventsHandler.publishEventsFromAggregate(user);
 
         return participantId;
     }

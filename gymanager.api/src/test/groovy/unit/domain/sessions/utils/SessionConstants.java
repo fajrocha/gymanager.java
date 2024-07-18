@@ -7,7 +7,6 @@ import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 import static com.faroc.gymanager.domain.sessions.SessionCategory.*;
 
@@ -20,6 +19,6 @@ public class SessionConstants {
     );
     public static final String NAME_DEFAULT = "Best Session";
     public static final String DESCRIPTION_DEFAULT = "Best session right here.";
-    public static final List<SessionCategory> CATEGORIES_DEFAULT = List.of(FUNCTIONAL, ZOOMBA);
+    public static final SessionCategory CATEGORY_DEFAULT = FUNCTIONAL;
     public static final int MAX_PARTICIPANTS_DEFAULT = 1;
 }

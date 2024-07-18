@@ -2,5 +2,5 @@ package com.faroc.gymanager.users.responses;
 
 import java.util.UUID;
 
-public record ProfileCreatedResponse(UUID adminId) {
+public record AdminCreatedResponse(UUID adminId) {
 }

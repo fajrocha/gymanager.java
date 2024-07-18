@@ -3,11 +3,12 @@ package com.faroc.gymanager.application.users.commands.addtrainer;
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.security.CurrentUserProvider;
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException;
-import com.faroc.gymanager.application.shared.abstractions.DomainEventsHandler;
+import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.users.gateways.UsersGateway;
 import com.faroc.gymanager.domain.users.errors.UserErrors;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -16,18 +17,19 @@ public class AddTrainerHandler implements Command.Handler<AddTrainerCommand, UUI
 {
     private final UsersGateway userGateway;
     private final CurrentUserProvider currentUserProvider;
-    private final DomainEventsHandler domainEventsHandler;
+    private final DomainEventsPublisher domainEventsPublisher;
 
     public AddTrainerHandler(
             UsersGateway userGateway,
             CurrentUserProvider currentUserProvider,
-            DomainEventsHandler domainEventsHandler) {
+            DomainEventsPublisher domainEventsPublisher) {
         this.userGateway = userGateway;
         this.currentUserProvider = currentUserProvider;
-        this.domainEventsHandler = domainEventsHandler;
+        this.domainEventsPublisher = domainEventsPublisher;
     }
 
     @Override
+    @Transactional
     public UUID handle(AddTrainerCommand command) {
         var commandUserId = command.userId();
         var currentUser = currentUserProvider.getCurrentUser();
@@ -46,7 +48,7 @@ public class AddTrainerHandler implements Command.Handler<AddTrainerCommand, UUI
 
         var participantId = user.createTrainerProfile();
         userGateway.update(user);
-        domainEventsHandler.publishEvents(user);
+        domainEventsPublisher.publishEventsFromAggregate(user);
 
         return participantId;
     }
