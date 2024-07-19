@@ -4,17 +4,14 @@ import com.faroc.gymanager.domain.rooms.Room;
 import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import com.faroc.gymanager.infrastructure.shared.serialization.DefaultSerializer;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.jooq.JSONB;
 import org.jooq.codegen.maven.gymanager.tables.records.RoomsRecord;
 
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
+import java.util.UUID;
 
 public class RoomMappers {
     public static RoomsRecord toRecord(Room room) {
@@ -48,20 +45,20 @@ public class RoomMappers {
                 schedule
         );
 
-        var scheduleFromRecord = jsonbToMap(roomRecord.getScheduleCalendar());
-        room.getSchedule().getCalendar().putAll(scheduleFromRecord);
+        var calendarType = new TypeReference<HashMap<LocalDate, Set<TimeSlot>>>() {};
+        var calendarRecord = DefaultSerializer.toTimedObject(
+                roomRecord.getScheduleCalendar(),
+                calendarType);
+
+        room.getSchedule().mapCalendarFrom(calendarRecord);
+
+        var sessionIdsType = new TypeReference<HashMap<LocalDate, Set<UUID>>>() {};
+        var sessionIdsRecord = DefaultSerializer.toTimedObject(
+                roomRecord.getSessionIdsByDate(),
+                sessionIdsType);
+
+        room.mapSessionIdsFrom(sessionIdsRecord);
 
         return room;
-    }
-
-    private static Map<LocalDate, Set<TimeSlot>> jsonbToMap(JSONB jsonbObject) {
-        var jsonMapper = new ObjectMapper();
-        var jsonbObjectString = jsonbObject.toString();
-
-        try {
-            return jsonMapper.readValue(jsonbObjectString, new TypeReference<>() {});
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

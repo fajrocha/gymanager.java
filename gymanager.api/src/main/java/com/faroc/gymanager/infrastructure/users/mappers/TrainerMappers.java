@@ -1,11 +1,17 @@
 package com.faroc.gymanager.infrastructure.users.mappers;
 
+import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
+import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import com.faroc.gymanager.domain.trainers.Trainer;
 import com.faroc.gymanager.infrastructure.shared.serialization.DefaultSerializer;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.jooq.JSONB;
 import org.jooq.codegen.maven.gymanager.tables.records.TrainersRecord;
 
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
+
+import static org.jooq.codegen.maven.gymanager.Tables.ROOMS;
 
 public class TrainerMappers {
     public static TrainersRecord toRecord(Trainer trainer) {
@@ -20,5 +26,25 @@ public class TrainerMappers {
         trainerRecord.setScheduleCalendar(JSONB.valueOf(serializedSchedule));
 
         return trainerRecord;
+    }
+
+    public static Trainer toDomain(TrainersRecord trainerRecord) {
+        var schedule = new Schedule(trainerRecord.getScheduleId());
+
+        var trainer = new Trainer(
+                trainerRecord.getId(),
+                trainerRecord.getUserId(),
+                schedule
+        );
+
+        var calendarTypeRef = new TypeReference<HashMap<LocalDate, Set<TimeSlot>>>() {};
+        var calendarRecord = DefaultSerializer.toTimedObject(
+                trainerRecord.getScheduleCalendar(),
+                calendarTypeRef);
+        trainer.getSchedule().mapCalendarFrom(calendarRecord);
+
+        Arrays.stream(trainerRecord.getSessionIds()).forEach(trainer::mapSessionId);
+
+        return trainer;
     }
 }

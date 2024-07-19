@@ -4,6 +4,7 @@ import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
 import com.faroc.gymanager.domain.sessions.Session;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import com.faroc.gymanager.domain.trainers.errors.TrainerErrors;
 import lombok.Getter;
 
@@ -28,6 +29,12 @@ public class Trainer extends AggregateRoot {
         this.schedule = Schedule.createEmpty();
     }
 
+    public Trainer(UUID id, UUID userId, Schedule schedule) {
+        super(id);
+        this.userId = userId;
+        this.schedule = schedule;
+    }
+
     public void makeReservation(Session session) {
         var sessionId = session.getId();
         if (sessionsIds.contains(sessionId))
@@ -42,5 +49,13 @@ public class Trainer extends AggregateRoot {
 
     public boolean hasSessionReservation(Session session) {
         return sessionsIds.contains(session.getId()) && schedule.hasReservation(session.getTimeSlot());
+    }
+
+    public boolean isFree(TimeSlot timeSlot) {
+        return schedule.canMakeReservation(timeSlot);
+    }
+
+    public void mapSessionId(UUID sessionsId) {
+        sessionsIds.add(sessionsId);
     }
 }

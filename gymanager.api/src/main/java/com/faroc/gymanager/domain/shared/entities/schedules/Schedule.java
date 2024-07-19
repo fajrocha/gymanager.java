@@ -10,7 +10,6 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.*;
 
-@Getter
 public class Schedule extends Entity {
     private final Map<LocalDate, Set<TimeSlot>> calendar = new HashMap<>();
 
@@ -38,6 +37,18 @@ public class Schedule extends Entity {
             );
 
         slotsReserved.add(timeSlot);
+    }
+
+    public boolean canMakeReservation(TimeSlot timeSlot) {
+        LocalDate localDate = TimeUtils.toLocalDateUtcFromInstant(timeSlot.getStartTime());
+
+        if (!calendar.containsKey(localDate)) {
+            return true;
+        }
+
+        var slotsReserved = calendar.get(localDate);
+
+        return !anyOverlap(slotsReserved, timeSlot);
     }
 
     public void updateReservation(TimeSlot previousTimeSlot, TimeSlot newTimeSlot) {
@@ -74,11 +85,19 @@ public class Schedule extends Entity {
             );
     }
 
-    private boolean anyOverlap(Set<TimeSlot> slotsReserved, TimeSlot timeSlot) {
-        return slotsReserved.stream().anyMatch(t -> t.overlapsWith(timeSlot));
-    }
-
     public static Schedule createEmpty() {
         return new Schedule();
+    }
+
+    public Map<LocalDate, Set<TimeSlot>> getCalendar() {
+        return Collections.unmodifiableMap(calendar);
+    }
+
+    public void mapCalendarFrom(Map<LocalDate, Set<TimeSlot>> calendar) {
+        this.calendar.putAll(calendar);
+    }
+
+    private boolean anyOverlap(Set<TimeSlot> slotsReserved, TimeSlot timeSlot) {
+        return slotsReserved.stream().anyMatch(t -> t.overlapsWith(timeSlot));
     }
 }

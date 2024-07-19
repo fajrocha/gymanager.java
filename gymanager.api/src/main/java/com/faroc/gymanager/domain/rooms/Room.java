@@ -76,5 +76,9 @@ public class Room extends AggregateRoot {
     public Map<LocalDate, Set<UUID>> getSessionsIds(){
         return Collections.unmodifiableMap(sessionsIds);
     }
+
+    public void mapSessionIdsFrom(Map<LocalDate, Set<UUID>> sessionIds) {
+        sessionsIds.putAll(sessionIds);
+    }
 }
 

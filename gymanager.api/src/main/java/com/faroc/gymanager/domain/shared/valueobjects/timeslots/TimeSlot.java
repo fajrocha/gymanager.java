@@ -12,10 +12,14 @@ public class TimeSlot extends ValueObject {
     private final Instant startTime;
     private final Instant endTime;
 
-    public TimeSlot(Instant startTime, Instant endTime) {
+    public static TimeSlot fromInstants(Instant startTime, Instant endTime) {
         if (startTime.isAfter(endTime) || startTime == endTime)
             throw new IllegalArgumentException("Start time cannot be equal or after end time.");
 
+        return new TimeSlot(startTime, endTime);
+    }
+
+    private TimeSlot(Instant startTime, Instant endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
     }

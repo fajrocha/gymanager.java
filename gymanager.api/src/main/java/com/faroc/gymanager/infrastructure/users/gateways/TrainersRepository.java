@@ -8,6 +8,9 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
 
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.jooq.codegen.maven.gymanager.Tables.TRAINERS;
 
 @Repository
@@ -23,5 +26,19 @@ public class TrainersRepository implements TrainersGateway {
         var trainerRecord = TrainerMappers.toRecord(trainer);
 
         context.insertInto(TRAINERS).set(trainerRecord).execute();
+    }
+
+    @Override
+    public Optional<Trainer> findById(UUID id) {
+        var trainerRecord = context.selectFrom(TRAINERS)
+                .where(TRAINERS.ID.eq(id))
+                .fetchOne();
+
+        if (trainerRecord == null)
+            return Optional.empty();
+
+        var trainer = TrainerMappers.toDomain(trainerRecord);
+
+        return Optional.of(trainer);
     }
 }

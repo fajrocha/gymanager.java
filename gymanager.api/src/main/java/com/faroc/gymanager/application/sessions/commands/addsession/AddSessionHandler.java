@@ -5,7 +5,9 @@ import com.faroc.gymanager.application.rooms.gateways.RoomsGateway;
 import com.faroc.gymanager.application.users.gateways.TrainersGateway;
 import com.faroc.gymanager.domain.sessions.Session;
 import com.faroc.gymanager.domain.sessions.errors.SessionErrors;
+import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
+import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,6 +30,21 @@ public class AddSessionHandler implements Command.Handler<AddSessionCommand, Ses
                         SessionErrors.roomNotFound(roomId),
                         SessionErrors.ROOM_NOT_FOUND
                 ));
+
+        var trainerId = addSessionCommand.trainerId();
+
+        var trainer = trainersGateway.findById(trainerId)
+                .orElseThrow(() -> new UnexpectedException(
+                        SessionErrors.roomNotFound(roomId),
+                        SessionErrors.ROOM_NOT_FOUND
+                ));
+
+        var timeSlot = TimeSlot.fromInstants(addSessionCommand.startTime(), addSessionCommand.endTime());
+
+        if (!trainer.isFree(timeSlot))
+            throw new ConflictException(
+                    SessionErrors.trainerScheduleConflict(trainerId, timeSlot),
+                    SessionErrors.TRAINER_SCHEDULE_CONFLICT);
 
         return null;
     }
