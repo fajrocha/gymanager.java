@@ -15,23 +15,23 @@ public class SessionsFactory {
     public static Session create(int maxNumberParticipants) {
         return new Session(
                 UUID.randomUUID(),
+                UUID.randomUUID(),
                 SESSION_TIMESLOT_DEFAULT,
                 NAME_DEFAULT,
                 DESCRIPTION_DEFAULT,
                 CATEGORY_DEFAULT,
-                maxNumberParticipants,
-                DATE_DEFAULT);
+                maxNumberParticipants);
     }
 
     public static Session create(TimeSlot timeSlot, int maxNumberParticipants) {
         return new Session(
                 UUID.randomUUID(),
+                UUID.randomUUID(),
                 timeSlot,
                 NAME_DEFAULT,
                 DESCRIPTION_DEFAULT,
                 CATEGORY_DEFAULT,
-                maxNumberParticipants,
-                DATE_DEFAULT);
+                maxNumberParticipants);
     }
 
     public static Session create(UUID id, TimeSlot timeSlot, int maxNumberParticipants) {
@@ -42,7 +42,6 @@ public class SessionsFactory {
                 NAME_DEFAULT,
                 DESCRIPTION_DEFAULT,
                 CATEGORY_DEFAULT,
-                maxNumberParticipants,
-                DATE_DEFAULT);
+                maxNumberParticipants);
     }
 }

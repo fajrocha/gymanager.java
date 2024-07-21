@@ -20,6 +20,7 @@ public class Gym extends AggregateRoot {
     private final int maxRooms;
     private final Set<UUID> roomIds = new HashSet<>();
     private final Set<UUID> trainerIds = new HashSet<>();
+    private final Set<String> sessionCategories = new HashSet<>();
 
     public Gym(UUID subscriptionId, String name, int maxRooms) {
         this.subscriptionId = subscriptionId;
@@ -46,8 +47,7 @@ public class Gym extends AggregateRoot {
         if (roomIds.contains(roomId))
             throw new ConflictException(
                     GymsErrors.conflictRoom(roomId, id),
-                    GymsErrors.CONFLICT_ROOM
-            );
+                    GymsErrors.CONFLICT_ROOM);
 
         if (roomIds.size() >= maxRooms)
             throw new MaxRoomsReachedException(GymsErrors.maxRoomsReached(roomId, id));
@@ -61,6 +61,15 @@ public class Gym extends AggregateRoot {
 
     public boolean hasRoom(UUID roomId) {
         return roomIds.contains(roomId);
+    }
+
+    public void addCategory(String sessionCategory) {
+        if (sessionCategories.contains(sessionCategory))
+            throw new ConflictException(
+                    GymsErrors.conflictSessionCategory(sessionCategory, id),
+                    GymsErrors.conflictSessionCategory(sessionCategory));
+
+        sessionCategories.add(sessionCategory);
     }
 
     public void addTrainer(Trainer trainer) {
@@ -86,6 +95,9 @@ public class Gym extends AggregateRoot {
     private boolean hasTrainer(UUID trainerId) {
         return trainerIds.contains(trainerId);
     }
+    public boolean hasCategory(String categoryName) {
+        return sessionCategories.contains(categoryName);
+    }
 
     public Set<UUID> getRoomIds() {
         return Collections.unmodifiableSet(roomIds);
@@ -93,5 +105,8 @@ public class Gym extends AggregateRoot {
 
     public Set<UUID> getTrainerIds() {
         return Collections.unmodifiableSet(trainerIds);
+    }
+    public Set<String> getSessionCategories() {
+        return Collections.unmodifiableSet(sessionCategories);
     }
 }

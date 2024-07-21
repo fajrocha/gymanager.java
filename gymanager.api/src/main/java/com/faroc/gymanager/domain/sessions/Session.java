@@ -1,6 +1,7 @@
 package com.faroc.gymanager.domain.sessions;
 
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
+import com.faroc.gymanager.domain.shared.time.TimeUtils;
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import com.faroc.gymanager.domain.shared.Entity;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
@@ -22,6 +23,8 @@ public class Session extends Entity {
     @Getter
     private final UUID trainerId;
     @Getter
+    private final UUID roomId;
+    @Getter
     private final TimeSlot timeSlot;
     @Getter
     private final String name;
@@ -31,44 +34,45 @@ public class Session extends Entity {
     private final int maximumNumberParticipants;
     @Getter
     private final LocalDate date;
-
     private final Set<Reservation> reservations = new HashSet<>();
-    private final SessionCategory category;
+
+    @Getter
+    private final String category;
 
     public Session(
-            UUID trainerId,
+            UUID trainerId, UUID roomId,
             TimeSlot timeSlot,
             String name,
             String description,
-            SessionCategory categories,
-            int maxNumberParticipants,
-            LocalDate date) {
+            String category,
+            int maxNumberParticipants) {
         this.trainerId = trainerId;
+        this.roomId = roomId;
         this.timeSlot = timeSlot;
         this.name = name;
         this.description = description;
-        this.category = categories;
+        this.category = category;
         this.maximumNumberParticipants = maxNumberParticipants;
-        this.date = date;
+        this.date = TimeUtils.toLocalDateUtcFromInstant(timeSlot.getStartTime());
     }
 
     public Session(
             UUID id,
-            UUID trainerId,
+            UUID trainerId, UUID roomId,
             TimeSlot timeSlot,
             String name,
             String description,
-            SessionCategory category,
-            int maximumNumberParticipant,
-            LocalDate date) {
+            String category,
+            int maximumNumberParticipant) {
         super(id);
         this.trainerId = trainerId;
+        this.roomId = roomId;
         this.timeSlot = timeSlot;
         this.name = name;
         this.description = description;
         this.category = category;
         this.maximumNumberParticipants = maximumNumberParticipant;
-        this.date = date;
+        this.date = TimeUtils.toLocalDateUtcFromInstant(timeSlot.getStartTime());
     }
 
     public void cancelReservation(Reservation reservation, InstantProvider instantProvider) {

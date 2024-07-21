@@ -16,7 +16,8 @@ create table if not exists "gyms"
     "subscription_id" uuid not null,
     "max_rooms" integer not null,
     "room_ids" uuid[] not null,
-    "trainer_ids" uuid[] not null
+    "trainer_ids" uuid[] not null,
+    "session_categories" text[] not null
 );
 
 create table if not exists "subscriptions"

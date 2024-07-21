@@ -15,6 +15,16 @@ public class SessionErrors {
         return "Failed to add session. Trainer with id " + trainerId + " not found.";
     }
 
+    public static String GYM_NOT_FOUND = "Gym not found to add session.";
+    public static String gymNotFound(UUID gymId) {
+        return "Failed to add session. Gym with id " + gymId + " not found.";
+    }
+
+    public static String SESSION_CATEGORY_NOT_FOUND = "Session category not available on this gym.";
+    public static String sessionCategoryNotFound(UUID gymId) {
+        return "Failed to add session. Session category not available on gym with id " + gymId + ".";
+    }
+
     public static String TRAINER_SCHEDULE_CONFLICT = "Trainer is not available during the time range selected.";
     public static String trainerScheduleConflict(UUID trainerId, TimeSlot timeSlot) {
         return "Failed to add session. Trainer with id " + trainerId + " is already busy during " +

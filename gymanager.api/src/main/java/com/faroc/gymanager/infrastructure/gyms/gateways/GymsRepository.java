@@ -4,9 +4,7 @@ import com.faroc.gymanager.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.domain.gyms.Gym;
 import com.faroc.gymanager.infrastructure.gyms.mappers.GymMappers;
 import org.jooq.DSLContext;
-import org.jooq.codegen.maven.gymanager.tables.records.GymsRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -31,9 +29,14 @@ public class GymsRepository implements GymsGateway {
 
     @Override
     public void update(Gym gym) {
-        var gymRecord = GymMappers.toRecord(gym);
-
-        context.update(GYMS).set(gymRecord).execute();
+        context.update(GYMS)
+                .set(GYMS.SUBSCRIPTION_ID, gym.getSubscriptionId())
+                .set(GYMS.NAME, gym.getName())
+                .set(GYMS.MAX_ROOMS, gym.getMaxRooms())
+                .set(GYMS.ROOM_IDS, gym.getRoomIds().toArray(new UUID[0]))
+                .set(GYMS.TRAINER_IDS, gym.getTrainerIds().toArray(new UUID[0]))
+                .set(GYMS.SESSION_CATEGORIES, gym.getSessionCategories().toArray(new String[0]))
+                .execute();
     }
 
     @Override
@@ -43,14 +46,7 @@ public class GymsRepository implements GymsGateway {
         if (gymRecord == null)
             return Optional.empty();
 
-        var gym = new Gym(
-                gymRecord.getId(),
-                gymRecord.getSubscriptionId(),
-                gymRecord.getName(),
-                gymRecord.getMaxRooms()
-        );
-        Arrays.stream(gymRecord.getRoomIds()).forEach(gym::addRoom);
-        Arrays.stream(gymRecord.getTrainerIds()).forEach(gym::addTrainer);
+        var gym = GymMappers.toDomain(gymRecord);
 
         return Optional.of(gym);
     }
@@ -58,23 +54,8 @@ public class GymsRepository implements GymsGateway {
     @Override
     public List<Gym> findBySubscriptionId(UUID subscriptionId) {
         var gymsRecords = context.selectFrom(GYMS).where(GYMS.SUBSCRIPTION_ID.eq(subscriptionId)).fetchArray();
-        List<Gym> gyms = new ArrayList<>();
 
-       Arrays.stream(gymsRecords).forEach(gymRecord -> {
-            var gym = new Gym(
-                    gymRecord.getId(),
-                    gymRecord.getSubscriptionId(),
-                    gymRecord.getName(),
-                    gymRecord.getMaxRooms()
-            );
-
-            Arrays.stream(gymRecord.getRoomIds()).forEach(gym::addRoom);
-            Arrays.stream(gymRecord.getTrainerIds()).forEach(gym::addTrainer);
-
-           gyms.add(gym);
-        });
-
-        return gyms;
+        return Arrays.stream(gymsRecords).map(GymMappers::toDomain).toList();
     }
 
     @Override

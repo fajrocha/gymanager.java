@@ -14,10 +14,24 @@ import java.util.Set;
 import java.util.UUID;
 
 public class RoomMappers {
-    public static RoomsRecord toRecord(Room room) {
+    public static RoomsRecord toRecordCreate(Room room) {
         var roomRecord = new RoomsRecord();
 
         roomRecord.setId(room.getId());
+        mapNonIdProperties(room, roomRecord);
+
+        return roomRecord;
+    }
+
+    public static RoomsRecord toRecordUpdate(Room room) {
+        var roomRecord = new RoomsRecord();
+
+        mapNonIdProperties(room, roomRecord);
+
+        return roomRecord;
+    }
+
+    private static void mapNonIdProperties(Room room, RoomsRecord roomRecord) {
         roomRecord.setGymId(room.getGymId());
         roomRecord.setName(room.getName());
         roomRecord.setMaxDailySessions(room.getMaxDailySessions());
@@ -29,8 +43,6 @@ public class RoomMappers {
         roomRecord.setSessionIdsByDate(JSONB.valueOf(sessionsIds));
 
         roomRecord.setScheduleId(room.getSchedule().getId());
-
-        return roomRecord;
     }
 
     public static Room toDomain(RoomsRecord roomRecord) {

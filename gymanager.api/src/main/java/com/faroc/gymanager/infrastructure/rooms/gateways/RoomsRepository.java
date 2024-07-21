@@ -23,9 +23,16 @@ public class RoomsRepository implements RoomsGateway {
 
     @Override
     public void create(Room room) {
-        var roomRecord = RoomMappers.toRecord(room);
+        var roomRecord = RoomMappers.toRecordCreate(room);
 
         context.insertInto(ROOMS).set(roomRecord).execute();
+    }
+
+    @Override
+    public void update(Room room) {
+        var roomRecord = RoomMappers.toRecordUpdate(room);
+
+        context.update(ROOMS).set(roomRecord).execute();
     }
 
     @Override

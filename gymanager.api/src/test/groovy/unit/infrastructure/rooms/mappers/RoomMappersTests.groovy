@@ -20,7 +20,7 @@ class RoomMappersTests extends Specification {
         when:
         room.makeReservation(session)
         
-        var roomRecord = RoomMappers.toRecord(room)
+        var roomRecord = RoomMappers.toRecordCreate(room)
 
         then:
         roomRecord.getId() == room.getId()

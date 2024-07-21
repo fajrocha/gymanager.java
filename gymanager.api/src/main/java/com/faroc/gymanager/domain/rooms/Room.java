@@ -1,6 +1,7 @@
 package com.faroc.gymanager.domain.rooms;
 
 import com.faroc.gymanager.domain.rooms.errors.RoomErrors;
+import com.faroc.gymanager.domain.rooms.events.SessionReservationEvent;
 import com.faroc.gymanager.domain.rooms.exceptions.MaxSessionsReachedException;
 import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
 import com.faroc.gymanager.domain.sessions.Session;
@@ -63,6 +64,8 @@ public class Room extends AggregateRoot {
             throw new MaxSessionsReachedException(RoomErrors.maxSessionsReached(sessionId, id));
 
         schedule.makeReservation(session.getTimeSlot());
+
+        domainEvents.add(new SessionReservationEvent(this, session));
 
         sessionIdsOnDate.add(sessionId);
     }

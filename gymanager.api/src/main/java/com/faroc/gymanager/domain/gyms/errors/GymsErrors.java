@@ -25,4 +25,12 @@ public class GymsErrors {
     public static String conflictTrainer(UUID trainerId, UUID gymId) {
         return "Trainer " + trainerId + " is already assigned to the gym " + gymId + ".";
     }
+
+    public static String conflictSessionCategory(String sessionCategory) {
+        return "Session category " + sessionCategory + " is already assigned to this gym.";
+    }
+
+    public static String conflictSessionCategory(String sessionCategory, UUID gymId) {
+        return "Session category " + sessionCategory + " is already assigned to the gym " + gymId + ".";
+    }
 }
