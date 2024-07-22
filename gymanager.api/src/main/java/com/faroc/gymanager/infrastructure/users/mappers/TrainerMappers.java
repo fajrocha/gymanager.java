@@ -11,19 +11,20 @@ import org.jooq.codegen.maven.gymanager.tables.records.TrainersRecord;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.jooq.codegen.maven.gymanager.Tables.ROOMS;
-
 public class TrainerMappers {
-    public static TrainersRecord toRecord(Trainer trainer) {
+    public static TrainersRecord toRecordCreate(Trainer trainer) {
         var trainerRecord = new TrainersRecord();
 
         trainerRecord.setId(trainer.getId());
-        trainerRecord.setUserId(trainer.getUserId());
-        trainerRecord.setSessionIds(trainer.getSessionsIds().toArray(new UUID[0]));
-        trainerRecord.setScheduleId(trainer.getSchedule().getId());
+        mapNonIdProperties(trainerRecord, trainer);
 
-        var serializedSchedule = DefaultSerializer.serializeTimed(trainer.getSchedule().getCalendar());
-        trainerRecord.setScheduleCalendar(JSONB.valueOf(serializedSchedule));
+        return trainerRecord;
+    }
+
+    public static TrainersRecord toRecordUpdate(Trainer trainer) {
+        var trainerRecord = new TrainersRecord();
+
+        mapNonIdProperties(trainerRecord, trainer);
 
         return trainerRecord;
     }
@@ -46,5 +47,14 @@ public class TrainerMappers {
         Arrays.stream(trainerRecord.getSessionIds()).forEach(trainer::mapSessionId);
 
         return trainer;
+    }
+
+    private static void mapNonIdProperties(TrainersRecord trainerRecord, Trainer trainer) {
+        trainerRecord.setUserId(trainer.getUserId());
+        trainerRecord.setSessionIds(trainer.getSessionsIds().toArray(new UUID[0]));
+        trainerRecord.setScheduleId(trainer.getSchedule().getId());
+
+        var serializedSchedule = DefaultSerializer.serializeTimed(trainer.getSchedule().getCalendar());
+        trainerRecord.setScheduleCalendar(JSONB.valueOf(serializedSchedule));
     }
 }

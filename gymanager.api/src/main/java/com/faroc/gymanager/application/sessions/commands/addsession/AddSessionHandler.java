@@ -67,7 +67,7 @@ public class AddSessionHandler implements Command.Handler<AddSessionCommand, Ses
                 ));
 
         var categoryName = addSessionCommand.category();
-        if (gym.hasCategory(categoryName))
+        if (!gym.hasCategory(categoryName))
             throw new UnexpectedException(
                     SessionErrors.sessionCategoryNotFound(gymId),
                     SessionErrors.SESSION_CATEGORY_NOT_FOUND);

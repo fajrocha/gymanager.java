@@ -7,5 +7,6 @@ import java.util.UUID;
 
 public interface TrainersGateway {
     void create(Trainer trainer);
+    void update(Trainer trainer);
     Optional<Trainer> findById(UUID id);
 }

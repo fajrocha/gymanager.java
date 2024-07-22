@@ -1,7 +1,9 @@
 package com.faroc.gymanager.domain.shared.valueobjects.timeslots;
 
 import com.faroc.gymanager.domain.shared.ValueObject;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -19,7 +21,10 @@ public class TimeSlot extends ValueObject {
         return new TimeSlot(startTime, endTime);
     }
 
-    private TimeSlot(Instant startTime, Instant endTime) {
+    @JsonCreator
+    public TimeSlot(
+            @JsonProperty("startTime") Instant startTime,
+            @JsonProperty("endTime") Instant endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
     }

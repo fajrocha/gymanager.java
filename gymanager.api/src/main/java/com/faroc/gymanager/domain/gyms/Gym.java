@@ -92,7 +92,7 @@ public class Gym extends AggregateRoot {
         return hasTrainer(trainer.getId());
     }
 
-    private boolean hasTrainer(UUID trainerId) {
+    public boolean hasTrainer(UUID trainerId) {
         return trainerIds.contains(trainerId);
     }
     public boolean hasCategory(String categoryName) {

@@ -26,7 +26,9 @@ public class AddSessionEventHandler {
         try {
             sessionsGateway.create(session);
         } catch (Exception ex) {
-            throw new EventualConsistencyException(SessionReservationEvent.sessionAddFailed(session.getId()));
+            throw new EventualConsistencyException(
+                    SessionReservationEvent.sessionAddFailed(session.getId()),
+                    ex.getCause());
         }
     }
 }

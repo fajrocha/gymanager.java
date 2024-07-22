@@ -2,7 +2,6 @@ package com.faroc.gymanager.infrastructure.users.gateways;
 
 import com.faroc.gymanager.application.users.gateways.TrainersGateway;
 import com.faroc.gymanager.domain.trainers.Trainer;
-import com.faroc.gymanager.infrastructure.shared.serialization.DefaultSerializer;
 import com.faroc.gymanager.infrastructure.users.mappers.TrainerMappers;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -23,9 +22,14 @@ public class TrainersRepository implements TrainersGateway {
 
     @Override
     public void create(Trainer trainer) {
-        var trainerRecord = TrainerMappers.toRecord(trainer);
+        var trainerRecord = TrainerMappers.toRecordCreate(trainer);
 
         context.insertInto(TRAINERS).set(trainerRecord).execute();
+    }
+
+    @Override
+    public void update(Trainer trainer) {
+
     }
 
     @Override
