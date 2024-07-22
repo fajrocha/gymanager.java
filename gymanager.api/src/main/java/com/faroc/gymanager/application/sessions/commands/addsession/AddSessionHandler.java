@@ -48,8 +48,8 @@ public class AddSessionHandler implements Command.Handler<AddSessionCommand, Ses
 
         var trainer = trainersGateway.findById(trainerId)
                 .orElseThrow(() -> new UnexpectedException(
-                        SessionErrors.roomNotFound(roomId),
-                        SessionErrors.ROOM_NOT_FOUND
+                        SessionErrors.trainerNotFound(roomId),
+                        SessionErrors.TRAINER_NOT_FOUND
                 ));
 
         var timeSlot = TimeSlot.fromInstants(addSessionCommand.startTime(), addSessionCommand.endTime());
