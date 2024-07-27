@@ -27,4 +27,21 @@ public class SessionErrors {
                 "Participant was not found for this session.";
     }
 
+    public static final String NOT_FOUND = "Session not found.";
+
+    public static String notFound(UUID sessionId) {
+        return "Session with id " + sessionId + " not found.";
+    }
+
+    public static final String NOT_FOUND_ON_ROOM = "Session not found on room given.";
+
+    public static String notFoundOnRoom(UUID sessionId, UUID roomId) {
+        return "Session with id " + sessionId + " not found on room with id " + roomId + ".";
+    }
+
+    public static final String ROOM_NOT_FOUND = "Room not found for this session.";
+
+    public static String roomNotFound(UUID roomId, UUID sessionId) {
+        return "Failed to get room with id " + roomId + " while retrieving session " + sessionId + ".";
+    }
 }

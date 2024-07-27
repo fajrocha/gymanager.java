@@ -2,12 +2,12 @@ package com.faroc.gymanager.api.sessions.controllers;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.api.sessions.mappers.SessionRequestMappers;
-import com.faroc.gymanager.application.sessions.commands.addsession.AddSessionCommand;
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
+import com.faroc.gymanager.api.sessions.mappers.SessionResponseMappers;
+import com.faroc.gymanager.application.sessions.queries.getsession.FetchSessionQuery;
 import com.faroc.gymanager.sessions.requests.AddSessionRequest;
+import com.faroc.gymanager.sessions.responses.SessionResponse;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @RestController
@@ -20,12 +20,21 @@ public class SessionsController {
         this.pipeline = pipeline;
     }
 
-    @GetMapping
-    public AddSessionRequest addSession(@PathVariable UUID roomId, @RequestBody AddSessionRequest addSessionRequest) {
+    @PostMapping
+    public SessionResponse addSession(@PathVariable UUID roomId, @RequestBody AddSessionRequest addSessionRequest) {
         var command = SessionRequestMappers.toCommand(addSessionRequest, roomId);
 
-        command.execute(pipeline);
+        var session = command.execute(pipeline);
 
-        return addSessionRequest;
+        return SessionResponseMappers.toResponse(session);
+    }
+
+    @GetMapping("{sessionId}")
+    public SessionResponse fetchSession(@PathVariable UUID roomId, @PathVariable UUID sessionId) {
+        var query = new FetchSessionQuery(roomId, sessionId);
+
+        var session = query.execute(pipeline);
+
+        return SessionResponseMappers.toResponse(session);
     }
 }

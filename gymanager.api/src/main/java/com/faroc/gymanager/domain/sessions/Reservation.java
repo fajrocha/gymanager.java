@@ -12,4 +12,9 @@ public class Reservation extends Entity {
     public Reservation(UUID participantId) {
         this.participantId = participantId;
     }
+
+    public Reservation(UUID id,UUID participantId) {
+        super(id);
+        this.participantId = participantId;
+    }
 }

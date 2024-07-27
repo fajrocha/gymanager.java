@@ -3,7 +3,8 @@ package com.faroc.gymanager.sessions.responses;
 import java.time.Instant;
 import java.util.UUID;
 
-public record AddSessionResponse(
+public record SessionResponse(
+        UUID id,
         String name,
         String description,
         String category,

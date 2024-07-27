@@ -40,7 +40,8 @@ public class Session extends Entity {
     private final String category;
 
     public Session(
-            UUID trainerId, UUID roomId,
+            UUID trainerId,
+            UUID roomId,
             TimeSlot timeSlot,
             String name,
             String description,
@@ -58,7 +59,8 @@ public class Session extends Entity {
 
     public Session(
             UUID id,
-            UUID trainerId, UUID roomId,
+            UUID trainerId,
+            UUID roomId,
             TimeSlot timeSlot,
             String name,
             String description,

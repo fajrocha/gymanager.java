@@ -1,5 +1,7 @@
 package com.faroc.gymanager.domain.shared.time;
 
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import java.time.*;
 
 public class TimeUtils {
@@ -11,10 +13,8 @@ public class TimeUtils {
         return zonedDateTime.toLocalDate();
     }
 
-    public static LocalTime toLocalTimeUtcFromInstant(Instant instant) {
-        ZonedDateTime zonedDateTime = getZonedDateTimeFromInstant(instant);
-
-        return zonedDateTime.toLocalTime();
+    public static OffsetDateTime toOffsetDateTimeFromInstant(Instant instant) {
+        return OffsetDateTime.ofInstant(instant, ZoneId.of(TIMEZONE));
     }
 
     private static ZonedDateTime getZonedDateTimeFromInstant(Instant instant) {
