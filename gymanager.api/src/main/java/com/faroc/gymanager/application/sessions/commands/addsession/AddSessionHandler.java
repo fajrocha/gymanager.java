@@ -16,7 +16,6 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 public class AddSessionHandler implements Command.Handler<AddSessionCommand, Session> {
-
     private final RoomsGateway roomsGateway;
     private final TrainersGateway trainersGateway;
     private final GymsGateway gymsGateway;

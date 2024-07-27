@@ -60,6 +60,6 @@ create table if not exists "participants"
             primary key,
     "user_id" uuid not null,
     "session_ids" uuid[] not null,
-    "schedule_calendar" text,
+    "schedule_calendar" jsonb,
     "schedule_id" uuid
 );

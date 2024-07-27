@@ -1,4 +1,4 @@
-package com.faroc.gymanager.application.users.events;
+package com.faroc.gymanager.application.trainers.events;
 
 import com.faroc.gymanager.application.users.gateways.TrainersGateway;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
@@ -27,7 +27,7 @@ public class AddTrainerEventHandler {
             trainersGateway.create(admin);
         } catch (Exception ex) {
             throw new EventualConsistencyException(
-                    "Failed to add admin with id " + trainerId + " to user with id" + userId + ".");
+                    "Failed to add trainer with id " + trainerId + " to user with id" + userId + ".");
         }
     }
 }

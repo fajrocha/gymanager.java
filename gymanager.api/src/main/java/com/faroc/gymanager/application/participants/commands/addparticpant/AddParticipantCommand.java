@@ -1,4 +1,4 @@
-package com.faroc.gymanager.application.users.commands.addparticpant;
+package com.faroc.gymanager.application.participants.commands.addparticpant;
 
 import an.awesome.pipelinr.Command;
 

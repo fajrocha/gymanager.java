@@ -1,6 +1,6 @@
 package unit.domain.sessions
 
-import com.faroc.gymanager.domain.sessions.Reservation
+import com.faroc.gymanager.domain.sessions.SessionReservation
 import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.domain.sessions.SessionErrors
 import com.faroc.gymanager.domain.sessions.exceptions.CancellationTooCloseToSession
@@ -18,14 +18,14 @@ import java.time.temporal.ChronoUnit
 class SessionsTests extends Specification {
     final MAX_PARTICIPANTS = 1
     
-    Reservation reservation
+    SessionReservation reservation
     InstantProvider instantProvider
 
     Session session
 
     def setup() {
         def participantId = UUID.randomUUID()
-        reservation = new Reservation(participantId)
+        reservation = new SessionReservation(participantId)
 
         def startTime = Instant.now()
         def endTime = Instant.now().plus(1, ChronoUnit.HOURS)
@@ -52,7 +52,7 @@ class SessionsTests extends Specification {
 
     def "when participant makes reservation but session is full should throw max participants exception"() {
         given:
-        def anotherReservation = new Reservation(UUID.randomUUID())
+        def anotherReservation = new SessionReservation(UUID.randomUUID())
         session.makeReservation(reservation)
 
         when:

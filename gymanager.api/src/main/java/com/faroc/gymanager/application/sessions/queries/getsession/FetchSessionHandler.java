@@ -27,7 +27,7 @@ public class FetchSessionHandler implements Command.Handler<FetchSessionQuery, S
         var room = roomsGateway.findById(roomId)
                 .orElseThrow(() -> new UnexpectedException(
                         SessionErrors.roomNotFound(roomId, sessionId),
-                        SessionErrors.PARTICIPANT_NOT_FOUND
+                        SessionErrors.ROOM_NOT_FOUND
                 ));
 
         var session = sessionGateway.findById(sessionId)

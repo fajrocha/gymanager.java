@@ -8,14 +8,15 @@ import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import com.faroc.gymanager.domain.trainers.errors.TrainerErrors;
 import lombok.Getter;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Stream;
 
-@Getter
 public class Trainer extends AggregateRoot {
+    @Getter
     private final UUID userId;
     private final Set<UUID> sessionsIds = new HashSet<>();
+
+    @Getter
     private final Schedule schedule;
 
     public Trainer(UUID userId) {
@@ -57,5 +58,9 @@ public class Trainer extends AggregateRoot {
 
     public void mapSessionId(UUID sessionsId) {
         sessionsIds.add(sessionsId);
+    }
+
+    public Set<UUID> getSessionsIds() {
+        return Collections.unmodifiableSet(sessionsIds);
     }
 }

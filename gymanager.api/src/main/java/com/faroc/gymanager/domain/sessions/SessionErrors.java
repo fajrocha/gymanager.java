@@ -27,10 +27,28 @@ public class SessionErrors {
                 "Participant was not found for this session.";
     }
 
+    public static final String PARTICIPANT_NOT_FOUND_TO_MAKE_RESERVATION = "Participant not found to make reservation.";
+
+    public static String participantNotFoundToMakeReservation(UUID sessionId, UUID participantId) {
+        return "Participant " + participantId + " not found to make a reservation on session " + sessionId + ".";
+    }
+
+    public static final String PARTICIPANT_NOT_FREE_TO_MAKE_RESERVATION = "Participant not free to make reservation.";
+
+    public static String participantNotFreeToMakeReservation(UUID sessionId, UUID participantId) {
+        return "Participant " + participantId + " not free to make a reservation on session " + sessionId + ".";
+    }
+
     public static final String NOT_FOUND = "Session not found.";
 
     public static String notFound(UUID sessionId) {
         return "Session with id " + sessionId + " not found.";
+    }
+
+    public static final String NOT_FOUND_FOR_RESERVATION = "Session not found to make reservation.";
+
+    public static String notFoundForReservation(UUID sessionId) {
+        return "Session with id " + sessionId + " not found to make reservation.";
     }
 
     public static final String NOT_FOUND_ON_ROOM = "Session not found on room given.";

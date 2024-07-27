@@ -1,4 +1,4 @@
-package com.faroc.gymanager.application.users.commands.addtrainer;
+package com.faroc.gymanager.application.trainers.commands.addtrainer;
 
 import an.awesome.pipelinr.Command;
 

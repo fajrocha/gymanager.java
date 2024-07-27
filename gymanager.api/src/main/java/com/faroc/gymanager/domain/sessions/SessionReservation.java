@@ -6,14 +6,14 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class Reservation extends Entity {
+public class SessionReservation extends Entity {
     private final UUID participantId;
 
-    public Reservation(UUID participantId) {
+    public SessionReservation(UUID participantId) {
         this.participantId = participantId;
     }
 
-    public Reservation(UUID id,UUID participantId) {
+    public SessionReservation(UUID id, UUID participantId) {
         super(id);
         this.participantId = participantId;
     }

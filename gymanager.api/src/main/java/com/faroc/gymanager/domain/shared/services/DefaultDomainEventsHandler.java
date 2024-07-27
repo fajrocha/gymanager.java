@@ -14,9 +14,9 @@ public class DefaultDomainEventsHandler implements DomainEventsPublisher {
     }
 
     @Override
-    public void publishEventsFromAggregate(AggregateRoot aggregateRoot) {
-        while (aggregateRoot.hasDomainEvents()) {
-            var event = aggregateRoot.popEvent();
+    public void publishEventsFromAggregate(AggregateRoot root) {
+        while (root.hasDomainEvents()) {
+            var event = root.popEvent();
             publisher.publishEvent(event);
         }
     }

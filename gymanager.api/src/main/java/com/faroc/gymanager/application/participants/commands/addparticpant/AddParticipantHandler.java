@@ -1,4 +1,4 @@
-package com.faroc.gymanager.application.users.commands.addparticpant;
+package com.faroc.gymanager.application.participants.commands.addparticpant;
 
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.security.CurrentUserProvider;
@@ -8,6 +8,7 @@ import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundExcepti
 import com.faroc.gymanager.application.users.gateways.UsersGateway;
 import com.faroc.gymanager.domain.users.errors.UserErrors;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -27,6 +28,7 @@ public class AddParticipantHandler implements Command.Handler<AddParticipantComm
     }
 
     @Override
+    @Transactional
     public UUID handle(AddParticipantCommand command) {
         var commandUserId = command.userId();
         var currentUser = currentUserProvider.getCurrentUser();

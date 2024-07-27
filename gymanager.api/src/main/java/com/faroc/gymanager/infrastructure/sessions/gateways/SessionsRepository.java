@@ -1,14 +1,11 @@
 package com.faroc.gymanager.infrastructure.sessions.gateways;
 
 import com.faroc.gymanager.application.sessions.gateways.SessionsGateway;
-import com.faroc.gymanager.domain.sessions.Reservation;
+import com.faroc.gymanager.domain.sessions.SessionReservation;
 import com.faroc.gymanager.domain.sessions.Session;
-import com.faroc.gymanager.domain.shared.time.TimeUtils;
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 import com.faroc.gymanager.infrastructure.sessions.mappers.SessionPersistenceMappers;
 import org.jooq.DSLContext;
-import org.jooq.Result;
-import org.jooq.codegen.maven.gymanager.Tables;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -73,7 +70,7 @@ public class SessionsRepository implements SessionsGateway {
             if (reservationId == null)
                 continue;
 
-            var reservation = new Reservation(
+            var reservation = new SessionReservation(
                     record.get(SESSION_RESERVATIONS.ID),
                     record.get(SESSION_RESERVATIONS.PARTICIPANT_ID)
             );

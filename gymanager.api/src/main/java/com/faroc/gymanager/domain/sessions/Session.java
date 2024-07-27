@@ -1,23 +1,21 @@
 package com.faroc.gymanager.domain.sessions;
 
+import com.faroc.gymanager.domain.sessions.events.MakeReservationEvent;
+import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import com.faroc.gymanager.domain.shared.time.TimeUtils;
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
-import com.faroc.gymanager.domain.shared.Entity;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
-import com.faroc.gymanager.domain.participants.Participant;
 import com.faroc.gymanager.domain.sessions.exceptions.CancellationTooCloseToSession;
 import com.faroc.gymanager.domain.sessions.exceptions.MaxParticipantsReachedException;
 import com.faroc.gymanager.domain.shared.abstractions.InstantProvider;
-import jdk.jfr.Category;
 import lombok.Getter;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
-public class Session extends Entity {
+public class Session extends AggregateRoot {
     public static final int MIN_CANCELLATION_HOURS = 24;
 
     @Getter
@@ -34,7 +32,7 @@ public class Session extends Entity {
     private final int maximumNumberParticipants;
     @Getter
     private final LocalDate date;
-    private final Set<Reservation> reservations = new HashSet<>();
+    private final Set<SessionReservation> reservations = new HashSet<>();
 
     @Getter
     private final String category;
@@ -77,7 +75,7 @@ public class Session extends Entity {
         this.date = TimeUtils.toLocalDateUtcFromInstant(timeSlot.getStartTime());
     }
 
-    public void cancelReservation(Reservation reservation, InstantProvider instantProvider) {
+    public void cancelReservation(SessionReservation reservation, InstantProvider instantProvider) {
         var participantId = reservation.getParticipantId();
         var now = instantProvider.now();
 
@@ -96,7 +94,7 @@ public class Session extends Entity {
             );
     }
 
-    public void makeReservation(Reservation reservation) {
+    public void makeReservation(SessionReservation reservation) {
         var participantId = reservation.getParticipantId();
 
         if (reservations.size() == maximumNumberParticipants)
@@ -111,10 +109,15 @@ public class Session extends Entity {
         }
 
         reservations.add(reservation);
+        domainEvents.add(new MakeReservationEvent(this, reservation));
     }
 
-    public boolean hasReservation(Reservation reservation) {
+    public boolean hasReservation(SessionReservation reservation) {
         return reservations.contains(reservation);
+    }
+    public boolean hasReservationForParticipant(UUID participantId) {
+
+        return reservations.stream().anyMatch(reservation -> reservation.getParticipantId().equals(participantId));
     }
 
     private boolean tooCloseToSession(Duration timeDifference) {

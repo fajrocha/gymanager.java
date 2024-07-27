@@ -29,7 +29,9 @@ public class TrainersRepository implements TrainersGateway {
 
     @Override
     public void update(Trainer trainer) {
+        var trainerRecord = TrainerMappers.toRecordUpdate(trainer);
 
+        context.update(TRAINERS).set(trainerRecord).execute();
     }
 
     @Override

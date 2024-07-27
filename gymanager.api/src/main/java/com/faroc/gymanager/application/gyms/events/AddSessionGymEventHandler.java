@@ -33,7 +33,8 @@ public class AddSessionGymEventHandler {
             gymsGateway.update(gym);
         } catch (Exception ex) {
             throw new EventualConsistencyException(
-                    SessionReservationEvent.gymNotFound(gymId, trainerId) , ex.getCause());
+                    "Failed to update gym " + gym.getId() + " with new trainer " + trainerId + " when adding " +
+                            "new session " + event.session().getId() + ".");
         }
     }
 
