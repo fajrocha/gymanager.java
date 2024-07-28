@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import static unit.domain.sessions.utils.SessionConstants.*;
 
+
 public class SessionsFactory {
     public static Session create() {
         return create(MAX_PARTICIPANTS_DEFAULT);
@@ -37,6 +38,7 @@ public class SessionsFactory {
     public static Session create(UUID id, TimeSlot timeSlot, int maxNumberParticipants) {
         return new Session(
                 id,
+                UUID.randomUUID(),
                 UUID.randomUUID(),
                 timeSlot,
                 NAME_DEFAULT,

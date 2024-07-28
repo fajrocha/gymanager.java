@@ -1,5 +1,6 @@
 package unit.application.users.commands
 
+import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.application.users.gateways.AdminsGateway
 import com.faroc.gymanager.application.security.CurrentUserProvider
 import com.faroc.gymanager.application.security.DTOs.CurrentUserDTO
@@ -19,8 +20,8 @@ class AddAdminHandlerTests extends Specification {
 
     UUID userId
     UsersGateway mockUsersGateway
-    AdminsGateway mockAdminsGateway
     CurrentUserProvider mockCurrentUserProvider
+    DomainEventsPublisher mockDomainEventsPublisher
     AddAdminCommand command
     AddAdminHandler sut
     Faker faker
@@ -33,22 +34,22 @@ class AddAdminHandlerTests extends Specification {
     def setup() {
         faker = new Faker()
 
-        userId = UUID.randomUUID();
+        userId = UUID.randomUUID()
         firstName = faker.name().firstName()
         lastName = faker.name().lastName()
         email = faker.internet().emailAddress()
         password = faker.internet().password()
         passwordHash = new BCryptPasswordEncoder().encode(password)
 
-        mockUsersGateway = Mock(UsersGateway);
-        mockAdminsGateway = Mock(AdminsGateway);
-        mockCurrentUserProvider = Mock(CurrentUserProvider);
-        command = new AddAdminCommand(userId);
+        mockUsersGateway = Mock(UsersGateway)
+        mockCurrentUserProvider = Mock(CurrentUserProvider)
+        mockDomainEventsPublisher = Mock(DomainEventsPublisher)
+        command = new AddAdminCommand(userId)
         
         sut = new AddAdminHandler(
                 mockUsersGateway,
-                mockAdminsGateway,
-                mockCurrentUserProvider
+                mockCurrentUserProvider,
+                mockDomainEventsPublisher
         )
     }
 
@@ -96,7 +97,7 @@ class AddAdminHandlerTests extends Specification {
 
         then:
         1 * mockUsersGateway.update(user)
-        1 * mockAdminsGateway.create(_ as Admin)
+        1 * mockDomainEventsPublisher.publishEventsFromAggregate(user)
         actualResult == user.getAdminId()
     }
 }

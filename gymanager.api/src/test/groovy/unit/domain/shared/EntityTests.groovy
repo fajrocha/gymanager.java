@@ -27,7 +27,6 @@ class EntityTests extends Specification {
                 timeRange,
                 1
         )
-
     }
 
     def "when 2 entity ids match they should be equal and hashcode should match"() {
