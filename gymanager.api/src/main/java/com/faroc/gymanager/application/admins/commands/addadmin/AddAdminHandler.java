@@ -1,10 +1,10 @@
-package com.faroc.gymanager.application.users.commands.addadmin;
+package com.faroc.gymanager.application.admins.commands.addadmin;
 
 import an.awesome.pipelinr.Command;
-import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher;
 import com.faroc.gymanager.application.security.CurrentUserProvider;
-import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException;
+import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher;
+import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.users.gateways.UsersGateway;
 import com.faroc.gymanager.domain.users.errors.UserErrors;
 import org.springframework.stereotype.Component;

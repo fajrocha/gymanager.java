@@ -1,4 +1,4 @@
-package com.faroc.gymanager.application.users.commands.addadmin;
+package com.faroc.gymanager.application.admins.commands.addadmin;
 
 import an.awesome.pipelinr.Command;
 
