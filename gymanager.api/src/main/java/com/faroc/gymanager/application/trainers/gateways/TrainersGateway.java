@@ -1,4 +1,4 @@
-package com.faroc.gymanager.application.users.gateways;
+package com.faroc.gymanager.application.trainers.gateways;
 
 import com.faroc.gymanager.domain.trainers.Trainer;
 

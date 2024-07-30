@@ -24,24 +24,18 @@ public class User extends AggregateRoot {
     private UUID participantId;
     private UUID trainerId;
 
-    private User(
+    public User(
             UUID id,
             String firstName,
             String lastName,
             String email,
-            String passwordHash,
-            UUID adminId,
-            UUID trainerId,
-            UUID participantId)
+            String passwordHash)
     {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.passwordHash = passwordHash;
-        this.adminId = adminId;
-        this.trainerId = trainerId;
-        this.participantId = participantId;
     }
 
     public User(String firstName, String lastName, String email, String passwordHash) {
@@ -50,18 +44,6 @@ public class User extends AggregateRoot {
         this.lastName = lastName;
         this.email = email;
         this.passwordHash = passwordHash;
-    }
-
-    public static User MapFromStorage(
-            UUID id,
-            String firstName,
-            String lastName,
-            String email,
-            String passwordHash,
-            UUID adminId,
-            UUID trainerId,
-            UUID participantId) {
-        return new User(id, firstName, lastName, email, passwordHash, adminId, trainerId, participantId);
     }
 
     public boolean validatePassword(String password, PasswordHasher passwordHasher) {
@@ -121,5 +103,23 @@ public class User extends AggregateRoot {
             userProfiles.add(UserProfileTypes.PARTICIPANT);
 
         return userProfiles;
+    }
+
+    public User mapAdminId(UUID adminId) {
+        this.adminId = adminId;
+
+        return this;
+    }
+
+    public User mapTrainerId(UUID trainerId) {
+        this.trainerId = trainerId;
+
+        return this;
+    }
+
+    public User mapParticipantId(UUID participantId) {
+        this.participantId = participantId;
+
+        return this;
     }
 }

@@ -1,4 +1,4 @@
-package com.faroc.gymanager.infrastructure.users.mappers;
+package com.faroc.gymanager.infrastructure.trainers.mappers;
 
 import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;

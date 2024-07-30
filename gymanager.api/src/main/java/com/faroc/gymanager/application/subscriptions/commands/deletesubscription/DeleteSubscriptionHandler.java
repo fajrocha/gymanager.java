@@ -2,7 +2,7 @@ package com.faroc.gymanager.application.subscriptions.commands.deletesubscriptio
 
 import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Voidy;
-import com.faroc.gymanager.application.users.gateways.AdminsGateway;
+import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.domain.admins.errors.AdminErrors;

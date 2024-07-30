@@ -3,7 +3,7 @@ package com.faroc.gymanager.application.reservations.commands.addreservation;
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.application.sessions.gateways.SessionsGateway;
 import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher;
-import com.faroc.gymanager.application.users.gateways.ParticipantsGateway;
+import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway;
 import com.faroc.gymanager.domain.sessions.SessionReservation;
 import com.faroc.gymanager.domain.sessions.SessionErrors;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;

@@ -1,6 +1,6 @@
 package unit.application.subscriptions.commands
 
-import com.faroc.gymanager.application.users.gateways.AdminsGateway
+import com.faroc.gymanager.application.admins.gateways.AdminsGateway
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.application.subscriptions.commands.createsubscription.CreateSubscriptionCommand
 import com.faroc.gymanager.application.subscriptions.commands.createsubscription.CreateSubscriptionHandler

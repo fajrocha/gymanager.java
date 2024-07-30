@@ -1,6 +1,6 @@
 package com.faroc.gymanager.application.participants.events;
 
-import com.faroc.gymanager.application.users.gateways.ParticipantsGateway;
+import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway;
 import com.faroc.gymanager.domain.participants.Participant;
 import com.faroc.gymanager.domain.sessions.SessionReservation;
 import com.faroc.gymanager.domain.sessions.Session;

@@ -1,6 +1,6 @@
 package com.faroc.gymanager.application.trainers.events;
 
-import com.faroc.gymanager.application.users.gateways.TrainersGateway;
+import com.faroc.gymanager.application.trainers.gateways.TrainersGateway;
 import com.faroc.gymanager.domain.rooms.events.SessionReservationEvent;
 import com.faroc.gymanager.domain.sessions.Session;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;

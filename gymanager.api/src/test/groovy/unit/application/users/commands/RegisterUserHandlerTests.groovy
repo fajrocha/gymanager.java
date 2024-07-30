@@ -91,7 +91,7 @@ class RegisterUserHandlerTests extends Specification {
         def actualAuthDto = sut.handle(registerUserCommand)
 
         then:
-        1 * mockUsersGateway.save(_ as User)
+        1 * mockUsersGateway.create(_ as User)
         actualAuthDto.firstName() == expectedAuthDTO.firstName()
         actualAuthDto.lastName() == expectedAuthDTO.lastName()
         actualAuthDto.email() == expectedAuthDTO.email()
@@ -128,7 +128,7 @@ class RegisterUserHandlerTests extends Specification {
 
         mockUsersGateway.emailExists(registerUserCommand.email()) >> false
         mockPasswordHasher.hashPassword(password) >> passwordHash
-        mockUsersGateway.save(_ as User) >> { throw new RuntimeException("Exception on saving user") }
+        mockUsersGateway.create(_ as User) >> { throw new RuntimeException("Exception on saving user") }
 
         when:
         sut.handle(registerUserCommand)

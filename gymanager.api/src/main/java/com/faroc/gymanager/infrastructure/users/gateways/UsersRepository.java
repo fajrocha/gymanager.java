@@ -2,6 +2,7 @@ package com.faroc.gymanager.infrastructure.users.gateways;
 
 import com.faroc.gymanager.application.users.gateways.UsersGateway;
 import com.faroc.gymanager.domain.users.User;
+import com.faroc.gymanager.infrastructure.users.mappers.UsersMappers;
 import org.jooq.DSLContext;
 import org.jooq.codegen.maven.gymanager.tables.records.UsersRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,45 +25,26 @@ public class UsersRepository implements UsersGateway {
 
     @Override
     public Optional<User> findById(UUID userId) {
+        var record = context.selectFrom(USERS).where(USERS.ID.eq(userId)).fetchOne();
 
-        var user = context.selectFrom(USERS).where(USERS.ID.eq(userId)).fetchOne();
-
-        if (user == null)
+        if (record == null)
             return Optional.empty();
 
-        var domainUser = User.MapFromStorage(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getPasswordHash(),
-                user.getAdminId(),
-                user.getTrainerId(),
-                user.getParticipantId()
-        );
+        var user = UsersMappers.toDomain(record);
 
-        return Optional.of(domainUser);
+        return Optional.of(user);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        var user = context.selectFrom(USERS).where(USERS.EMAIL.eq(email)).fetchOne();
+        var record = context.selectFrom(USERS).where(USERS.EMAIL.eq(email)).fetchOne();
 
-        if (user == null)
+        if (record == null)
             return Optional.empty();
 
-        var domainUser = User.MapFromStorage(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getPasswordHash(),
-                user.getAdminId(),
-                user.getTrainerId(),
-                user.getParticipantId()
-        );
+        var user = UsersMappers.toDomain(record);
 
-        return Optional.of(domainUser);
+        return Optional.of(user);
     }
 
     @Override
@@ -71,28 +53,18 @@ public class UsersRepository implements UsersGateway {
     }
 
     @Override
-    public void save(User user) {
-        var userRecord = new UsersRecord();
+    public void create(User user) {
+        var record = UsersMappers.toRecordCreate(user);
 
-        userRecord.setId(user.getId());
-        userRecord.setFirstName(user.getFirstName());
-        userRecord.setLastName(user.getLastName());
-        userRecord.setEmail(user.getEmail());
-        userRecord.setPasswordHash(user.getPasswordHash());
-
-        context.insertInto(USERS).set(userRecord).execute();
+        context.insertInto(USERS).set(record).execute();
     }
 
     @Override
     public void update(User user) {
+        var record = UsersMappers.toRecordUpdate(user);
+
         context.update(USERS)
-                .set(USERS.FIRST_NAME, user.getFirstName())
-                .set(USERS.LAST_NAME, user.getLastName())
-                .set(USERS.EMAIL, user.getEmail())
-                .set(USERS.ADMIN_ID, user.getAdminId())
-                .set(USERS.TRAINER_ID, user.getTrainerId())
-                .set(USERS.PARTICIPANT_ID, user.getParticipantId())
-                .where(USERS.ID.eq(user.getId()))
+                .set(record)
                 .execute();
     }
 }

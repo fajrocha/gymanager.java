@@ -1,7 +1,6 @@
 package unit.application.users.commands
 
 import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher
-import com.faroc.gymanager.application.users.gateways.AdminsGateway
 import com.faroc.gymanager.application.security.CurrentUserProvider
 import com.faroc.gymanager.application.security.DTOs.CurrentUserDTO
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
@@ -9,7 +8,6 @@ import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundExcepti
 import com.faroc.gymanager.application.users.commands.addadmin.AddAdminCommand
 import com.faroc.gymanager.application.users.commands.addadmin.AddAdminHandler
 import com.faroc.gymanager.application.users.gateways.UsersGateway
-import com.faroc.gymanager.domain.admins.Admin
 import com.faroc.gymanager.domain.users.User
 import com.faroc.gymanager.domain.users.errors.UserErrors
 import net.datafaker.Faker
@@ -79,15 +77,12 @@ class AddAdminHandlerTests extends Specification {
 
     def "when user exists should return admin id and create admin profile"() {
         given:
-        def user = User.MapFromStorage(
+        def user = new User(
                 userId,
                 firstName,
                 lastName,
                 email,
                 passwordHash,
-                null,
-                null,
-                null
         )
         mockCurrentUserProvider.getCurrentUser() >> new CurrentUserDTO(userId, List.of(), List.of())
         mockUsersGateway.findById(userId) >> Optional.of(user)

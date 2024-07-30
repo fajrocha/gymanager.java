@@ -1,6 +1,6 @@
 package com.faroc.gymanager.application.participants.events;
 
-import com.faroc.gymanager.application.users.gateways.ParticipantsGateway;
+import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway;
 import com.faroc.gymanager.domain.participants.Participant;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import com.faroc.gymanager.domain.users.events.AddParticipantEvent;

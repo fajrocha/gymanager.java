@@ -1,6 +1,6 @@
-package com.faroc.gymanager.infrastructure.users.gateways;
+package com.faroc.gymanager.infrastructure.admins.gateways;
 
-import com.faroc.gymanager.application.users.gateways.AdminsGateway;
+import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.domain.admins.Admin;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;

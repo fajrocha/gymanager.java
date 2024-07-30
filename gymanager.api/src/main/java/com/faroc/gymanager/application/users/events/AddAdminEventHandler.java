@@ -1,6 +1,6 @@
 package com.faroc.gymanager.application.users.events;
 
-import com.faroc.gymanager.application.users.gateways.AdminsGateway;
+import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.domain.admins.Admin;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import com.faroc.gymanager.domain.users.events.AddAdminEvent;

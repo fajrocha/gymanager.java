@@ -1,7 +1,7 @@
 package unit.application.subscriptions.commands
 
 
-import com.faroc.gymanager.application.users.gateways.AdminsGateway
+import com.faroc.gymanager.application.admins.gateways.AdminsGateway
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.application.subscriptions.commands.deletesubscription.DeleteSubscriptionCommand
 import com.faroc.gymanager.application.subscriptions.commands.deletesubscription.DeleteSubscriptionHandler

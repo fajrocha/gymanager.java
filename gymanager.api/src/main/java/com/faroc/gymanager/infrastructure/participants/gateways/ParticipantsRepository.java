@@ -1,8 +1,8 @@
-package com.faroc.gymanager.infrastructure.users.gateways;
+package com.faroc.gymanager.infrastructure.participants.gateways;
 
-import com.faroc.gymanager.application.users.gateways.ParticipantsGateway;
+import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway;
 import com.faroc.gymanager.domain.participants.Participant;
-import com.faroc.gymanager.infrastructure.users.mappers.ParticipantMappers;
+import com.faroc.gymanager.infrastructure.participants.mappers.ParticipantMappers;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 

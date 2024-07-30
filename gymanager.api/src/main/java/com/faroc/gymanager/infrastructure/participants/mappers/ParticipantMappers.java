@@ -1,4 +1,4 @@
-package com.faroc.gymanager.infrastructure.users.mappers;
+package com.faroc.gymanager.infrastructure.participants.mappers;
 
 import com.faroc.gymanager.domain.participants.Participant;
 import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
