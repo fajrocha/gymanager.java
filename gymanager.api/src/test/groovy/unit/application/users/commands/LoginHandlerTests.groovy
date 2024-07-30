@@ -12,31 +12,31 @@ import com.faroc.gymanager.domain.users.abstractions.PasswordHasher
 import net.datafaker.Faker
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification
+import unit.domain.users.utils.UsersTestsFactory
 
 class LoginHandlerTests extends Specification {
+
+    Faker faker
+    String password
+    String wrongPassword
+    LoginHandler sut
+    String token
+    LoginCommand loginCommand
+    User user
+    String email
 
     UsersGateway mockUsersGateway
     PasswordHasher mockPasswordHasher
     TokenGenerator mockTokenGenerator
-    Faker faker
-    String firstName
-    String lastName
-    String email
-    String password
-    String wrongPassword
-    LoginHandler sut
-    String passwordHash
-    String token
-    LoginCommand loginCommand
 
     def setup() {
         faker = new Faker()
-        firstName = faker.name().firstName()
-        lastName = faker.name().lastName()
-        email = faker.internet().emailAddress()
         password = faker.internet().password()
         wrongPassword = faker.internet().password()
-        passwordHash = new BCryptPasswordEncoder().encode(password)
+
+        user = UsersTestsFactory.create(password)
+
+        email = user.getEmail()
         token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0Ijox" +
                 "NTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 
@@ -67,19 +67,9 @@ class LoginHandlerTests extends Specification {
     def "when password does not match should throw unauthorized exception"() {
         given:
         def loginCommand = new LoginCommand(email, wrongPassword)
-        def user = User.MapFromStorage(
-                UUID.randomUUID(),
-                firstName,
-                lastName,
-                email,
-                passwordHash,
-                null,
-                null,
-                null
-        )
 
         mockUsersGateway.findByEmail(email) >> Optional.of(user)
-        mockPasswordHasher.validatePassword(loginCommand.password(), passwordHash) >> false
+        mockPasswordHasher.validatePassword(loginCommand.password(), user.getPasswordHash()) >> false
 
         when:
         sut.handle(loginCommand)
@@ -90,19 +80,8 @@ class LoginHandlerTests extends Specification {
 
     def "when password matches should login and generate token"() {
         given:
-        def user = User.MapFromStorage(
-                UUID.randomUUID(),
-                firstName,
-                lastName,
-                email,
-                passwordHash,
-                null,
-                null,
-                null
-        )
-
         mockUsersGateway.findByEmail(email) >> Optional.of(user)
-        mockPasswordHasher.validatePassword(loginCommand.password(), passwordHash) >> true
+        mockPasswordHasher.validatePassword(loginCommand.password(), user.getPasswordHash()) >> true
         mockTokenGenerator.generate(user) >> token
 
         def expectedResult = new AuthDTO(

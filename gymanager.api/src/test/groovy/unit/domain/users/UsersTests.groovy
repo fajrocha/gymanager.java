@@ -8,35 +8,28 @@ import com.faroc.gymanager.domain.users.errors.UserErrors
 import net.datafaker.Faker
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification
+import unit.domain.users.utils.UsersTestsFactory
 
 class UsersTests extends Specification {
 
     Faker faker
-    String firstName
-    String lastName
-    String email
     String password
     String wrongPassword
-    String passwordHash
+    User user
+
     PasswordHasher mockPasswordHasher
 
     def setup() {
         faker = new Faker()
-        firstName = faker.name().firstName()
-        lastName = faker.name().lastName()
-        email = faker.internet().emailAddress()
         password = faker.internet().password()
         wrongPassword = faker.internet().password()
-        passwordHash = new BCryptPasswordEncoder().encode(password)
+        user = UsersTestsFactory.create(password)
 
         mockPasswordHasher = Mock(PasswordHasher)
 
     }
 
     def "when creating admin profile should add profile"() {
-        given:
-        def user = new User(firstName, lastName, email, passwordHash)
-
         when:
         user.createAdminProfile()
 
@@ -45,9 +38,6 @@ class UsersTests extends Specification {
     }
 
     def "when admin profile already exists should throw conflict exception"() {
-        given:
-        def user = new User(firstName, lastName, email, passwordHash)
-
         when:
         user.createAdminProfile()
         user.createAdminProfile()
@@ -58,9 +48,7 @@ class UsersTests extends Specification {
     }
 
     def "when password is valid should return true"() {
-        given:
-        def user = new User(firstName, lastName, email, passwordHash)
-        mockPasswordHasher.validatePassword(password, passwordHash) >> true
+        mockPasswordHasher.validatePassword(password, user.getPasswordHash()) >> true
 
         when:
         def validResult = user.validatePassword(password, mockPasswordHasher)
@@ -71,8 +59,7 @@ class UsersTests extends Specification {
 
     def "when password is invalid should return false"() {
         given:
-        def user = new User(firstName, lastName, email, passwordHash)
-        mockPasswordHasher.validatePassword(wrongPassword, passwordHash) >> false
+        mockPasswordHasher.validatePassword(wrongPassword, user.getPasswordHash()) >> false
 
         when:
         def validResult = user.validatePassword(password, mockPasswordHasher)
@@ -83,7 +70,6 @@ class UsersTests extends Specification {
 
     def "when user has profiles should return them"() {
         given:
-        def user = new User(firstName, lastName, email, passwordHash)
         user.createAdminProfile()
         def expectedProfiles = List.of(UserProfileTypes.ADMIN);
 

@@ -1,12 +1,12 @@
 package unit.application.users.commands
 
+import com.faroc.gymanager.application.admins.commands.addadmin.AddAdminCommand
+import com.faroc.gymanager.application.admins.commands.addadmin.AddAdminHandler
 import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.application.security.CurrentUserProvider
 import com.faroc.gymanager.application.security.DTOs.CurrentUserDTO
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
-import com.faroc.gymanager.application.users.commands.addadmin.AddAdminCommand
-import com.faroc.gymanager.application.users.commands.addadmin.AddAdminHandler
 import com.faroc.gymanager.application.users.gateways.UsersGateway
 import com.faroc.gymanager.domain.users.User
 import com.faroc.gymanager.domain.users.errors.UserErrors
