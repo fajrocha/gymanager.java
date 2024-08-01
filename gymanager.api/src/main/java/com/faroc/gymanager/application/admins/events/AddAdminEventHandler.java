@@ -1,4 +1,4 @@
-package com.faroc.gymanager.application.users.events;
+package com.faroc.gymanager.application.admins.events;
 
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.domain.admins.Admin;

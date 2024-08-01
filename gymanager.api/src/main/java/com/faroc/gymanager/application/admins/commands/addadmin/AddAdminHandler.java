@@ -40,10 +40,7 @@ public class AddAdminHandler implements Command.Handler<AddAdminCommand, UUID> {
 
         var userId = command.userId();
         var user = userGateway.findById(userId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                UserErrors.notFound(userId),
-                                UserErrors.NOT_FOUND));
+                .orElseThrow(() -> new UnauthorizedException(UserErrors.notFound(userId)));
 
         var adminId = user.createAdminProfile();
         userGateway.update(user);

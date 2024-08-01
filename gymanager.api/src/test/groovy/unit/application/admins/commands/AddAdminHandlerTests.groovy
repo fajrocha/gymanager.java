@@ -1,4 +1,4 @@
-package unit.application.users.commands
+package unit.application.admins.commands
 
 import com.faroc.gymanager.application.admins.commands.addadmin.AddAdminCommand
 import com.faroc.gymanager.application.admins.commands.addadmin.AddAdminHandler
@@ -13,37 +13,30 @@ import com.faroc.gymanager.domain.users.errors.UserErrors
 import net.datafaker.Faker
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification
+import unit.domain.users.utils.UsersTestsFactory
 
 class AddAdminHandlerTests extends Specification {
 
     UUID userId
+    User user
+    CurrentUserDTO currentUser
+    AddAdminCommand command
+
     UsersGateway mockUsersGateway
     CurrentUserProvider mockCurrentUserProvider
     DomainEventsPublisher mockDomainEventsPublisher
-    AddAdminCommand command
     AddAdminHandler sut
-    Faker faker
-    String firstName
-    String lastName
-    String email
-    String password
-    String passwordHash
 
     def setup() {
-        faker = new Faker()
-
         userId = UUID.randomUUID()
-        firstName = faker.name().firstName()
-        lastName = faker.name().lastName()
-        email = faker.internet().emailAddress()
-        password = faker.internet().password()
-        passwordHash = new BCryptPasswordEncoder().encode(password)
+        user = UsersTestsFactory.create(userId)
+        currentUser = new CurrentUserDTO(userId, List.of(), List.of())
+        command = new AddAdminCommand(userId)
 
         mockUsersGateway = Mock(UsersGateway)
         mockCurrentUserProvider = Mock(CurrentUserProvider)
         mockDomainEventsPublisher = Mock(DomainEventsPublisher)
-        command = new AddAdminCommand(userId)
-        
+
         sut = new AddAdminHandler(
                 mockUsersGateway,
                 mockCurrentUserProvider,
@@ -51,9 +44,10 @@ class AddAdminHandlerTests extends Specification {
         )
     }
 
-    def "when current user does not match user on request"() {
+    def "when current user does not match user on request should throw unauthorized exception"() {
         given:
-        mockCurrentUserProvider.getCurrentUser() >> new CurrentUserDTO(UUID.randomUUID(), List.of(), List.of())
+        def currentUser = new CurrentUserDTO(UUID.randomUUID(), List.of(), List.of())
+        mockCurrentUserProvider.getCurrentUser() >> currentUser
 
         when:
         sut.handle(command)
@@ -64,35 +58,28 @@ class AddAdminHandlerTests extends Specification {
 
     def "when user to add admin profile not found should throw not found exception"() {
         given:
-        mockCurrentUserProvider.getCurrentUser() >> new CurrentUserDTO(userId, List.of(), List.of())
+        mockCurrentUserProvider.getCurrentUser() >> currentUser
         mockUsersGateway.findById(userId) >> Optional.empty()
 
         when:
         sut.handle(command)
 
         then:
-        def ex = thrown(ResourceNotFoundException)
-        ex.detail == UserErrors.NOT_FOUND
+        def ex = thrown(UnauthorizedException)
+        ex.message == UserErrors.notFound(userId)
     }
 
-    def "when user exists should return admin id and create admin profile"() {
+    def "when user exists should add profile and return id"() {
         given:
-        def user = new User(
-                userId,
-                firstName,
-                lastName,
-                email,
-                passwordHash,
-        )
-        mockCurrentUserProvider.getCurrentUser() >> new CurrentUserDTO(userId, List.of(), List.of())
+        mockCurrentUserProvider.getCurrentUser() >> currentUser
         mockUsersGateway.findById(userId) >> Optional.of(user)
 
         when:
-        def actualResult = sut.handle(command)
+        def adminId = sut.handle(command)
 
         then:
+        adminId == user.getAdminId()
         1 * mockUsersGateway.update(user)
         1 * mockDomainEventsPublisher.publishEventsFromAggregate(user)
-        actualResult == user.getAdminId()
     }
 }

@@ -19,6 +19,16 @@ public class UsersTestsFactory {
         );
     }
 
+    public static User create(UUID id) {
+        return new User(
+                id,
+                faker.name().firstName(),
+                faker.name().lastName(),
+                faker.internet().emailAddress(),
+                new BCryptPasswordEncoder().encode(faker.internet().password())
+        );
+    }
+
     public static User create(String password) {
         return new User(
                 UUID.randomUUID(),
