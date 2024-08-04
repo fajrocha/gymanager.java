@@ -8,7 +8,7 @@ import java.util.UUID;
 import static unit.domain.sessions.utils.SessionConstants.*;
 
 
-public class SessionsFactory {
+public class SessionsTestFactory {
     public static Session create() {
         return create(MAX_PARTICIPANTS_DEFAULT);
     }

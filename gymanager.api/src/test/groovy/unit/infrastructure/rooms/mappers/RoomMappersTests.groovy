@@ -4,16 +4,16 @@ import com.faroc.gymanager.domain.rooms.Room
 import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.infrastructure.rooms.mappers.RoomMappers
 import spock.lang.Specification
-import unit.domain.rooms.utils.RoomsFactory
-import unit.domain.sessions.utils.SessionsFactory
+import unit.domain.rooms.utils.RoomsTestFactory
+import unit.domain.sessions.utils.SessionsTestFactory
 
 class RoomMappersTests extends Specification {
     Room room
     Session session
 
     def setup() {
-        room = RoomsFactory.create()
-        session = SessionsFactory.create()
+        room = RoomsTestFactory.create()
+        session = SessionsTestFactory.create()
     }
 
     def "when mapping to record should return valid record"() {

@@ -5,7 +5,7 @@ import com.faroc.gymanager.domain.shared.exceptions.ConflictException
 import com.faroc.gymanager.domain.trainers.Trainer
 import com.faroc.gymanager.domain.trainers.errors.TrainerErrors
 import spock.lang.Specification
-import unit.domain.sessions.utils.SessionsFactory
+import unit.domain.sessions.utils.SessionsTestFactory
 import unit.domain.trainers.utils.TrainersFactory
 
 class TrainerTests extends Specification {
@@ -16,7 +16,7 @@ class TrainerTests extends Specification {
     Trainer trainer
 
     def setup() {
-        session = SessionsFactory.create(MAX_SESSION_PARTICIPANTS)
+        session = SessionsTestFactory.create(MAX_SESSION_PARTICIPANTS)
 
         trainer = TrainersFactory.create()
     }

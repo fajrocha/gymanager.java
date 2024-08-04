@@ -13,11 +13,11 @@ import org.springframework.transaction.event.TransactionalEventListener;
 import java.util.UUID;
 
 @Component
-public class AddSessionGymEventHandler {
+public class AddSessionTrainerToGymEventHandler {
     private final GymsGateway gymsGateway;
 
     @Autowired
-    public AddSessionGymEventHandler(GymsGateway gymsGateway) {
+    public AddSessionTrainerToGymEventHandler(GymsGateway gymsGateway) {
         this.gymsGateway = gymsGateway;
     }
 

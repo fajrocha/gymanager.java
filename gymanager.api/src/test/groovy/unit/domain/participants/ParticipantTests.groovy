@@ -6,7 +6,7 @@ import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException
 import spock.lang.Specification
 import unit.domain.participants.utils.ParticipantFactory
-import unit.domain.sessions.utils.SessionsFactory
+import unit.domain.sessions.utils.SessionsTestFactory
 
 class ParticipantTests extends Specification {
 
@@ -16,7 +16,7 @@ class ParticipantTests extends Specification {
     Session session
 
     def setup() {
-        session = SessionsFactory.create(MAX_SESSION_PARTICIPANTS)
+        session = SessionsTestFactory.create(MAX_SESSION_PARTICIPANTS)
         participant = ParticipantFactory.create()
     }
 

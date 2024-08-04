@@ -4,12 +4,11 @@ import com.faroc.gymanager.domain.gyms.Gym
 import com.faroc.gymanager.domain.gyms.errors.GymsErrors
 import com.faroc.gymanager.domain.gyms.exceptions.MaxRoomsReachedException
 import com.faroc.gymanager.domain.rooms.Room
-import com.faroc.gymanager.domain.rooms.errors.RoomErrors
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException
 import com.faroc.gymanager.domain.trainers.Trainer
 import spock.lang.Specification
-import unit.domain.gyms.utils.GymFactory
-import unit.domain.rooms.utils.RoomsFactory
+import unit.domain.gyms.utils.GymsTestFactory
+import unit.domain.rooms.utils.RoomsTestFactory
 import unit.domain.trainers.utils.TrainersFactory
 
 class GymTests extends Specification {
@@ -21,13 +20,13 @@ class GymTests extends Specification {
     Gym gym
     def setup() {
         trainer = TrainersFactory.create()
-        room = RoomsFactory.create()
-        gym = GymFactory.create(GYM_MAX_ROOMS_DEFAULT)
+        room = RoomsTestFactory.create()
+        gym = GymsTestFactory.create(GYM_MAX_ROOMS_DEFAULT)
     }
 
     def "when adding room and maximum rooms has been reached should throw exception"() {
         given:
-        def anotherRoom = RoomsFactory.create()
+        def anotherRoom = RoomsTestFactory.create()
         gym.addRoom(room)
 
         when:

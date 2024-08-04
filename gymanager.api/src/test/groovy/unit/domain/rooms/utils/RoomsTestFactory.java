@@ -4,7 +4,7 @@ import com.faroc.gymanager.domain.rooms.Room;
 
 import java.util.UUID;
 
-public class RoomsFactory {
+public class RoomsTestFactory {
     public static final int DEFAULT_MAX_SESSIONS = 1;
     public static final String DEFAULT_NAME = "Super Room";
 
