@@ -3,7 +3,7 @@ package unit.domain.shared
 import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot
 import spock.lang.Specification
-import unit.domain.sessions.utils.SessionsTestFactory
+import unit.domain.sessions.utils.SessionsTestsFactory
 
 import java.time.Instant
 import java.time.LocalDate
@@ -22,7 +22,7 @@ class EntityTests extends Specification {
         timeRange = new TimeSlot(startTime, endTime)
         id = UUID.randomUUID()
 
-        session = SessionsTestFactory.create(
+        session = SessionsTestsFactory.create(
                 id,
                 timeRange,
                 1
@@ -31,7 +31,7 @@ class EntityTests extends Specification {
 
     def "when 2 entity ids match they should be equal and hashcode should match"() {
         when:
-        def anotherSession = SessionsTestFactory.create(
+        def anotherSession = SessionsTestsFactory.create(
                 id,
                 timeRange,
                 2
@@ -44,7 +44,7 @@ class EntityTests extends Specification {
 
     def "when 2 entity ids dont match they should be not equal and hashcode should not match"() {
         when:
-        def anotherSession = SessionsTestFactory.create(
+        def anotherSession = SessionsTestsFactory.create(
                 UUID.randomUUID(),
                 timeRange,
                 2

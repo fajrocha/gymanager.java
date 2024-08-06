@@ -5,7 +5,7 @@ import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.infrastructure.rooms.mappers.RoomMappers
 import spock.lang.Specification
 import unit.domain.rooms.utils.RoomsTestFactory
-import unit.domain.sessions.utils.SessionsTestFactory
+import unit.domain.sessions.utils.SessionsTestsFactory
 
 class RoomMappersTests extends Specification {
     Room room
@@ -13,7 +13,7 @@ class RoomMappersTests extends Specification {
 
     def setup() {
         room = RoomsTestFactory.create()
-        session = SessionsTestFactory.create()
+        session = SessionsTestsFactory.create()
     }
 
     def "when mapping to record should return valid record"() {

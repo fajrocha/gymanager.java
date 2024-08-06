@@ -1,0 +1,11 @@
+package unit.application.participants.utils;
+
+import com.faroc.gymanager.domain.participants.Participant;
+
+import java.util.UUID;
+
+public class ParticipantsTestsFactory {
+    public static Participant create(UUID id) {
+        return new Participant(id, UUID.randomUUID());
+    }
+}

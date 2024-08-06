@@ -28,7 +28,7 @@ class AddParticipantEventHandlerTests extends Specification {
         sut = new AddParticipantEventHandler(mockParticipantsGateway)
     }
 
-    def "when add participant event is triggered should create participant"() {
+    def "when event is triggered should create participant"() {
         when:
         sut.handle(event)
 
@@ -36,7 +36,7 @@ class AddParticipantEventHandlerTests extends Specification {
         1 * mockParticipantsGateway.create(_ as Participant)
     }
 
-    def "when add participant event is triggered and creating participant fails should throw eventual consistency exception"() {
+    def "when event is triggered and creating participant fails should throw eventual consistency exception"() {
         given:
         mockParticipantsGateway.create(_ as Participant) >> { throw new RuntimeException() }
 

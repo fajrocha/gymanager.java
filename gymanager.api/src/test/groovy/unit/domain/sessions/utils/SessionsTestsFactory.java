@@ -8,9 +8,20 @@ import java.util.UUID;
 import static unit.domain.sessions.utils.SessionConstants.*;
 
 
-public class SessionsTestFactory {
+public class SessionsTestsFactory {
     public static Session create() {
         return create(MAX_PARTICIPANTS_DEFAULT);
+    }
+
+    public static Session create(UUID id) {
+        return new Session(
+                id,
+                UUID.randomUUID(),
+                SESSION_TIMESLOT_DEFAULT,
+                NAME_DEFAULT,
+                DESCRIPTION_DEFAULT,
+                CATEGORY_DEFAULT,
+                MAX_PARTICIPANTS_DEFAULT);
     }
 
     public static Session create(int maxNumberParticipants) {

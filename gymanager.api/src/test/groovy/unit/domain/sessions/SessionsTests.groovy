@@ -10,7 +10,7 @@ import com.faroc.gymanager.domain.shared.exceptions.ConflictException
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot
 import spock.lang.Specification
-import unit.domain.sessions.utils.SessionsTestFactory
+import unit.domain.sessions.utils.SessionsTestsFactory
 
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -36,7 +36,7 @@ class SessionsTests extends Specification {
 
         instantProvider = Mock(InstantProvider)
 
-        session = SessionsTestFactory.create(
+        session = SessionsTestsFactory.create(
                 timeRange,
                 MAX_PARTICIPANTS
         )
@@ -66,7 +66,7 @@ class SessionsTests extends Specification {
     def "when participant makes reservation twice should throw conflict exception"() {
         given:
         final MAX_PARTICIPANTS = 2
-        def session = SessionsTestFactory.create(MAX_PARTICIPANTS)
+        def session = SessionsTestsFactory.create(MAX_PARTICIPANTS)
 
         session.makeReservation(reservation)
 

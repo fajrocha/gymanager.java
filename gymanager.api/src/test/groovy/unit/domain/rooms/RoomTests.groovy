@@ -8,7 +8,7 @@ import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException
 import spock.lang.Specification
 import unit.domain.rooms.utils.RoomsTestFactory
-import unit.domain.sessions.utils.SessionsTestFactory
+import unit.domain.sessions.utils.SessionsTestsFactory
 
 class RoomTests extends Specification {
 
@@ -19,7 +19,7 @@ class RoomTests extends Specification {
     Room room
 
     def setup() {
-        session = SessionsTestFactory.create(MAX_SESSION_PARTICIPANTS)
+        session = SessionsTestsFactory.create(MAX_SESSION_PARTICIPANTS)
         room = RoomsTestFactory.create(MAX_DAILY_SESSIONS)
     }
 
@@ -37,7 +37,7 @@ class RoomTests extends Specification {
 
     def "when max daily sessions reached for room should throw max session exception"() {
         given:
-        def anotherSession = SessionsTestFactory.create(MAX_DAILY_SESSIONS)
+        def anotherSession = SessionsTestsFactory.create(MAX_DAILY_SESSIONS)
         room.makeReservation(session)
 
         when:
