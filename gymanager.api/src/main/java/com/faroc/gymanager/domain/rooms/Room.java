@@ -71,6 +71,9 @@ public class Room extends AggregateRoot {
     }
 
     public boolean hasSessionReservation(Session session) {
+        if (sessionsIds.isEmpty())
+            return false;
+
         var sessionIdsOnDate = sessionsIds.get(session.getDate());
 
         return sessionIdsOnDate.contains(session.getId()) && schedule.hasReservation(session.getTimeSlot());

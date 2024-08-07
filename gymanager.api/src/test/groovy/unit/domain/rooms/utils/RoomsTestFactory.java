@@ -11,6 +11,9 @@ public class RoomsTestFactory {
     public static Room create() {
         return new Room(UUID.randomUUID(), DEFAULT_NAME, DEFAULT_MAX_SESSIONS);
     }
+    public static Room create(UUID id) {
+        return new Room(id, DEFAULT_NAME, DEFAULT_MAX_SESSIONS);
+    }
 
     public static Room create(int maxDailySessions) {
         return new Room(UUID.randomUUID(), DEFAULT_NAME, maxDailySessions);
