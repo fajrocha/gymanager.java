@@ -6,7 +6,7 @@ import com.faroc.gymanager.domain.trainers.Trainer
 import com.faroc.gymanager.domain.trainers.errors.TrainerErrors
 import spock.lang.Specification
 import unit.domain.sessions.utils.SessionsTestsFactory
-import unit.domain.trainers.utils.TrainersFactory
+import unit.domain.trainers.utils.TrainersTestsFactory
 
 class TrainerTests extends Specification {
 
@@ -18,7 +18,7 @@ class TrainerTests extends Specification {
     def setup() {
         session = SessionsTestsFactory.create(MAX_SESSION_PARTICIPANTS)
 
-        trainer = TrainersFactory.create()
+        trainer = TrainersTestsFactory.create()
     }
 
     def "when session reservation already exists on trainer should throw conflict exception"() {

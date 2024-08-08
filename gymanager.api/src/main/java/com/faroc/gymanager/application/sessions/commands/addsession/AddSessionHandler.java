@@ -46,7 +46,7 @@ public class AddSessionHandler implements Command.Handler<AddSessionCommand, Ses
 
         var trainer = trainersGateway.findById(trainerId)
                 .orElseThrow(() -> new UnexpectedException(
-                        SessionErrors.trainerNotFound(roomId),
+                        SessionErrors.trainerNotFound(trainerId),
                         SessionErrors.TRAINER_NOT_FOUND
                 ));
 

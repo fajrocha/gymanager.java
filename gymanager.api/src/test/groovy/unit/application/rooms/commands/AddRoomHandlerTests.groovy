@@ -11,7 +11,7 @@ import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
 import com.faroc.gymanager.domain.subscriptions.Subscription
 import spock.lang.Specification
 import unit.application.subscriptions.utils.SubscriptionsTestsFactory
-import unit.domain.gyms.utils.GymsTestFactory
+import unit.domain.gyms.utils.GymsTestsFactory
 
 class AddRoomHandlerTests extends Specification {
     final String GYM_NAME = "Best Gym"
@@ -29,7 +29,7 @@ class AddRoomHandlerTests extends Specification {
     def setup() {
         gymId = UUID.randomUUID()
         command = new AddRoomCommand(gymId, GYM_NAME)
-        gym = GymsTestFactory.create(gymId)
+        gym = GymsTestsFactory.create(gymId)
         subscriptionId = gym.getSubscriptionId()
         subscription = SubscriptionsTestsFactory.create(subscriptionId)
         

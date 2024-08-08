@@ -4,7 +4,7 @@ import com.faroc.gymanager.domain.rooms.Room
 import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.infrastructure.rooms.mappers.RoomMappers
 import spock.lang.Specification
-import unit.domain.rooms.utils.RoomsTestFactory
+import unit.domain.rooms.utils.RoomsTestsFactory
 import unit.domain.sessions.utils.SessionsTestsFactory
 
 class RoomMappersTests extends Specification {
@@ -12,7 +12,7 @@ class RoomMappersTests extends Specification {
     Session session
 
     def setup() {
-        room = RoomsTestFactory.create()
+        room = RoomsTestsFactory.create()
         session = SessionsTestsFactory.create()
     }
 

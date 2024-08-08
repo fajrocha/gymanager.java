@@ -6,7 +6,7 @@ import com.faroc.gymanager.domain.gyms.events.AddRoomEvent
 import com.faroc.gymanager.domain.rooms.Room
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
 import spock.lang.Specification
-import unit.domain.rooms.utils.RoomsTestFactory
+import unit.domain.rooms.utils.RoomsTestsFactory
 
 class AddRoomEventHandlerTests extends Specification {
     AddRoomEvent event
@@ -17,7 +17,7 @@ class AddRoomEventHandlerTests extends Specification {
 
     def setup() {
         mockRoomsGateway = Mock(RoomsGateway)
-        room = RoomsTestFactory.create()
+        room = RoomsTestsFactory.create()
         event = new AddRoomEvent(room)
 
         sut = new AddRoomEventHandler(mockRoomsGateway)

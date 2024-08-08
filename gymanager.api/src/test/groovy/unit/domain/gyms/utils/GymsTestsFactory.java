@@ -4,7 +4,7 @@ import com.faroc.gymanager.domain.gyms.Gym;
 
 import java.util.UUID;
 
-public class GymsTestFactory {
+public class GymsTestsFactory {
     public static Gym create() {
         return new Gym(
                 UUID.randomUUID(),
@@ -29,5 +29,18 @@ public class GymsTestFactory {
                 GymConstants.GYM_NAME_DEFAULT,
                 Integer.MAX_VALUE
         );
+    }
+
+    public static Gym create(UUID id, String sessionCategory) {
+        var gym = new Gym(
+                id,
+                UUID.randomUUID(),
+                GymConstants.GYM_NAME_DEFAULT,
+                Integer.MAX_VALUE
+        );
+
+        gym.addCategory(sessionCategory);
+
+        return gym;
     }
 }

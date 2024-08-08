@@ -8,8 +8,8 @@ import com.faroc.gymanager.domain.rooms.events.SessionReservationEvent
 import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
 import spock.lang.Specification
-import unit.domain.gyms.utils.GymsTestFactory
-import unit.domain.rooms.utils.RoomsTestFactory
+import unit.domain.gyms.utils.GymsTestsFactory
+import unit.domain.rooms.utils.RoomsTestsFactory
 import unit.domain.sessions.utils.SessionsTestsFactory
 
 class AddSessionTrainerToGymEventHandlerTests extends Specification {
@@ -23,9 +23,9 @@ class AddSessionTrainerToGymEventHandlerTests extends Specification {
     AddSessionTrainerToGymEventHandler sut
 
     def setup() {
-        room = RoomsTestFactory.create()
+        room = RoomsTestsFactory.create()
         session = SessionsTestsFactory.create()
-        gym = GymsTestFactory.create(room.getGymId())
+        gym = GymsTestsFactory.create(room.getGymId())
         event = new SessionReservationEvent(room, session)
         mockGymsGateway = Mock(GymsGateway)
 

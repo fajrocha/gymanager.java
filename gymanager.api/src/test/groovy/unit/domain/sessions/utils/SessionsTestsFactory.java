@@ -24,6 +24,17 @@ public class SessionsTestsFactory {
                 MAX_PARTICIPANTS_DEFAULT);
     }
 
+    public static Session create(TimeSlot timeSlot) {
+        return new Session(
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                timeSlot,
+                NAME_DEFAULT,
+                DESCRIPTION_DEFAULT,
+                CATEGORY_DEFAULT,
+                MAX_PARTICIPANTS_DEFAULT);
+    }
+
     public static Session create(int maxNumberParticipants) {
         return new Session(
                 UUID.randomUUID(),

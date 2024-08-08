@@ -37,6 +37,18 @@ public class Room extends AggregateRoot {
             UUID id,
             UUID gymId,
             String name,
+            int maxDailySessions) {
+        super(id);
+        this.gymId = gymId;
+        this.maxDailySessions = maxDailySessions;
+        this.name = name;
+        this.schedule = Schedule.createEmpty();
+    }
+
+    public Room(
+            UUID id,
+            UUID gymId,
+            String name,
             int maxDailySessions,
             Schedule schedule) {
         super(id);

@@ -10,7 +10,7 @@ import com.faroc.gymanager.domain.sessions.Session
 import com.faroc.gymanager.domain.sessions.SessionErrors
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
 import spock.lang.Specification
-import unit.domain.rooms.utils.RoomsTestFactory
+import unit.domain.rooms.utils.RoomsTestsFactory
 import unit.domain.sessions.utils.SessionsTestsFactory
 
 class FetchSessionHandlerTests extends Specification {
@@ -27,7 +27,7 @@ class FetchSessionHandlerTests extends Specification {
     def setup() {
         roomId = UUID.randomUUID()
         sessionId = UUID.randomUUID()
-        room = RoomsTestFactory.create(roomId)
+        room = RoomsTestsFactory.create(roomId)
         session = SessionsTestsFactory.create(sessionId)
 
         query = new FetchSessionQuery(roomId, sessionId)
