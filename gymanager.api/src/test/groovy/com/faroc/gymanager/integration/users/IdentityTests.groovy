@@ -3,6 +3,7 @@ package com.faroc.gymanager.integration.users
 import com.faroc.gymanager.application.security.exceptions.PasswordComplexityException
 import com.faroc.gymanager.application.shared.exceptions.ValidationException
 import com.faroc.gymanager.application.users.gateways.UsersGateway
+import com.faroc.gymanager.integration.shared.ContainersSpecification
 import com.faroc.gymanager.integration.users.utils.IdentityTestsHelpers
 import com.faroc.gymanager.integration.users.utils.RegisterRequestsTestsBuilder
 import com.faroc.gymanager.users.requests.LoginRequest
@@ -11,40 +12,14 @@ import com.faroc.gymanager.users.responses.AuthResponse
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import net.datafaker.Faker
-import org.flywaydb.core.Flyway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.http.HttpStatus
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.spock.Testcontainers
-import spock.lang.Specification
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
-class IdentityTests extends Specification {
-    static final String DATABASE_NAME = "gymanager"
-    static final String DATABASE_USERNAME = "user"
-    static final String DATABASE_PWD = "password"
-
-    @ServiceConnection
-    static PostgreSQLContainer postgresContainer = new PostgreSQLContainer("postgres")
-            .withDatabaseName(DATABASE_NAME)
-            .withUsername(DATABASE_USERNAME)
-            .withPassword(DATABASE_PWD)
-
-    static {
-        postgresContainer.start()
-    }
-
-    def setupSpec() {
-        Flyway flyway = Flyway.configure()
-                .dataSource(postgresContainer.getJdbcUrl(), postgresContainer.getUsername(), postgresContainer.getPassword())
-                .load()
-        flyway.migrate()
-    }
-
+class IdentityTests extends ContainersSpecification {
     @Autowired
     TestRestTemplate restTemplate
 
@@ -53,7 +28,6 @@ class IdentityTests extends Specification {
 
     final String REGISTER_ENDPOINT = "/authentication/register"
     final String LOGIN_ENDPOINT = "/authentication/login"
-    final String INVALID_LOGIN_PWD = "invalid"
     final Faker faker = new Faker()
 
     def setup() {

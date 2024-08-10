@@ -1,16 +1,14 @@
-package unit.application.users.commands
+package com.faroc.gymanager.unit.application.users.commands
 
-import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
+import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
 import com.faroc.gymanager.application.users.DTOs.AuthDTO
 import com.faroc.gymanager.application.users.commands.loginuser.LoginCommand
 import com.faroc.gymanager.application.users.commands.loginuser.LoginHandler
-import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
 import com.faroc.gymanager.application.users.gateways.TokenGenerator
 import com.faroc.gymanager.application.users.gateways.UsersGateway
 import com.faroc.gymanager.domain.users.User
 import com.faroc.gymanager.domain.users.abstractions.PasswordHasher
 import net.datafaker.Faker
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification
 import unit.domain.users.utils.UsersTestsFactory
 
