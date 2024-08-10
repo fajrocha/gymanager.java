@@ -67,4 +67,9 @@ public class UsersRepository implements UsersGateway {
                 .set(record)
                 .execute();
     }
+
+    @Override
+    public void delete(UUID id) {
+        context.deleteFrom(USERS).where(USERS.ID.eq(id)).execute();
+    }
 }

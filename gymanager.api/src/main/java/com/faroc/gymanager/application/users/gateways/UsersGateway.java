@@ -11,4 +11,5 @@ public interface UsersGateway {
     boolean emailExists(String email);
     void create(User user);
     void update(User user);
+    void delete(UUID id);
 }
