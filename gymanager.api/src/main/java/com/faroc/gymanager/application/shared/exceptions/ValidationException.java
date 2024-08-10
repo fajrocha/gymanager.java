@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ValidationException extends RuntimeException {
-    private String detail = "The provided data is invalid.";
+    public static final String DEFAULT_DETAIL = "The provided data is invalid.";
+    private String detail = DEFAULT_DETAIL;
     private Map<String, List<String>> modelState = new HashMap<>();
 
     public ValidationException(String message) {

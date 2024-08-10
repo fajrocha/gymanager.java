@@ -1,9 +1,12 @@
 package integration.users
 
 import com.faroc.gymanager.GymanagerApiApplication
+import com.faroc.gymanager.application.security.exceptions.PasswordComplexityException
+import com.faroc.gymanager.application.shared.exceptions.ValidationException
 import com.faroc.gymanager.application.users.gateways.UsersGateway
 import com.faroc.gymanager.users.responses.AuthResponse
-import integration.users.utils.IdentityTestsFactory
+
+import integration.users.utils.RegisterRequestsTestsBuilder
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import org.flywaydb.core.Flyway
@@ -61,7 +64,7 @@ class IdentityTests extends Specification {
 
     def "when user requests to register should register the user"() {
         given:
-        def request = IdentityTestsFactory.createRegisterRequest()
+        def request = new RegisterRequestsTestsBuilder().build()
 
         when:
         def response = RestAssured.given()
@@ -79,10 +82,56 @@ class IdentityTests extends Specification {
         responseBody.token() != "" || responseBody.token() != null
     }
 
-    def "when user requests to register but email is in use should"() {
+    def "when user requests to register but first and last names and email are invalid should return bad request"() {
         given:
-        def requestExistingUser = IdentityTestsFactory.createRegisterRequest()
-        def requestUserSameEmail = IdentityTestsFactory.createRegisterRequest(requestExistingUser.email())
+        def request = new RegisterRequestsTestsBuilder()
+                .withFirstName("")
+                .withLastName("")
+                .withEmail("invalidEmail")
+                .build()
+
+        when:
+        def response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post(REGISTER_ENDPOINT)
+
+        def responseBodyJson = response.body().jsonPath()
+
+        then:
+        response.statusCode() == HttpStatus.BAD_REQUEST.value()
+        responseBodyJson.getString("detail") == ValidationException.DEFAULT_DETAIL
+        responseBodyJson.getMap("errors").containsKey("email")
+        responseBodyJson.getMap("errors").containsKey("firstName")
+        responseBodyJson.getMap("errors").containsKey("lastName")
+    }
+
+    def "when user requests to register but password does not meet requirements invalid should return bad request"() {
+        given:
+        def invalidPwd = "invalidPwd"
+        def request = new RegisterRequestsTestsBuilder().withPassword(invalidPwd).build()
+
+        when:
+        def response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post(REGISTER_ENDPOINT)
+
+        def responseBodyJson = response.body().jsonPath()
+
+        then:
+        response.statusCode() == HttpStatus.BAD_REQUEST.value()
+        responseBodyJson.getString("detail") == PasswordComplexityException.DEFAULT_DETAIL
+    }
+
+    def "when user requests to register but email is in use should return conflict"() {
+        given:
+        def requestExistingUser = new RegisterRequestsTestsBuilder().build()
+        def requestUserSameEmail = new RegisterRequestsTestsBuilder()
+                .withEmail(requestExistingUser.email())
+                .build()
 
         when:
         RestAssured.given()
