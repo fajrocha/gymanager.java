@@ -1,11 +1,10 @@
-package integration.users.utils;
+package com.faroc.gymanager.integration.users.utils;
 
 import com.faroc.gymanager.users.requests.RegisterRequest;
 import net.datafaker.Faker;
 
 public class RegisterRequestsTestsBuilder {
     private static final Faker faker = new Faker();
-    private static final String DEFAULT_PASSWORD = "Pwd12345!";
 
     private String firstName;
     private String lastName;
@@ -44,10 +43,10 @@ public class RegisterRequestsTestsBuilder {
             lastName = faker.name().lastName();
 
         if (email == null)
-            email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@gmail.com";
+            email = IdentityTestsHelpers.generateEmailFrom(firstName, lastName);
 
         if (password == null)
-            password = DEFAULT_PASSWORD;
+            password = IdentitySharedConstants.DEFAULT_PASSWORD;
 
         return new RegisterRequest(firstName, lastName, email, password);
     }

@@ -1,32 +1,34 @@
-package integration.users
+package com.faroc.gymanager.integration.users
 
-import com.faroc.gymanager.GymanagerApiApplication
 import com.faroc.gymanager.application.security.exceptions.PasswordComplexityException
 import com.faroc.gymanager.application.shared.exceptions.ValidationException
 import com.faroc.gymanager.application.users.gateways.UsersGateway
+import com.faroc.gymanager.integration.users.utils.IdentityTestsHelpers
+import com.faroc.gymanager.integration.users.utils.RegisterRequestsTestsBuilder
+import com.faroc.gymanager.users.requests.LoginRequest
+import com.faroc.gymanager.users.requests.RegisterRequest
 import com.faroc.gymanager.users.responses.AuthResponse
-
-import integration.users.utils.RegisterRequestsTestsBuilder
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
+import net.datafaker.Faker
 import org.flywaydb.core.Flyway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.http.HttpStatus
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.spock.Testcontainers
 import spock.lang.Specification
 
-@SpringBootTest(
-        classes = GymanagerApiApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Testcontainers
 class IdentityTests extends Specification {
     static final String DATABASE_NAME = "gymanager"
     static final String DATABASE_USERNAME = "user"
     static final String DATABASE_PWD = "password"
 
+    @ServiceConnection
     static PostgreSQLContainer postgresContainer = new PostgreSQLContainer("postgres")
             .withDatabaseName(DATABASE_NAME)
             .withUsername(DATABASE_USERNAME)
@@ -34,13 +36,6 @@ class IdentityTests extends Specification {
 
     static {
         postgresContainer.start()
-    }
-
-    @DynamicPropertySource
-    static void configure(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl)
-        registry.add("spring.datasource.username", postgresContainer::getUsername)
-        registry.add("spring.datasource.password", postgresContainer::getPassword)
     }
 
     def setupSpec() {
@@ -57,6 +52,9 @@ class IdentityTests extends Specification {
     UsersGateway usersGateway
 
     final String REGISTER_ENDPOINT = "/authentication/register"
+    final String LOGIN_ENDPOINT = "/authentication/login"
+    final String INVALID_LOGIN_PWD = "invalid"
+    final Faker faker = new Faker()
 
     def setup() {
         RestAssured.baseURI = restTemplate.getRootUri()
@@ -148,5 +146,59 @@ class IdentityTests extends Specification {
 
         then:
         responseUserSameEmail.statusCode() == HttpStatus.CONFLICT.value()
+    }
+
+    def "when user logins with wrong password should get unauthorized"() {
+        given:
+        def registerRequest = registerUser()
+        final def wrongPwd = registerRequest.password() + '1'
+        def loginRequest = new LoginRequest(registerRequest.email(), wrongPwd)
+
+        when:
+        def response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when()
+                .post(LOGIN_ENDPOINT)
+
+        then:
+        response.statusCode() == HttpStatus.UNAUTHORIZED.value()
+    }
+
+    def "when user logins with wrong email should get unauthorized"() {
+        given:
+        def registerRequest = registerUser()
+        final def wrongEmail = IdentityTestsHelpers.generateEmailFrom(
+                registerRequest.lastName(),
+                registerRequest.firstName()
+        )
+        def loginRequest = new LoginRequest(wrongEmail, registerRequest.password())
+
+        when:
+        def response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when()
+                .post(LOGIN_ENDPOINT)
+
+        then:
+        response.statusCode() == HttpStatus.UNAUTHORIZED.value()
+    }
+
+    private RegisterRequest registerUser() {
+        final def firstName = faker.name().firstName()
+        final def lastName = faker.name().lastName()
+        def registerRequest = new RegisterRequestsTestsBuilder()
+                .withFirstName(firstName)
+                .withLastName(lastName)
+                .build()
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(registerRequest)
+                .when()
+                .post(REGISTER_ENDPOINT)
+
+        return registerRequest
     }
 }

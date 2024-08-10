@@ -1,7 +1,8 @@
 package com.faroc.gymanager.application.security.exceptions;
 
 public class UnauthorizedException extends RuntimeException {
-    private String detail = "Unauthorized user.";
+    public static String DEFAULT_DETAIL = "Unauthorized user.";
+    private String detail = DEFAULT_DETAIL;
 
     public UnauthorizedException(String message) {
         super(message);

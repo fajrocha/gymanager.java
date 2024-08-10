@@ -43,7 +43,6 @@ public class UserErrors {
 
     public static final String EMAIL_ALREADY_EXISTS = "Email provided is already in use.";
 
-    public static final String AUTH_FAILED = "Authentication failed for given user.";
     public static final String authFailed(UUID userId) {
         return "Authentication failed for user " + userId + ".";
     }

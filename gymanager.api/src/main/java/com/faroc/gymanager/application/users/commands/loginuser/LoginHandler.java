@@ -31,12 +31,10 @@ public class LoginHandler implements Command.Handler<LoginCommand, AuthDTO> {
         var userEmail = loginCommand.email();
         var user = usersGateway
                 .findByEmail(userEmail)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        UserErrors.notFound(userEmail),
-                        UserErrors.AUTH_FAILED));
+                .orElseThrow(() -> new UnauthorizedException(UserErrors.notFound(userEmail)));
 
         if (!user.validatePassword(loginCommand.password(), passwordHasher))
-            throw new UnauthorizedException(UserErrors.authFailed(user.getId()), UserErrors.AUTH_FAILED);
+            throw new UnauthorizedException(UserErrors.authFailed(user.getId()));
 
         var token = tokenGenerator.generate(user);
 
