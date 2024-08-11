@@ -6,6 +6,6 @@ import com.faroc.gymanager.domain.subscriptions.SubscriptionType;
 
 import java.util.UUID;
 
-public record CreateSubscriptionCommand(SubscriptionType subscriptionType, UUID adminId)
+public record SubscribeCommand(SubscriptionType subscriptionType, UUID adminId)
         implements Command<Subscription> {
 }

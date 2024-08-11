@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class CreateSubscriptionHandler implements Command.Handler<CreateSubscriptionCommand, Subscription>{
+public class SubscribeHandler implements Command.Handler<SubscribeCommand, Subscription>{
     private final AdminsGateway adminsGateway;
     private final ApplicationEventPublisher eventPublisher;
 
-    public CreateSubscriptionHandler(
+    public SubscribeHandler(
             AdminsGateway adminsGateway, ApplicationEventPublisher publisher) {
         this.adminsGateway = adminsGateway;
         this.eventPublisher = publisher;
@@ -22,8 +22,8 @@ public class CreateSubscriptionHandler implements Command.Handler<CreateSubscrip
 
     @Override
     @Transactional
-    public Subscription handle(CreateSubscriptionCommand createSubscriptionCommand) {
-        var adminId = createSubscriptionCommand.adminId();
+    public Subscription handle(SubscribeCommand command) {
+        var adminId = command.adminId();
 
         var admin = adminsGateway.findById(adminId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -32,7 +32,7 @@ public class CreateSubscriptionHandler implements Command.Handler<CreateSubscrip
 
         var subscription = new Subscription(
                 adminId,
-                createSubscriptionCommand.subscriptionType()
+                command.subscriptionType()
         );
 
         admin.setSubscription(subscription);

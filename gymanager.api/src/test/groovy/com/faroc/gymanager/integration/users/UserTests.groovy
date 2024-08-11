@@ -1,7 +1,12 @@
 package com.faroc.gymanager.integration.users
 
+import com.faroc.gymanager.application.admins.gateways.AdminsGateway
+import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway
+import com.faroc.gymanager.application.trainers.gateways.TrainersGateway
 import com.faroc.gymanager.application.users.gateways.UsersGateway
 import com.faroc.gymanager.integration.shared.ContainersSpecification
+import com.faroc.gymanager.integration.shared.IntegrationConstants
+import com.faroc.gymanager.integration.users.utils.UsersHttpEndpoints
 import com.faroc.gymanager.integration.users.utils.RegisterRequestsTestsBuilder
 import com.faroc.gymanager.users.responses.AdminCreatedResponse
 import com.faroc.gymanager.users.responses.AuthResponse
@@ -19,11 +24,15 @@ import org.springframework.http.HttpStatus
 class UserTests extends ContainersSpecification {
     @Autowired
     TestRestTemplate restTemplate
-
     @Autowired
     UsersGateway usersGateway
+    @Autowired
+    AdminsGateway adminsGateway
+    @Autowired
+    TrainersGateway trainersGateway
+    @Autowired
+    ParticipantsGateway participantsGateway
 
-    final String REGISTER_ENDPOINT = "/authentication/register"
     final Faker faker = new Faker()
     String token
     UUID userId
@@ -37,7 +46,7 @@ class UserTests extends ContainersSpecification {
 
     def "when adding profile but token not provided should get unauthorized"(String profile) {
         given:
-        def profileEndpoint = getProfileEndpoint(userId, profile)
+        def profileEndpoint = UsersHttpEndpoints.getProfileEndpoint(userId, profile)
 
         when:
         def response = RestAssured.given()
@@ -55,7 +64,7 @@ class UserTests extends ContainersSpecification {
 
     def "when adding profile but user does not match token user should get unauthorized"(String profile) {
         given:
-        def profileEndpoint = getProfileEndpoint(UUID.randomUUID(), profile)
+        def profileEndpoint = UsersHttpEndpoints.getProfileEndpoint(UUID.randomUUID(), profile)
 
         when:
         def response = RestAssured.given()
@@ -74,7 +83,7 @@ class UserTests extends ContainersSpecification {
 
     def "when adding profile but user does not exist should get not found"(String profile) {
         given:
-        def profileEndpoint = getProfileEndpoint(userId, profile)
+        def profileEndpoint = UsersHttpEndpoints.getProfileEndpoint(userId, profile)
         usersGateway.delete(userId)
 
         when:
@@ -94,7 +103,7 @@ class UserTests extends ContainersSpecification {
 
     def "when adding admin profile and user exists should add admin profile"() {
         given:
-        def profileEndpoint = getProfileEndpoint(userId, "admin")
+        def profileEndpoint = UsersHttpEndpoints.getProfileEndpoint(userId, "admin")
 
         when:
         def response = RestAssured.given()
@@ -107,14 +116,18 @@ class UserTests extends ContainersSpecification {
         then:
         def responseBody = response.body().as(AdminCreatedResponse.class)
         def user = usersGateway.findById(userId).orElseThrow()
+        def adminId = responseBody.adminId()
+        def admin = adminsGateway.findById(adminId).orElseThrow()
 
-        user.getAdminId() == responseBody.adminId()
+        user.getAdminId() == adminId
+        admin.getId() == adminId
+        admin.getUserId() == userId
         response.statusCode() == HttpStatus.OK.value()
     }
 
-    def "when adding trainer profile and user exists should add admin profile"() {
+    def "when adding trainer profile and user exists should add trainer profile"() {
         given:
-        def profileEndpoint = getProfileEndpoint(userId, "trainer")
+        def profileEndpoint = UsersHttpEndpoints.getProfileEndpoint(userId, "trainer")
 
         when:
         def response = RestAssured.given()
@@ -127,14 +140,18 @@ class UserTests extends ContainersSpecification {
         then:
         def responseBody = response.body().as(TrainerCreatedResponse.class)
         def user = usersGateway.findById(userId).orElseThrow()
+        def trainerId = responseBody.trainerId()
+        def trainer = trainersGateway.findById(trainerId).orElseThrow()
 
-        user.getTrainerId() == responseBody.trainerId()
+        user.getTrainerId() == trainerId
+        trainer.getId() == trainerId
+        trainer.getUserId() == userId
         response.statusCode() == HttpStatus.OK.value()
     }
 
-    def "when adding participant profile and user exists should add admin profile"() {
+    def "when adding participant profile and user exists should add participant profile"() {
         given:
-        def profileEndpoint = getProfileEndpoint(userId, "participant")
+        def profileEndpoint = UsersHttpEndpoints.getProfileEndpoint(userId, "participant")
 
         when:
         def response = RestAssured.given()
@@ -147,8 +164,12 @@ class UserTests extends ContainersSpecification {
         then:
         def responseBody = response.body().as(ParticipantCreatedResponse.class)
         def user = usersGateway.findById(userId).orElseThrow()
+        def participantId = responseBody.participantId()
+        def participant = participantsGateway.findById(participantId).orElseThrow()
 
-        user.getParticipantId() == responseBody.participantId()
+        user.getParticipantId() == participantId
+        participant.getId() == participantId
+        participant.getUserId() == userId
         response.statusCode() == HttpStatus.OK.value()
     }
 
@@ -164,12 +185,8 @@ class UserTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(registerRequest)
                 .when()
-                .post(REGISTER_ENDPOINT)
+                .post(IntegrationConstants.REGISTRATION_ENDPOINT)
 
         return response.as(AuthResponse)
-    }
-
-    private static String getProfileEndpoint(UUID userId, String profile) {
-        return "users/" + userId + "/profiles/" + profile
     }
 }

@@ -2,8 +2,8 @@ package com.faroc.gymanager.unit.application.subscriptions.commands
 
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
-import com.faroc.gymanager.application.subscriptions.commands.createsubscription.CreateSubscriptionCommand
-import com.faroc.gymanager.application.subscriptions.commands.createsubscription.CreateSubscriptionHandler
+import com.faroc.gymanager.application.subscriptions.commands.createsubscription.SubscribeCommand
+import com.faroc.gymanager.application.subscriptions.commands.createsubscription.SubscribeHandler
 import com.faroc.gymanager.domain.admins.Admin
 import com.faroc.gymanager.domain.admins.errors.AdminErrors
 import com.faroc.gymanager.domain.shared.events.DomainEvent
@@ -12,16 +12,16 @@ import net.datafaker.Faker
 import org.springframework.context.ApplicationEventPublisher
 import spock.lang.Specification
 
-class CreateSubscriptionHandlerTests extends Specification {
+class SubscribeHandlerTests extends Specification {
     Faker faker
     AdminsGateway mockAdminsGateway
     ApplicationEventPublisher mockEventPublisher
     UUID adminId
-    CreateSubscriptionHandler sut
+    SubscribeHandler sut
     UUID userId
     Admin admin
     SubscriptionType subscriptionType
-    CreateSubscriptionCommand command
+    SubscribeCommand command
 
     def setup() {
         faker = new Faker()
@@ -31,9 +31,9 @@ class CreateSubscriptionHandlerTests extends Specification {
         adminId = UUID.randomUUID()
         userId = UUID.randomUUID()
         admin = new Admin(adminId, userId)
-        command = new CreateSubscriptionCommand(subscriptionType, adminId)
+        command = new SubscribeCommand(subscriptionType, adminId)
 
-        sut = new CreateSubscriptionHandler(mockAdminsGateway, mockEventPublisher)
+        sut = new SubscribeHandler(mockAdminsGateway, mockEventPublisher)
     }
     
 
