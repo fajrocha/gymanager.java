@@ -41,7 +41,7 @@ public class AddTrainerHandler implements Command.Handler<AddTrainerCommand, UUI
 
         var userId = command.userId();
         var user = userGateway.findById(userId)
-                .orElseThrow(() -> new UnauthorizedException(UserErrors.notFound(userId)));
+                .orElseThrow(() -> new ResourceNotFoundException(UserErrors.notFound(userId), UserErrors.NOT_FOUND));
 
         var participantId = user.createTrainerProfile();
         userGateway.update(user);
