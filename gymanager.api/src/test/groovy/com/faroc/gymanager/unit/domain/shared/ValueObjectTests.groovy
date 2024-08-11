@@ -1,12 +1,14 @@
 package com.faroc.gymanager.unit.domain.shared
 
+
 import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot
+import com.faroc.gymanager.unit.domain.testutils.TimeTestsProvider
 import spock.lang.Specification
 
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
-import static unit.domain.testutils.TimeProvider.EPOCH_SECONDS
+import static com.faroc.gymanager.unit.domain.testutils.TimeTestsProvider.EPOCH_SECONDS
 
 class ValueObjectTests extends Specification {
 

@@ -11,8 +11,8 @@ import com.faroc.gymanager.domain.sessions.SessionErrors
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
 import com.faroc.gymanager.unit.application.participants.utils.ParticipantsTestsFactory
+import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
 import spock.lang.Specification
-import unit.domain.sessions.utils.SessionsTestsFactory
 
 class MakeSessionReservationHandlerTests extends Specification {
     SessionsGateway mockSessionsGateway

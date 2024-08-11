@@ -5,7 +5,7 @@ import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
 
 import java.util.UUID;
 
-import static unit.domain.sessions.utils.SessionConstants.*;
+import static com.faroc.gymanager.unit.domain.sessions.utils.SessionConstants.*;
 
 
 public class SessionsTestsFactory {

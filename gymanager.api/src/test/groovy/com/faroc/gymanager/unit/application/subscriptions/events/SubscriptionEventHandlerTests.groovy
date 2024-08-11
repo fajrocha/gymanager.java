@@ -7,7 +7,7 @@ import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
 import com.faroc.gymanager.domain.subscriptions.Subscription
 import spock.lang.Specification
-import unit.domain.subscriptions.utils.SubscriptionsFactory
+import com.faroc.gymanager.unit.domain.subscriptions.utils.SubscriptionsFactory
 
 class SubscriptionEventHandlerTests extends Specification {
     Subscription subscription

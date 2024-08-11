@@ -10,8 +10,8 @@ import com.faroc.gymanager.domain.rooms.errors.RoomErrors
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
 import com.faroc.gymanager.domain.subscriptions.Subscription
 import com.faroc.gymanager.unit.application.subscriptions.utils.SubscriptionsTestsFactory
+import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
 import spock.lang.Specification
-import unit.domain.gyms.utils.GymsTestsFactory
 
 class AddRoomHandlerTests extends Specification {
     final String GYM_NAME = "Best Gym"

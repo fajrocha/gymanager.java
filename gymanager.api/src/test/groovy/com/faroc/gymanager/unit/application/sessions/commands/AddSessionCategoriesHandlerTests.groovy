@@ -6,8 +6,8 @@ import com.faroc.gymanager.application.sessions.commands.addsessioncategory.AddS
 import com.faroc.gymanager.domain.gyms.Gym
 import com.faroc.gymanager.domain.sessions.errors.SessionCategoriesErrors
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
+import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
 import spock.lang.Specification
-import unit.domain.gyms.utils.GymsTestsFactory
 
 class AddSessionCategoriesHandlerTests extends Specification {
     UUID gymId

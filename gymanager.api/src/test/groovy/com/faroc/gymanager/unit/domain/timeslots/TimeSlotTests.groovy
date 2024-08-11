@@ -6,7 +6,7 @@ import spock.lang.Specification
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
-import static unit.domain.testutils.TimeProvider.EPOCH_SECONDS
+import static com.faroc.gymanager.unit.domain.testutils.TimeTestsProvider.EPOCH_SECONDS
 
 class TimeSlotTests extends Specification {
     TimeSlot timeSlot

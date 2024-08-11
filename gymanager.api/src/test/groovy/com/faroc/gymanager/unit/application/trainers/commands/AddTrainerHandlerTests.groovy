@@ -1,17 +1,17 @@
 package com.faroc.gymanager.unit.application.trainers.commands
 
-
 import com.faroc.gymanager.application.security.CurrentUserProvider
 import com.faroc.gymanager.application.security.DTOs.CurrentUserDTO
 import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
 import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher
+import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.application.trainers.commands.addtrainer.AddTrainerCommand
 import com.faroc.gymanager.application.trainers.commands.addtrainer.AddTrainerHandler
 import com.faroc.gymanager.application.users.gateways.UsersGateway
 import com.faroc.gymanager.domain.users.User
 import com.faroc.gymanager.domain.users.errors.UserErrors
 import spock.lang.Specification
-import unit.domain.users.utils.UsersTestsFactory
+import com.faroc.gymanager.unit.domain.users.utils.UsersTestsFactory
 
 class AddTrainerHandlerTests extends Specification {
 
@@ -60,7 +60,7 @@ class AddTrainerHandlerTests extends Specification {
         sut.handle(command)
 
         then:
-        def ex = thrown(UnauthorizedException)
+        def ex = thrown(ResourceNotFoundException)
         ex.message == UserErrors.notFound(userId)
     }
 

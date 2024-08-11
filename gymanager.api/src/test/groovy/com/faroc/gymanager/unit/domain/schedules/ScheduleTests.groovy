@@ -11,7 +11,8 @@ import spock.lang.Specification
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
-import static unit.domain.testutils.TimeProvider.EPOCH_SECONDS
+import static com.faroc.gymanager.unit.domain.testutils.TimeTestsProvider.EPOCH_SECONDS
+import static java.time.Instant.ofEpochSecond
 
 class ScheduleTests extends Specification {
 
@@ -22,8 +23,8 @@ class ScheduleTests extends Specification {
     Schedule schedule
 
     def setup() {
-        startTime = Instant.ofEpochSecond(EPOCH_SECONDS)
-        endTime = Instant.ofEpochSecond(EPOCH_SECONDS).plus(1, ChronoUnit.HOURS)
+        startTime = ofEpochSecond(EPOCH_SECONDS)
+        endTime = ofEpochSecond(EPOCH_SECONDS).plus(1, ChronoUnit.HOURS)
         timeSlot = new TimeSlot(startTime, endTime)
         schedule = new Schedule()
     }
