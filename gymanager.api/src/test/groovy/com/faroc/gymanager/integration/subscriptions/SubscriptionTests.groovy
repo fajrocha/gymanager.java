@@ -112,7 +112,7 @@ class SubscriptionTests extends ContainersSpecification {
         return response.as(AuthResponse)
     }
 
-    private AdminCreatedResponse addAdminProfile(UUID userId, String token) {
+    private static AdminCreatedResponse addAdminProfile(UUID userId, String token) {
         def endpoint = UsersHttpEndpoints.getAdminProfileEndpoint(userId)
 
         var response = RestAssured.given()
