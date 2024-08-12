@@ -11,12 +11,14 @@ public class GymMappers {
         var gymRecord = new GymsRecord();
 
         gymRecord.setId(gym.getId());
-        gymRecord.setSubscriptionId(gym.getSubscriptionId());
-        gymRecord.setName(gym.getName());
-        gymRecord.setMaxRooms(gym.getMaxRooms());
-        gymRecord.setRoomIds(gym.getRoomIds().toArray(new UUID[0]));
-        gymRecord.setTrainerIds(gym.getTrainerIds().toArray(new UUID[0]));
-        gymRecord.setSessionCategories(gym.getSessionCategories().toArray(new String[0]));
+        mapNonIdProperties(gymRecord, gym);
+
+        return gymRecord;
+    }
+
+    public static GymsRecord toRecordUpdate(Gym gym) {
+        var gymRecord = new GymsRecord();
+        mapNonIdProperties(gymRecord, gym);
 
         return gymRecord;
     }
@@ -34,5 +36,14 @@ public class GymMappers {
         Arrays.stream(gymRecord.getSessionCategories()).forEach(gym::addCategory);
 
         return gym;
+    }
+
+    private static void mapNonIdProperties(GymsRecord gymRecord, Gym gym) {
+        gymRecord.setSubscriptionId(gym.getSubscriptionId());
+        gymRecord.setName(gym.getName());
+        gymRecord.setMaxRooms(gym.getMaxRooms());
+        gymRecord.setRoomIds(gym.getRoomIds().toArray(new UUID[0]));
+        gymRecord.setTrainerIds(gym.getTrainerIds().toArray(new UUID[0]));
+        gymRecord.setSessionCategories(gym.getSessionCategories().toArray(new String[0]));
     }
 }

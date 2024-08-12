@@ -4,7 +4,8 @@ import com.faroc.gymanager.application.security.exceptions.PasswordComplexityExc
 import com.faroc.gymanager.application.shared.exceptions.ValidationException
 import com.faroc.gymanager.application.users.gateways.UsersGateway
 import com.faroc.gymanager.integration.shared.ContainersSpecification
-import com.faroc.gymanager.integration.shared.IntegrationConstants
+
+import com.faroc.gymanager.integration.users.utils.IdentityHttpEndpoints
 import com.faroc.gymanager.integration.users.utils.IdentityTestsHelpers
 import com.faroc.gymanager.integration.users.utils.RegisterRequestsTestsBuilder
 import com.faroc.gymanager.users.requests.LoginRequest
@@ -42,7 +43,7 @@ class IdentityTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post(IntegrationConstants.REGISTRATION_ENDPOINT)
+                .post(IdentityHttpEndpoints.REGISTRATION_ENDPOINT)
 
         then:
         response.statusCode() == HttpStatus.OK.value()
@@ -66,7 +67,7 @@ class IdentityTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post(IntegrationConstants.REGISTRATION_ENDPOINT)
+                .post(IdentityHttpEndpoints.REGISTRATION_ENDPOINT)
 
         def responseBodyJson = response.body().jsonPath()
 
@@ -88,7 +89,7 @@ class IdentityTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post(IntegrationConstants.REGISTRATION_ENDPOINT)
+                .post(IdentityHttpEndpoints.REGISTRATION_ENDPOINT)
 
         def responseBodyJson = response.body().jsonPath()
 
@@ -109,13 +110,13 @@ class IdentityTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(requestExistingUser)
                 .when()
-                .post(IntegrationConstants.REGISTRATION_ENDPOINT)
+                .post(IdentityHttpEndpoints.REGISTRATION_ENDPOINT)
 
         def responseUserSameEmail = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(requestUserSameEmail)
                 .when()
-                .post(IntegrationConstants.REGISTRATION_ENDPOINT)
+                .post(IdentityHttpEndpoints.REGISTRATION_ENDPOINT)
 
         then:
         responseUserSameEmail.statusCode() == HttpStatus.CONFLICT.value()
@@ -170,7 +171,7 @@ class IdentityTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(registerRequest)
                 .when()
-                .post(IntegrationConstants.REGISTRATION_ENDPOINT)
+                .post(IdentityHttpEndpoints.REGISTRATION_ENDPOINT)
 
         return registerRequest
     }

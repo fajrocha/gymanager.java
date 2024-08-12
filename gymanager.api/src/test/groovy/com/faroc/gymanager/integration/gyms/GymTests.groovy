@@ -1,18 +1,18 @@
-package com.faroc.gymanager.integration.subscriptions
+package com.faroc.gymanager.integration.gyms
 
-import com.faroc.gymanager.api.subscriptions.mappers.SubscriptionRequestMappers
-import com.faroc.gymanager.application.admins.gateways.AdminsGateway
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
-import com.faroc.gymanager.domain.admins.errors.AdminErrors
+
+import com.faroc.gymanager.gyms.requests.AddGymRequest
+import com.faroc.gymanager.integration.gyms.utils.EndpointsGyms
 import com.faroc.gymanager.integration.shared.ContainersSpecification
-
 import com.faroc.gymanager.integration.subscriptions.utils.SubscriptionsHttpEndpoints
 import com.faroc.gymanager.integration.users.utils.IdentityHttpEndpoints
+import com.faroc.gymanager.integration.users.utils.IdentitySharedConstants
 import com.faroc.gymanager.integration.users.utils.RegisterRequestsTestsBuilder
 import com.faroc.gymanager.integration.users.utils.UsersHttpEndpoints
 import com.faroc.gymanager.subscriptions.requests.SubscribeRequest
 import com.faroc.gymanager.subscriptions.responses.SubscriptionResponse
 import com.faroc.gymanager.subscriptions.shared.SubscriptionTypeApi
+import com.faroc.gymanager.users.requests.LoginRequest
 import com.faroc.gymanager.users.responses.AdminCreatedResponse
 import com.faroc.gymanager.users.responses.AuthResponse
 import io.restassured.RestAssured
@@ -24,76 +24,59 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SubscriptionTests extends ContainersSpecification {
+class GymTests extends ContainersSpecification {
     @Autowired
     TestRestTemplate restTemplate
-    @Autowired
-    AdminsGateway adminsGateway
-    @Autowired
-    SubscriptionsGateway subscriptionsGateway
 
     final Faker faker = new Faker()
-    String token
-    UUID userId
+    String registerToken
+    UUID subscriptionId
+    final String GYM_NAME = "Gymothy"
+    String loginToken
 
     def setup() {
         RestAssured.baseURI = restTemplate.getRootUri()
-
         def registerResponse = registerUser()
-        token = registerResponse.token()
-        userId = registerResponse.id()
+        registerToken = registerResponse.token()
+        def addAdminResponse = addAdminProfile(registerResponse.id(), registerToken)
+        def subscribeResponse = subscribe(addAdminResponse.adminId(), registerToken)
+        def loginResponse = loginUser(registerResponse.email())
+        loginToken = loginResponse.token()
+        subscriptionId = subscribeResponse.id()
     }
 
-    def "when subscribing and admin does not exist should return not found"(SubscriptionTypeApi subscriptionType) {
+    def "when gym is added but token doesn't have the right permissions should get forbidden"() {
         given:
-        def subscribeRequest = new SubscribeRequest(subscriptionType, UUID.randomUUID())
+        def endpoint = EndpointsGyms.getAddGymEndpoint(UUID.randomUUID())
+        def request = new AddGymRequest(GYM_NAME)
 
         when:
         def response = RestAssured.given()
-                .header("Authorization", "Bearer " + token)
+                .header("Authorization", "Bearer " + registerToken)
                 .contentType(ContentType.JSON)
-                .body(subscribeRequest)
+                .body(request)
                 .when()
-                .post(SubscriptionsHttpEndpoints.SUBSCRIBE_ENDPOINT)
+                .post(endpoint)
 
         then:
-        response.statusCode() == HttpStatus.NOT_FOUND.value()
-        response.body().jsonPath().getString("detail") == AdminErrors.NOT_FOUND
-
-        where:
-        subscriptionType << [SubscriptionTypeApi.Free, SubscriptionTypeApi.Starter, SubscriptionTypeApi.Pro]
+        response.statusCode() == HttpStatus.FORBIDDEN.value()
     }
 
-    def "when subscribing should add subscription to admin and create subscription"(
-            SubscriptionTypeApi subscriptionType) {
+    def "when gym is added but subscription does not exist should get internal server error"() {
         given:
-        def addAdminResponse = addAdminProfile(userId, token)
-        def adminId = addAdminResponse.adminId()
-        def subscribeRequest = new SubscribeRequest(subscriptionType, adminId)
+        def endpoint = EndpointsGyms.getAddGymEndpoint(UUID.randomUUID())
+        def request = new AddGymRequest(GYM_NAME)
 
         when:
         def response = RestAssured.given()
-                .header("Authorization", "Bearer " + token)
+                .header("Authorization", "Bearer " + loginToken)
                 .contentType(ContentType.JSON)
-                .body(subscribeRequest)
+                .body(request)
                 .when()
-                .post(SubscriptionsHttpEndpoints.SUBSCRIBE_ENDPOINT)
+                .post(endpoint)
 
         then:
-        def responseBody = response.body().as(SubscriptionResponse.class)
-        def admin = adminsGateway.findById(adminId).orElseThrow()
-        def subscriptionId = responseBody.id()
-        def subscription = subscriptionsGateway.findById(subscriptionId).orElseThrow()
-
-        admin.getSubscriptionId() == subscriptionId
-        subscription.getId() == subscriptionId
-        subscription.getAdminId() == adminId
-        subscription.getSubscriptionType() == SubscriptionRequestMappers.toDomain(subscriptionType)
-        subscriptionType == responseBody.subscriptionType()
-        response.statusCode() == HttpStatus.CREATED.value()
-
-        where:
-        subscriptionType << [SubscriptionTypeApi.Free, SubscriptionTypeApi.Starter, SubscriptionTypeApi.Pro]
+        response.statusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()
     }
 
     private AuthResponse registerUser() {
@@ -113,6 +96,18 @@ class SubscriptionTests extends ContainersSpecification {
         return response.as(AuthResponse)
     }
 
+    private static AuthResponse loginUser(String email) {
+        def request = new LoginRequest(email, IdentitySharedConstants.DEFAULT_PASSWORD)
+
+        def response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post(IdentityHttpEndpoints.LOGIN_ENDPOINT)
+
+        return response.as(AuthResponse)
+    }
+
     private static AdminCreatedResponse addAdminProfile(UUID userId, String token) {
         def endpoint = UsersHttpEndpoints.getAdminProfileEndpoint(userId)
 
@@ -124,5 +119,18 @@ class SubscriptionTests extends ContainersSpecification {
                 .post(endpoint)
 
         return response.as(AdminCreatedResponse)
+    }
+
+    private static SubscriptionResponse subscribe(UUID adminId, String token) {
+        def request = new SubscribeRequest(SubscriptionTypeApi.Pro, adminId)
+
+        def response = RestAssured.given()
+                .header("Authorization", "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post(SubscriptionsHttpEndpoints.SUBSCRIBE_ENDPOINT)
+
+        return response.as(SubscriptionResponse)
     }
 }

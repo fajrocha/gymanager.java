@@ -5,7 +5,8 @@ import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway
 import com.faroc.gymanager.application.trainers.gateways.TrainersGateway
 import com.faroc.gymanager.application.users.gateways.UsersGateway
 import com.faroc.gymanager.integration.shared.ContainersSpecification
-import com.faroc.gymanager.integration.shared.IntegrationConstants
+
+import com.faroc.gymanager.integration.users.utils.IdentityHttpEndpoints
 import com.faroc.gymanager.integration.users.utils.UsersHttpEndpoints
 import com.faroc.gymanager.integration.users.utils.RegisterRequestsTestsBuilder
 import com.faroc.gymanager.users.responses.AdminCreatedResponse
@@ -185,7 +186,7 @@ class UserTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(registerRequest)
                 .when()
-                .post(IntegrationConstants.REGISTRATION_ENDPOINT)
+                .post(IdentityHttpEndpoints.REGISTRATION_ENDPOINT)
 
         return response.as(AuthResponse)
     }

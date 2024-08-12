@@ -29,13 +29,11 @@ public class GymsRepository implements GymsGateway {
 
     @Override
     public void update(Gym gym) {
+        var gymRecord = GymMappers.toRecordUpdate(gym);
+
         context.update(GYMS)
-                .set(GYMS.SUBSCRIPTION_ID, gym.getSubscriptionId())
-                .set(GYMS.NAME, gym.getName())
-                .set(GYMS.MAX_ROOMS, gym.getMaxRooms())
-                .set(GYMS.ROOM_IDS, gym.getRoomIds().toArray(new UUID[0]))
-                .set(GYMS.TRAINER_IDS, gym.getTrainerIds().toArray(new UUID[0]))
-                .set(GYMS.SESSION_CATEGORIES, gym.getSessionCategories().toArray(new String[0]))
+                .set(gymRecord)
+                .where(GYMS.ID.eq(gym.getId()))
                 .execute();
     }
 

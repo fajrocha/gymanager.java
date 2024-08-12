@@ -65,6 +65,7 @@ public class UsersRepository implements UsersGateway {
 
         context.update(USERS)
                 .set(record)
+                .where(USERS.ID.eq(user.getId()))
                 .execute();
     }
 
