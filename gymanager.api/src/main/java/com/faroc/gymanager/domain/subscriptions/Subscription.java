@@ -85,6 +85,10 @@ public class Subscription extends AggregateRoot {
     }
 
     public int getMaxGyms() {
+        return getMaxGyms(subscriptionType);
+    }
+
+    public static int getMaxGyms(SubscriptionType subscriptionType) {
         return switch (subscriptionType) {
             case Free -> MAX_GYMS_FREE;
             case Starter -> MAX_GYMS_STARTER;
