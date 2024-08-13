@@ -1,7 +1,10 @@
 package com.faroc.gymanager.integration.gyms
 
-
+import com.faroc.gymanager.application.gyms.gateways.GymsGateway
+import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
+import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors
 import com.faroc.gymanager.gyms.requests.AddGymRequest
+import com.faroc.gymanager.gyms.responses.GymResponse
 import com.faroc.gymanager.integration.gyms.utils.EndpointsGyms
 import com.faroc.gymanager.integration.shared.ContainersSpecification
 import com.faroc.gymanager.integration.subscriptions.utils.SubscriptionsHttpEndpoints
@@ -27,19 +30,27 @@ import org.springframework.http.HttpStatus
 class GymTests extends ContainersSpecification {
     @Autowired
     TestRestTemplate restTemplate
+    @Autowired
+    SubscriptionsGateway subscriptionsGateway
+    @Autowired
+    GymsGateway gymsGateway
 
     final Faker faker = new Faker()
     String registerToken
     UUID subscriptionId
-    final String GYM_NAME = "Gymothy"
+    String gymName
     String loginToken
 
     def setup() {
+        gymName = faker.marketing().buzzwords()
         RestAssured.baseURI = restTemplate.getRootUri()
         def registerResponse = registerUser()
         registerToken = registerResponse.token()
         def addAdminResponse = addAdminProfile(registerResponse.id(), registerToken)
-        def subscribeResponse = subscribe(addAdminResponse.adminId(), registerToken)
+        def subscribeResponse = subscribe(
+                SubscriptionTypeApi.Free,
+                addAdminResponse.adminId(),
+                registerToken)
         def loginResponse = loginUser(registerResponse.email())
         loginToken = loginResponse.token()
         subscriptionId = subscribeResponse.id()
@@ -48,7 +59,7 @@ class GymTests extends ContainersSpecification {
     def "when gym is added but token doesn't have the right permissions should get forbidden"() {
         given:
         def endpoint = EndpointsGyms.getAddGymEndpoint(UUID.randomUUID())
-        def request = new AddGymRequest(GYM_NAME)
+        def request = new AddGymRequest(gymName)
 
         when:
         def response = RestAssured.given()
@@ -65,7 +76,7 @@ class GymTests extends ContainersSpecification {
     def "when gym is added but subscription does not exist should get internal server error"() {
         given:
         def endpoint = EndpointsGyms.getAddGymEndpoint(UUID.randomUUID())
-        def request = new AddGymRequest(GYM_NAME)
+        def request = new AddGymRequest(gymName)
 
         when:
         def response = RestAssured.given()
@@ -77,6 +88,57 @@ class GymTests extends ContainersSpecification {
 
         then:
         response.statusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()
+    }
+
+    def "when gym is added should add gym to subscription and create gym"() {
+        given:
+        def endpoint = EndpointsGyms.getAddGymEndpoint(subscriptionId)
+        def request = new AddGymRequest(gymName)
+
+        when:
+        def response = RestAssured.given()
+                .header("Authorization", "Bearer " + loginToken)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post(endpoint)
+
+        then:
+        response.statusCode() == HttpStatus.CREATED.value()
+        def responseBody = response.body().as(GymResponse.class)
+        def responseGymId = responseBody.id()
+        def subscription = subscriptionsGateway.findById(subscriptionId).orElseThrow()
+        def gym = gymsGateway.findById(responseGymId).orElseThrow()
+
+        subscription.hasGym(responseGymId)
+        responseGymId == gym.getId()
+        responseBody.name() == gymName
+    }
+
+    def "when gym is added and subscription allows no more gyms should get internal server error"() {
+        given:
+        def endpoint = EndpointsGyms.getAddGymEndpoint(subscriptionId)
+        def addGymRequest1 = new AddGymRequest(faker.marketing().buzzwords())
+        def addGymRequest2 = new AddGymRequest(faker.marketing().buzzwords())
+
+        RestAssured.given()
+                .header("Authorization", "Bearer " + loginToken)
+                .contentType(ContentType.JSON)
+                .body(addGymRequest1)
+                .when()
+                .post(endpoint)
+
+        when:
+        def response = RestAssured.given()
+                .header("Authorization", "Bearer " + loginToken)
+                .contentType(ContentType.JSON)
+                .body(addGymRequest2)
+                .when()
+                .post(endpoint)
+
+        then:
+        response.statusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()
+        response.body().jsonPath().getString("detail") == SubscriptionErrors.MAX_GYMS_REACHED
     }
 
     private AuthResponse registerUser() {
@@ -121,8 +183,8 @@ class GymTests extends ContainersSpecification {
         return response.as(AdminCreatedResponse)
     }
 
-    private static SubscriptionResponse subscribe(UUID adminId, String token) {
-        def request = new SubscribeRequest(SubscriptionTypeApi.Pro, adminId)
+    private static SubscriptionResponse subscribe(SubscriptionTypeApi subscriptionType, UUID adminId, String token) {
+        def request = new SubscribeRequest(subscriptionType, adminId)
 
         def response = RestAssured.given()
                 .header("Authorization", "Bearer " + token)

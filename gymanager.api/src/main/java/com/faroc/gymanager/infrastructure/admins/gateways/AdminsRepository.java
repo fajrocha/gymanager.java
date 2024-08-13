@@ -40,6 +40,7 @@ public class AdminsRepository implements AdminsGateway {
         context.update(ADMINS)
                 .set(ADMINS.USER_ID, admin.getUserId())
                 .set(ADMINS.SUBSCRIPTION_ID, admin.getSubscriptionId())
+                .where(ADMINS.ID.eq(admin.getId()))
                 .execute();
     }
 
