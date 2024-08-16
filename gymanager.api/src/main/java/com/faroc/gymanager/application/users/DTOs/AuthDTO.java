@@ -7,4 +7,4 @@ public record AuthDTO(
         String firstName,
         String lastName,
         String email,
-        String token){};
+        String token){}

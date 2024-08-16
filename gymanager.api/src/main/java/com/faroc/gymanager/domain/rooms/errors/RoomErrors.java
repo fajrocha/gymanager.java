@@ -16,12 +16,12 @@ public class RoomErrors {
     }
 
     public static final String GYM_NOT_FOUND = "Gym not found to add new room.";
-    public static final String gymNotFound(UUID gymId) {
+    public static String gymNotFound(UUID gymId) {
       return "Gym with id " + gymId + " not found to add new room.";
     }
 
     public static final String SUBSCRIPTION_NOT_FOUND = "Subscription not found to add new room.";
-    public static final String subscriptionNotFound(UUID subscriptionId) {
+    public static String subscriptionNotFound(UUID subscriptionId) {
         return "Subscription with id " + subscriptionId + " not found to add new room.";
     }
 }
