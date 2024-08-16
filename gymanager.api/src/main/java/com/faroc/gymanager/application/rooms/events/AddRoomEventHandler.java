@@ -4,11 +4,10 @@ import com.faroc.gymanager.application.rooms.gateways.RoomsGateway;
 import com.faroc.gymanager.domain.gyms.events.AddRoomEvent;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class AddRoomEventHandler {
     private final RoomsGateway roomsGateway;
 
@@ -17,8 +16,7 @@ public class AddRoomEventHandler {
         this.roomsGateway = roomsGateway;
     }
 
-    @TransactionalEventListener
-    @Async
+    @ApplicationModuleListener
     public void handle(AddRoomEvent addRoomEvent) {
         var room = addRoomEvent.room();
 

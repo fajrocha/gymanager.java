@@ -4,11 +4,10 @@ import com.faroc.gymanager.application.reservations.gateways.ReservationsGateway
 import com.faroc.gymanager.domain.sessions.events.MakeReservationEvent;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class MakeReservationEventHandler {
     private final ReservationsGateway reservationsGateway;
 
@@ -18,8 +17,7 @@ public class MakeReservationEventHandler {
         this.reservationsGateway = reservationsGateway;
     }
 
-    @Async
-    @TransactionalEventListener
+    @ApplicationModuleListener
     public void handle(MakeReservationEvent event) {
         var reservation = event.reservation();
         var session = event.session();

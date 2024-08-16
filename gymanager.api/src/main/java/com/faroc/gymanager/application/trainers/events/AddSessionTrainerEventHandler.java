@@ -6,13 +6,12 @@ import com.faroc.gymanager.domain.sessions.Session;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.trainers.Trainer;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Component
+@Service
 public class AddSessionTrainerEventHandler {
     private final TrainersGateway trainersGateway;
 
@@ -20,8 +19,7 @@ public class AddSessionTrainerEventHandler {
         this.trainersGateway = trainersGateway;
     }
 
-    @Async
-    @TransactionalEventListener
+    @ApplicationModuleListener
     public void handle(SessionReservationEvent sessionReservationEvent) {
         var session = sessionReservationEvent.session();
         var trainerId = session.getTrainerId();

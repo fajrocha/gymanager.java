@@ -2,16 +2,15 @@ package com.faroc.gymanager.application.participants.events;
 
 import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway;
 import com.faroc.gymanager.domain.participants.Participant;
-import com.faroc.gymanager.domain.sessions.SessionReservation;
 import com.faroc.gymanager.domain.sessions.Session;
+import com.faroc.gymanager.domain.sessions.SessionReservation;
 import com.faroc.gymanager.domain.sessions.events.MakeReservationEvent;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class MakeReservationParticipantEventHandler {
     private final ParticipantsGateway participantsGateway;
 
@@ -19,8 +18,7 @@ public class MakeReservationParticipantEventHandler {
         this.participantsGateway = participantsGateway;
     }
 
-    @Async
-    @TransactionalEventListener
+    @ApplicationModuleListener
     public void handle(MakeReservationEvent event) {
         var session = event.session();
         var reservation = event.reservation();

@@ -6,13 +6,12 @@ import com.faroc.gymanager.domain.rooms.events.SessionReservationEvent;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Component
+@Service
 public class AddSessionTrainerToGymEventHandler {
     private final GymsGateway gymsGateway;
 
@@ -21,8 +20,7 @@ public class AddSessionTrainerToGymEventHandler {
         this.gymsGateway = gymsGateway;
     }
 
-    @Async
-    @TransactionalEventListener
+    @ApplicationModuleListener
     public void handle(SessionReservationEvent event) {
         var gymId = event.room().getGymId();
         var trainerId = event.session().getTrainerId();

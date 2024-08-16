@@ -4,11 +4,10 @@ import com.faroc.gymanager.application.trainers.gateways.TrainersGateway;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import com.faroc.gymanager.domain.trainers.Trainer;
 import com.faroc.gymanager.domain.users.events.AddTrainerEvent;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class AddTrainerEventHandler {
     private final TrainersGateway trainersGateway;
 
@@ -16,8 +15,7 @@ public class AddTrainerEventHandler {
         this.trainersGateway = trainersGateway;
     }
 
-    @TransactionalEventListener
-    @Async
+    @ApplicationModuleListener
     public void handle(AddTrainerEvent addTrainerEvent) {
         var trainerId = addTrainerEvent.trainerId();
         var userId = addTrainerEvent.userId();

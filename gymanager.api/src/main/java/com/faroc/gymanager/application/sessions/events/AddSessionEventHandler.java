@@ -4,11 +4,10 @@ import com.faroc.gymanager.application.sessions.gateways.SessionsGateway;
 import com.faroc.gymanager.domain.rooms.events.SessionReservationEvent;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class AddSessionEventHandler {
 
     private final SessionsGateway sessionsGateway;
@@ -18,8 +17,7 @@ public class AddSessionEventHandler {
         this.sessionsGateway = sessionsGateway;
     }
 
-    @Async
-    @TransactionalEventListener
+    @ApplicationModuleListener
     public void handle(SessionReservationEvent event) {
         var session = event.session();
 

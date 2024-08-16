@@ -4,11 +4,12 @@ import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGatew
 import com.faroc.gymanager.domain.admins.events.SubscriptionCreatedEvent;
 import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-@Component
+@Service
 public class SubscriptionEventHandler {
     private final SubscriptionsGateway subscriptionsGateway;
 
@@ -16,8 +17,7 @@ public class SubscriptionEventHandler {
         this.subscriptionsGateway = subscriptionsGateway;
     }
 
-    @TransactionalEventListener
-    @Async
+    @ApplicationModuleListener
     public void handle(SubscriptionDeletedEvent subscriptionDeletedEvent) {
         var subscriptionId = subscriptionDeletedEvent.subscriptionId();
 
