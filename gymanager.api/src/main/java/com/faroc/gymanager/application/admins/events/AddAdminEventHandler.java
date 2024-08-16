@@ -4,11 +4,13 @@ import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.domain.admins.Admin;
 import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
 import com.faroc.gymanager.domain.users.events.AddAdminEvent;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-@Component
+@Service
 public class AddAdminEventHandler {
     private final AdminsGateway adminsGateway;
 
@@ -16,8 +18,7 @@ public class AddAdminEventHandler {
         this.adminsGateway = adminsGateway;
     }
 
-    @TransactionalEventListener
-    @Async
+    @ApplicationModuleListener
     public void handle(AddAdminEvent addAdminEvent) {
         var adminId = addAdminEvent.adminId();
         var userId = addAdminEvent.userId();

@@ -6,14 +6,27 @@ spring:
     password: changeit
     url: jdbc:postgresql://localhost:5432/gymanager
     driver-class-name: org.postgresql.Driver
+    hikari:
+      max-lifetime: 300_000
   flyway:
     user: faroc
     password: changeit
     url: jdbc:postgresql://localhost:5432/postgres
     locations: classpath:db/migration
     enabled: true
+  modulith:
+    republish-outstanding-events-on-restart: true
+    events:
+      jdbc:
+        schema-initialization:
+          enabled: true
 jwt:
   private:
     key: "classpath:private_key.pem"
   public:
     key: "classpath:public_key.pem"
+domain:
+  events:
+    republish-periodicity-seconds: 300
+    republish-older-than-seconds: 60
+    clear-older-than-seconds: 600
