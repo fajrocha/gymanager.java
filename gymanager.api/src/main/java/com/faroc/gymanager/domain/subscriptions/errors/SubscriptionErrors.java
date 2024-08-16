@@ -13,11 +13,6 @@ public class SubscriptionErrors {
         return "Gym with id " + gymId + "already exists on subscription " + subscriptionId + ".";
     }
 
-    public static final String ADMIN_NOT_FOUND = "Admin id not found.";
-    public static String adminNotFound(UUID adminId) {
-        return "Admin id " + adminId + "not found to complete request.";
-    }
-
     public static final String MAX_GYMS_REACHED = "Maximum gyms reached for this subscription.";
     public static String maxGymsReached(UUID subscriptionId) {
       return "Maximum gyms reached for subscription with id " + subscriptionId + ".";

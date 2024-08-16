@@ -1,7 +1,8 @@
 package com.faroc.gymanager.application.security.exceptions;
 
 public class PasswordComplexityException extends RuntimeException {
-    private String detail = "Password is not strong enough.";
+    public static final String DEFAULT_DETAIL = "Password is not strong enough.";
+    private String detail = DEFAULT_DETAIL;
 
     public PasswordComplexityException(String message) {
         super(message);

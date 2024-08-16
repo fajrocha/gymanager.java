@@ -2,8 +2,8 @@ package com.faroc.gymanager.infrastructure.gyms.gateways;
 
 import com.faroc.gymanager.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.domain.gyms.Gym;
+import com.faroc.gymanager.infrastructure.gyms.mappers.GymMappers;
 import org.jooq.DSLContext;
-import org.jooq.codegen.maven.gymanager.tables.records.GymsRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,16 +22,19 @@ public class GymsRepository implements GymsGateway {
 
     @Override
     public void save(Gym gym) {
-        var gymRecord = new GymsRecord();
-
-        gymRecord.setId(gym.getId());
-        gymRecord.setSubscriptionId(gym.getSubscriptionId());
-        gymRecord.setName(gym.getName());
-        gymRecord.setMaxRooms(gym.getMaxRooms());
-        gymRecord.setRoomIds(gym.getRoomIds().toArray(new UUID[0]));
-        gymRecord.setTrainerIds(gym.getTrainerIds().toArray(new UUID[0]));
+        var gymRecord = GymMappers.toRecord(gym);
 
         context.insertInto(GYMS).set(gymRecord).execute();
+    }
+
+    @Override
+    public void update(Gym gym) {
+        var gymRecord = GymMappers.toRecordUpdate(gym);
+
+        context.update(GYMS)
+                .set(gymRecord)
+                .where(GYMS.ID.eq(gym.getId()))
+                .execute();
     }
 
     @Override
@@ -41,14 +44,7 @@ public class GymsRepository implements GymsGateway {
         if (gymRecord == null)
             return Optional.empty();
 
-        var gym = Gym.mapFromStorage(
-                gymRecord.getId(),
-                gymRecord.getSubscriptionId(),
-                gymRecord.getName(),
-                gymRecord.getMaxRooms(),
-                gymRecord.getRoomIds(),
-                gymRecord.getTrainerIds()
-        );
+        var gym = GymMappers.toDomain(gymRecord);
 
         return Optional.of(gym);
     }
@@ -56,20 +52,8 @@ public class GymsRepository implements GymsGateway {
     @Override
     public List<Gym> findBySubscriptionId(UUID subscriptionId) {
         var gymsRecords = context.selectFrom(GYMS).where(GYMS.SUBSCRIPTION_ID.eq(subscriptionId)).fetchArray();
-        List<Gym> gyms = new ArrayList<>();
 
-        Arrays.stream(gymsRecords).forEach(gymRecord ->
-            gyms.add(Gym.mapFromStorage(
-                    gymRecord.getId(),
-                    gymRecord.getSubscriptionId(),
-                    gymRecord.getName(),
-                    gymRecord.getMaxRooms(),
-                    gymRecord.getRoomIds(),
-                    gymRecord.getTrainerIds()
-            ))
-        );
-
-        return gyms;
+        return Arrays.stream(gymsRecords).map(GymMappers::toDomain).toList();
     }
 
     @Override
@@ -78,7 +62,7 @@ public class GymsRepository implements GymsGateway {
     }
 
     @Override
-    public void deleteBySubscriptionId(UUID subscriptionId) {
+    public void deleteBySubscription(UUID subscriptionId) {
         context.delete(GYMS).where(GYMS.SUBSCRIPTION_ID.eq(subscriptionId)).execute();
     }
 }

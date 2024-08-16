@@ -4,7 +4,7 @@ import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Voidy;
 import com.faroc.gymanager.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
-import com.faroc.gymanager.application.shared.exceptions.UnexpectedException;
+import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.domain.gyms.errors.GymsErrors;
 import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;

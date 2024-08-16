@@ -8,7 +8,6 @@ public class ConflictException extends RuntimeException {
     }
 
     public ConflictException(String message, String detail) {
-
         super(message);
         this.detail = detail;
     }

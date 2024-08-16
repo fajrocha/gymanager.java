@@ -1,5 +1,6 @@
-package com.faroc.gymanager.domain.subscriptions;
+ package com.faroc.gymanager.domain.subscriptions;
 
+import com.faroc.gymanager.domain.shared.AggregateRoot;
 import com.faroc.gymanager.domain.shared.exceptions.ConflictException;
 import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
 import com.faroc.gymanager.domain.subscriptions.exceptions.MaxGymsReachedException;
@@ -7,27 +8,37 @@ import lombok.Getter;
 
 import java.util.*;
 
-public class Subscription {
+public class Subscription extends AggregateRoot {
     public static final int MAX_GYMS_FREE = 1;
     public static final int MAX_GYMS_STARTER = 3;
     public static final int MAX_GYMS_PRO = Integer.MAX_VALUE;
 
-    @Getter
-    private final UUID id;
+    public static final int MAX_ROOMS_FREE = 1;
+    public static final int MAX_ROOMS_STARTER = 10;
+    public static final int MAX_ROOMS_PRO = Integer.MAX_VALUE;
+
+    public static final int MAX_SESSIONS_FREE = 3;
+    public static final int MAX_SESSIONS_STARTER = Integer.MAX_VALUE;
+    public static final int MAX_SESSIONS_PRO = Integer.MAX_VALUE;
+
     @Getter
     private final UUID adminId;
     @Getter
     private final SubscriptionType subscriptionType;
-    @Getter
     private final int maxGyms;
-    @Getter
     private final Set<UUID> gymIds = new HashSet<>();
 
     public Subscription(UUID adminId, SubscriptionType subscriptionType) {
-        this.id = UUID.randomUUID();
         this.adminId = adminId;
         this.subscriptionType = subscriptionType;
-        maxGyms = maxGymsFromSubType();
+        maxGyms = getMaxGyms();
+    }
+
+    public Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType) {
+        super(id);
+        this.adminId = adminId;
+        this.subscriptionType = subscriptionType;
+        maxGyms = getMaxGyms();
     }
 
     public void addGym(UUID gymId) {
@@ -43,7 +54,7 @@ public class Subscription {
     }
 
     private Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
-        this.id = id;
+        super(id);
         this.adminId = adminId;
         this.subscriptionType = subscriptionType;
         this.maxGyms = maxGyms;
@@ -56,7 +67,7 @@ public class Subscription {
             int maxGyms,
             UUID[] gymIds) {
         var subscription = new Subscription(id, adminId, subscriptionType, maxGyms);
-        Arrays.stream(gymIds).forEach(gymId -> subscription.getGymIds().add(gymId));
+        subscription.gymIds.addAll(Arrays.asList(gymIds));
 
         return subscription;
     }
@@ -69,11 +80,35 @@ public class Subscription {
         return gymIds.contains(gymId);
     }
 
-    private int maxGymsFromSubType() {
+    public Set<UUID> getGymIds() {
+        return Collections.unmodifiableSet(gymIds);
+    }
+
+    public int getMaxGyms() {
+        return getMaxGyms(subscriptionType);
+    }
+
+    public static int getMaxGyms(SubscriptionType subscriptionType) {
         return switch (subscriptionType) {
             case Free -> MAX_GYMS_FREE;
             case Starter -> MAX_GYMS_STARTER;
             case Pro -> MAX_GYMS_PRO;
+        };
+    }
+
+    public int getMaxRooms() {
+        return switch (subscriptionType) {
+            case Free -> MAX_ROOMS_FREE;
+            case Starter -> MAX_ROOMS_STARTER;
+            case Pro -> MAX_ROOMS_PRO;
+        };
+    }
+
+    public int getMaxDailySessions() {
+        return switch (subscriptionType) {
+            case Free -> MAX_SESSIONS_FREE;
+            case Starter -> MAX_SESSIONS_STARTER;
+            case Pro -> MAX_SESSIONS_PRO;
         };
     }
 }

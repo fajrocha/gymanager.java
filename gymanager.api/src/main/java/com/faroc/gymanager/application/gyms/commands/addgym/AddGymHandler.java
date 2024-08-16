@@ -6,6 +6,7 @@ import com.faroc.gymanager.application.security.authorization.Authorize;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.domain.gyms.Gym;
+import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +26,11 @@ public class AddGymHandler implements Command.Handler<AddGymCommand, Gym> {
     public Gym handle(AddGymCommand addGymCommand) {
         var subscriptionId = addGymCommand.subscriptionId();
         var subscription = subscriptionsGateway.findById(subscriptionId)
-                .orElseThrow(() -> new ResourceNotFoundException(
+                .orElseThrow(() -> new UnexpectedException(
                         SubscriptionErrors.notFound(subscriptionId),
                         SubscriptionErrors.NOT_FOUND));
 
-        var gym = new Gym(subscriptionId, addGymCommand.name());
+        var gym = new Gym(subscriptionId, addGymCommand.name(), subscription.getMaxRooms());
         gymsGateway.save(gym);
 
         subscription.addGym(gym.getId());

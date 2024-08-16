@@ -1,20 +1,26 @@
 package com.faroc.gymanager.application.gyms.events;
 
-import an.awesome.pipelinr.Notification;
 import com.faroc.gymanager.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent;
-import org.springframework.stereotype.Component;
+import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException;
+import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.stereotype.Service;
 
-@Component
-public class DeleteSubscriptionGymsEventHandler implements Notification.Handler<SubscriptionDeletedEvent> {
+@Service
+public class DeleteSubscriptionGymsEventHandler {
     private final GymsGateway gymsGateway;
 
     public DeleteSubscriptionGymsEventHandler(GymsGateway gymsGateway) {
         this.gymsGateway = gymsGateway;
     }
 
-    @Override
+    @ApplicationModuleListener
     public void handle(SubscriptionDeletedEvent subscriptionDeletedEvent) {
-        gymsGateway.deleteBySubscriptionId(subscriptionDeletedEvent.subscriptionId());
+        var subscriptionId = subscriptionDeletedEvent.subscriptionId();
+        try {
+            gymsGateway.deleteBySubscription(subscriptionId);
+        } catch (Exception ex) {
+            throw new EventualConsistencyException("Failed to delete gyms for subscription " + subscriptionId);
+        }
     }
 }

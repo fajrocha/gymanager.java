@@ -1,29 +1,30 @@
 package com.faroc.gymanager.application.subscriptions.commands.deletesubscription;
 
 import an.awesome.pipelinr.Command;
-import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Voidy;
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.domain.admins.errors.AdminErrors;
+import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException;
 import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class DeleteSubscriptionHandler implements Command.Handler<DeleteSubscriptionCommand, Voidy> {
-    private final Pipeline pipeline;
     private final AdminsGateway adminsGateway;
     private final SubscriptionsGateway subscriptionsGateway;
+    private final ApplicationEventPublisher eventsPublisher;
 
     public DeleteSubscriptionHandler(
-            Pipeline pipeline,
             AdminsGateway adminsGateway,
-            SubscriptionsGateway subscriptionsGateway) {
-        this.pipeline = pipeline;
+            SubscriptionsGateway subscriptionsGateway,
+            ApplicationEventPublisher eventsPublisher) {
         this.adminsGateway = adminsGateway;
         this.subscriptionsGateway = subscriptionsGateway;
+        this.eventsPublisher = eventsPublisher;
     }
 
     @Override
@@ -43,11 +44,18 @@ public class DeleteSubscriptionHandler implements Command.Handler<DeleteSubscrip
                         AdminErrors.NOT_FOUND
                 ));
 
-        admin.deleteSubscription(subscriptionId);
+        if (admin.getSubscriptionId() == null)
+            throw new UnexpectedException(
+                    AdminErrors.notFound(adminId),
+                    AdminErrors.SUBSCRIPTION_NOT_FOUND
+            );
 
+        admin.deleteSubscription(subscriptionId);
         adminsGateway.update(admin);
 
-        admin.getDomainEvents().forEach(event -> event.send(pipeline));
+        while (admin.hasDomainEvents()) {
+            eventsPublisher.publishEvent(admin.popEvent());
+        }
 
         return new Voidy();
     }

@@ -5,9 +5,12 @@ import com.faroc.gymanager.api.gyms.mappers.GymResponseMappers;
 import com.faroc.gymanager.application.gyms.commands.addgym.AddGymCommand;
 import com.faroc.gymanager.application.gyms.commands.deletegym.DeleteGymCommand;
 import com.faroc.gymanager.application.gyms.queries.getsubscriptiongyms.GetSubscriptionGymsQuery;
+import com.faroc.gymanager.application.sessions.commands.addsessioncategory.AddSessionCategoriesCommand;
 import com.faroc.gymanager.domain.subscriptions.exceptions.MaxGymsReachedException;
 import com.faroc.gymanager.gyms.requests.AddGymRequest;
 import com.faroc.gymanager.gyms.responses.GymResponse;
+import com.faroc.gymanager.sessions.requests.AddSessionCategoryRequest;
+import com.faroc.gymanager.sessions.responses.AddSessionCategoryResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +22,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/subscriptions/{subscriptionId}/gyms")
 public class GymsController {
-
     private final Pipeline pipeline;
 
     public GymsController(Pipeline pipeline) {
@@ -47,6 +49,19 @@ public class GymsController {
         var gym = command.execute(pipeline);
 
         return new ResponseEntity<>(GymResponseMappers.toResponse(gym), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{gymId}/session-categories")
+    public ResponseEntity<AddSessionCategoryResponse> addGymCategories(
+            @PathVariable UUID gymId,
+            @RequestBody AddSessionCategoryRequest addSessionCategoryRequest) {
+        var command = new AddSessionCategoriesCommand(
+                gymId,
+                addSessionCategoryRequest.sessionCategories());
+
+        var sessionCategories = command.execute(pipeline);
+
+        return new ResponseEntity<>(new AddSessionCategoryResponse(sessionCategories), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{gymId}")

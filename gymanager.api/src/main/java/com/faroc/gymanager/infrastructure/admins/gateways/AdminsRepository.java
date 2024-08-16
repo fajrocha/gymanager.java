@@ -3,6 +3,7 @@ package com.faroc.gymanager.infrastructure.admins.gateways;
 import com.faroc.gymanager.application.admins.gateways.AdminsGateway;
 import com.faroc.gymanager.domain.admins.Admin;
 import org.jooq.DSLContext;
+import org.jooq.codegen.maven.gymanager.tables.records.AdminsRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +23,15 @@ public class AdminsRepository implements AdminsGateway {
     }
 
     @Override
-    public void save(Admin admin) {
-         context.insertInto(ADMINS, ADMINS.ID, ADMINS.USER_ID, ADMINS.SUBSCRIPTION_ID)
-                .values(admin.getId(), admin.getUserId(), admin.getSubscriptionId())
+    public void create(Admin admin) {
+        var record = new AdminsRecord();
+
+        record.setId(admin.getId());
+        record.setUserId(admin.getUserId());
+        record.setSubscriptionId(admin.getSubscriptionId());
+
+        context.insertInto(ADMINS)
+                .set(record)
                 .execute();
     }
 
@@ -33,6 +40,7 @@ public class AdminsRepository implements AdminsGateway {
         context.update(ADMINS)
                 .set(ADMINS.USER_ID, admin.getUserId())
                 .set(ADMINS.SUBSCRIPTION_ID, admin.getSubscriptionId())
+                .where(ADMINS.ID.eq(admin.getId()))
                 .execute();
     }
 

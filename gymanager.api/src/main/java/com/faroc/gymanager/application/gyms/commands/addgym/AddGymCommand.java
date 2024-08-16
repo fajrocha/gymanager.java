@@ -6,6 +6,6 @@ import com.faroc.gymanager.domain.gyms.Gym;
 
 import java.util.UUID;
 
-@Authorize(permissions = {"gyms:creat"})
+@Authorize(permissions = {"gyms:create"})
 public record AddGymCommand(String name, UUID subscriptionId) implements Command<Gym> {
 }

@@ -41,7 +41,7 @@ public class RegisterUserHandler implements Command.Handler<RegisterUserCommand,
                 registerUserCommand.lastName(),
                 userEmail,
                 pwdHash);
-        usersGateway.save(user);
+        usersGateway.create(user);
 
         var token = tokenGenerator.generate(user);
 

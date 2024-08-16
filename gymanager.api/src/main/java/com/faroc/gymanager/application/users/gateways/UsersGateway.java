@@ -9,6 +9,7 @@ public interface UsersGateway {
     Optional<User> findById(UUID userId);
     Optional<User> findByEmail(String email);
     boolean emailExists(String email);
-    void save(User user);
+    void create(User user);
     void update(User user);
+    void delete(UUID id);
 }
