@@ -1,12 +1,11 @@
 package com.faroc.gymanager.unit.domain.shared
 
-import com.faroc.gymanager.domain.sessions.Session
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
+import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
 import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
 import spock.lang.Specification
 
 import java.time.Instant
-import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
 class EntityTests extends Specification {

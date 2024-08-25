@@ -1,14 +1,14 @@
 package com.faroc.gymanager.unit.application.sessions.queries
 
-import com.faroc.gymanager.application.rooms.gateways.RoomsGateway
-import com.faroc.gymanager.application.sessions.gateways.SessionsGateway
-import com.faroc.gymanager.application.sessions.queries.getsession.FetchSessionHandler
-import com.faroc.gymanager.application.sessions.queries.getsession.FetchSessionQuery
-import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
-import com.faroc.gymanager.domain.rooms.Room
-import com.faroc.gymanager.domain.sessions.Session
-import com.faroc.gymanager.domain.sessions.SessionErrors
-import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
+import com.faroc.gymanager.sessionmanagement.application.rooms.gateways.RoomsGateway
+import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionsGateway
+import com.faroc.gymanager.sessionmanagement.application.sessions.queries.getsession.FetchSessionHandler
+import com.faroc.gymanager.sessionmanagement.application.sessions.queries.getsession.FetchSessionQuery
+import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
+import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors
+import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import spock.lang.Specification
 import com.faroc.gymanager.unit.domain.rooms.utils.RoomsTestsFactory
 import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory

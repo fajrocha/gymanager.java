@@ -1,15 +1,15 @@
 package com.faroc.gymanager.unit.application.reservations.commands
 
-import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway
-import com.faroc.gymanager.application.reservations.commands.addreservation.MakeSessionReservationCommand
-import com.faroc.gymanager.application.reservations.commands.addreservation.MakeSessionReservationHandler
-import com.faroc.gymanager.application.sessions.gateways.SessionsGateway
-import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher
-import com.faroc.gymanager.domain.participants.Participant
-import com.faroc.gymanager.domain.sessions.Session
-import com.faroc.gymanager.domain.sessions.SessionErrors
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
-import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
+import com.faroc.gymanager.sessionmanagement.application.participants.gateways.ParticipantsGateway
+import com.faroc.gymanager.sessionmanagement.application.reservations.commands.addreservation.MakeSessionReservationCommand
+import com.faroc.gymanager.sessionmanagement.application.reservations.commands.addreservation.MakeSessionReservationHandler
+import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionsGateway
+import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
+import com.faroc.gymanager.sessionmanagement.domain.participants.Participant
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
+import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.unit.application.participants.utils.ParticipantsTestsFactory
 import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
 import spock.lang.Specification

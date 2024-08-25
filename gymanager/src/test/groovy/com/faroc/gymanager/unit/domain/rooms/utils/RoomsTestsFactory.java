@@ -1,6 +1,6 @@
 package com.faroc.gymanager.unit.domain.rooms.utils;
 
-import com.faroc.gymanager.domain.rooms.Room;
+import com.faroc.gymanager.sessionmanagement.domain.rooms.Room;
 
 import java.util.UUID;
 

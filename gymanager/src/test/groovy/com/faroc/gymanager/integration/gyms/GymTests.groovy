@@ -1,11 +1,10 @@
 package com.faroc.gymanager.integration.gyms
 
-import com.faroc.gymanager.api.subscriptions.mappers.SubscriptionRequestMappers
-import com.faroc.gymanager.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
-import com.faroc.gymanager.domain.subscriptions.Subscription
-import com.faroc.gymanager.domain.subscriptions.SubscriptionType
-import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors
+import com.faroc.gymanager.gymmanagement.api.subscriptions.mappers.SubscriptionRequestMappers
+import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
+import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors
 import com.faroc.gymanager.gyms.requests.AddGymRequest
 import com.faroc.gymanager.gyms.responses.GymResponse
 import com.faroc.gymanager.integration.gyms.utils.EndpointsGyms

@@ -1,9 +1,9 @@
 package com.faroc.gymanager.integration.subscriptions
 
-import com.faroc.gymanager.api.subscriptions.mappers.SubscriptionRequestMappers
-import com.faroc.gymanager.application.admins.gateways.AdminsGateway
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
-import com.faroc.gymanager.domain.admins.errors.AdminErrors
+import com.faroc.gymanager.gymmanagement.api.subscriptions.mappers.SubscriptionRequestMappers
+import com.faroc.gymanager.gymmanagement.application.admins.gateways.AdminsGateway
+import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
+import com.faroc.gymanager.gymmanagement.domain.admins.errors.AdminErrors
 import com.faroc.gymanager.integration.shared.ContainersSpecification
 
 import com.faroc.gymanager.integration.subscriptions.utils.SubscriptionsHttpEndpoints

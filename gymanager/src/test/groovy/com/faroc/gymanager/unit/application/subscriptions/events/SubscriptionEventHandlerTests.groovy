@@ -1,11 +1,11 @@
 package com.faroc.gymanager.unit.application.subscriptions.events
 
-import com.faroc.gymanager.application.subscriptions.events.SubscriptionEventHandler
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
-import com.faroc.gymanager.domain.admins.events.SubscriptionCreatedEvent
-import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent
-import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
-import com.faroc.gymanager.domain.subscriptions.Subscription
+import com.faroc.gymanager.gymmanagement.application.subscriptions.events.SubscriptionEventHandler
+import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
+import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionCreatedEvent
+import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionDeletedEvent
+import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import spock.lang.Specification
 import com.faroc.gymanager.unit.domain.subscriptions.utils.SubscriptionsFactory
 

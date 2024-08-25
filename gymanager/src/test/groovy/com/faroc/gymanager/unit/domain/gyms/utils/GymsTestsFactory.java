@@ -1,6 +1,6 @@
 package com.faroc.gymanager.unit.domain.gyms.utils;
 
-import com.faroc.gymanager.domain.gyms.Gym;
+import com.faroc.gymanager.gymmanagement.domain.gyms.Gym;
 
 import java.util.UUID;
 

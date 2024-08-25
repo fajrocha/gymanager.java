@@ -1,10 +1,10 @@
 package com.faroc.gymanager.unit.domain.rooms
 
-import com.faroc.gymanager.domain.rooms.Room
-import com.faroc.gymanager.domain.rooms.errors.RoomErrors
-import com.faroc.gymanager.domain.rooms.exceptions.MaxSessionsReachedException
-import com.faroc.gymanager.domain.sessions.Session
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
+import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
+import com.faroc.gymanager.sessionmanagement.domain.rooms.errors.RoomErrors
+import com.faroc.gymanager.sessionmanagement.domain.rooms.exceptions.MaxSessionsReachedException
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
 import com.faroc.gymanager.unit.domain.rooms.utils.RoomsTestsFactory
 import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
 import spock.lang.Specification

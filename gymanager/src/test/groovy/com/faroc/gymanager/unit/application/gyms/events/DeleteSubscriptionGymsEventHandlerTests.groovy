@@ -1,9 +1,9 @@
 package com.faroc.gymanager.unit.application.gyms.events
 
-import com.faroc.gymanager.application.gyms.events.DeleteSubscriptionGymsEventHandler
-import com.faroc.gymanager.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.domain.admins.events.SubscriptionDeletedEvent
-import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
+import com.faroc.gymanager.gymmanagement.application.gyms.events.DeleteSubscriptionGymsEventHandler
+import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
+import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionDeletedEvent
+import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
 import spock.lang.Specification
 
 class DeleteSubscriptionGymsEventHandlerTests extends Specification {

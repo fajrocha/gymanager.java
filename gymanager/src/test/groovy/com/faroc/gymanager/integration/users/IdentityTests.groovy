@@ -1,8 +1,8 @@
 package com.faroc.gymanager.integration.users
 
-import com.faroc.gymanager.application.security.exceptions.PasswordComplexityException
-import com.faroc.gymanager.application.shared.exceptions.ValidationException
-import com.faroc.gymanager.application.users.gateways.UsersGateway
+import com.faroc.gymanager.common.application.security.exceptions.PasswordComplexityException
+import com.faroc.gymanager.common.application.exceptions.ValidationException
+import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGateway
 import com.faroc.gymanager.integration.shared.ContainersSpecification
 
 import com.faroc.gymanager.integration.users.utils.IdentityHttpEndpoints

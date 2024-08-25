@@ -1,12 +1,12 @@
 package com.faroc.gymanager.unit.application.validation
 
 import an.awesome.pipelinr.Command
-import com.faroc.gymanager.application.shared.exceptions.ValidationException
-import com.faroc.gymanager.application.users.DTOs.AuthDTO
-import com.faroc.gymanager.application.users.commands.loginuser.LoginCommand
-import com.faroc.gymanager.application.users.commands.loginuser.LoginUserValidator
-import com.faroc.gymanager.application.validation.ValidationMiddleware
-import com.faroc.gymanager.application.validation.ValidatorsAggregator
+import com.faroc.gymanager.common.application.exceptions.ValidationException
+import com.faroc.gymanager.usermanagement.application.users.dtos.AuthDTO
+import com.faroc.gymanager.usermanagement.application.users.commands.loginuser.LoginCommand
+import com.faroc.gymanager.usermanagement.application.users.commands.loginuser.LoginUserValidator
+import com.faroc.gymanager.common.application.validation.ValidationMiddleware
+import com.faroc.gymanager.common.application.validation.ValidatorsAggregator
 import net.datafaker.Faker
 import spock.lang.Specification
 

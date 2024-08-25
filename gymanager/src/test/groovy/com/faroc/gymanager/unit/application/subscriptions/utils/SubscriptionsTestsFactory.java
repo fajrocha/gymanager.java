@@ -1,7 +1,7 @@
 package com.faroc.gymanager.unit.application.subscriptions.utils;
 
-import com.faroc.gymanager.domain.subscriptions.Subscription;
-import com.faroc.gymanager.domain.subscriptions.SubscriptionType;
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription;
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType;
 
 import java.util.UUID;
 

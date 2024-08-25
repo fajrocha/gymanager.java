@@ -1,6 +1,6 @@
 package com.faroc.gymanager.unit.domain.trainers.utils;
 
-import com.faroc.gymanager.domain.trainers.Trainer;
+import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer;
 
 import java.util.UUID;
 

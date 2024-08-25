@@ -1,11 +1,11 @@
 package com.faroc.gymanager.unit.application.participants.events
 
 
-import com.faroc.gymanager.application.participants.events.AddParticipantEventHandler
-import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway
-import com.faroc.gymanager.domain.participants.Participant
-import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
-import com.faroc.gymanager.domain.users.events.AddParticipantEvent
+import com.faroc.gymanager.sessionmanagement.application.participants.events.AddParticipantEventHandler
+import com.faroc.gymanager.sessionmanagement.application.participants.gateways.ParticipantsGateway
+import com.faroc.gymanager.sessionmanagement.domain.participants.Participant
+import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
+import com.faroc.gymanager.usermanagement.domain.users.events.AddParticipantEvent
 import spock.lang.Specification
 
 class AddParticipantEventHandlerTests extends Specification {

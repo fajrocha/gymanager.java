@@ -1,7 +1,7 @@
 package com.faroc.gymanager.infrastructure.reservations.gateways;
 
-import com.faroc.gymanager.application.reservations.gateways.ReservationsGateway;
-import com.faroc.gymanager.domain.sessions.SessionReservation;
+import com.faroc.gymanager.sessionmanagement.application.reservations.gateways.ReservationsGateway;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionReservation;
 import org.jooq.DSLContext;
 import org.jooq.codegen.maven.gymanager.tables.records.SessionReservationsRecord;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
 package com.faroc.gymanager.infrastructure.trainers.repositories;
 
-import com.faroc.gymanager.application.trainers.gateways.TrainersGateway;
-import com.faroc.gymanager.domain.trainers.Trainer;
+import com.faroc.gymanager.sessionmanagement.application.trainers.gateways.TrainersGateway;
+import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer;
 import com.faroc.gymanager.infrastructure.trainers.mappers.TrainerMappers;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;

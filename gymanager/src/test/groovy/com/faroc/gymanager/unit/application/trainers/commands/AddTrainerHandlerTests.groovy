@@ -1,15 +1,15 @@
 package com.faroc.gymanager.unit.application.trainers.commands
 
-import com.faroc.gymanager.application.security.CurrentUserProvider
-import com.faroc.gymanager.application.security.DTOs.CurrentUserDTO
-import com.faroc.gymanager.application.security.exceptions.UnauthorizedException
-import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher
-import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
-import com.faroc.gymanager.application.trainers.commands.addtrainer.AddTrainerCommand
-import com.faroc.gymanager.application.trainers.commands.addtrainer.AddTrainerHandler
-import com.faroc.gymanager.application.users.gateways.UsersGateway
-import com.faroc.gymanager.domain.users.User
-import com.faroc.gymanager.domain.users.errors.UserErrors
+import com.faroc.gymanager.common.application.security.CurrentUserProvider
+import com.faroc.gymanager.common.application.security.DTOs.CurrentUserDTO
+import com.faroc.gymanager.common.application.security.exceptions.UnauthorizedException
+import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
+import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
+import com.faroc.gymanager.sessionmanagement.application.trainers.addtrainer.AddTrainerCommand
+import com.faroc.gymanager.sessionmanagement.application.trainers.addtrainer.AddTrainerHandler
+import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGateway
+import com.faroc.gymanager.usermanagement.domain.users.User
+import com.faroc.gymanager.usermanagement.domain.users.errors.UserErrors
 import spock.lang.Specification
 import com.faroc.gymanager.unit.domain.users.utils.UsersTestsFactory
 

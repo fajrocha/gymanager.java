@@ -1,6 +1,6 @@
 package com.faroc.gymanager.unit.domain.sessions.utils;
 
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
+import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

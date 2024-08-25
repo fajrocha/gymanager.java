@@ -1,12 +1,12 @@
 package com.faroc.gymanager.unit.application.gyms.events
 
-import com.faroc.gymanager.application.gyms.events.AddSessionTrainerToGymEventHandler
-import com.faroc.gymanager.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.domain.gyms.Gym
-import com.faroc.gymanager.domain.rooms.Room
-import com.faroc.gymanager.domain.rooms.events.SessionReservationEvent
-import com.faroc.gymanager.domain.sessions.Session
-import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
+import com.faroc.gymanager.gymmanagement.application.gyms.events.AddSessionTrainerToGymEventHandler
+import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
+import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
+import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
+import com.faroc.gymanager.sessionmanagement.domain.rooms.events.SessionReservationEvent
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
+import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
 import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
 import com.faroc.gymanager.unit.domain.rooms.utils.RoomsTestsFactory
 import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory

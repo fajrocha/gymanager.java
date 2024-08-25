@@ -1,9 +1,9 @@
 package com.faroc.gymanager.unit.domain.trainers
 
-import com.faroc.gymanager.domain.sessions.Session
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
-import com.faroc.gymanager.domain.trainers.Trainer
-import com.faroc.gymanager.domain.trainers.errors.TrainerErrors
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
+import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer
+import com.faroc.gymanager.sessionmanagement.domain.trainers.errors.TrainerErrors
 import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
 import com.faroc.gymanager.unit.domain.trainers.utils.TrainersTestsFactory
 import spock.lang.Specification

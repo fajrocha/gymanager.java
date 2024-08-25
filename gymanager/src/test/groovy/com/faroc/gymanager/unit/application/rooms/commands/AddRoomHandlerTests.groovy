@@ -1,14 +1,14 @@
 package com.faroc.gymanager.unit.application.rooms.commands
 
-import com.faroc.gymanager.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.application.rooms.commands.addroom.AddRoomCommand
-import com.faroc.gymanager.application.rooms.commands.addroom.AddRoomHandler
-import com.faroc.gymanager.application.shared.abstractions.DomainEventsPublisher
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
-import com.faroc.gymanager.domain.gyms.Gym
-import com.faroc.gymanager.domain.rooms.errors.RoomErrors
-import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
-import com.faroc.gymanager.domain.subscriptions.Subscription
+import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
+import com.faroc.gymanager.gymmanagement.application.rooms.commands.addroom.AddRoomCommand
+import com.faroc.gymanager.gymmanagement.application.rooms.commands.addroom.AddRoomHandler
+import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
+import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
+import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
+import com.faroc.gymanager.sessionmanagement.domain.rooms.errors.RoomErrors
+import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import com.faroc.gymanager.unit.application.subscriptions.utils.SubscriptionsTestsFactory
 import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
 import spock.lang.Specification

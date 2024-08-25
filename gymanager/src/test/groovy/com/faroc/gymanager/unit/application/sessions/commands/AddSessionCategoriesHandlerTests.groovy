@@ -1,11 +1,11 @@
 package com.faroc.gymanager.unit.application.sessions.commands
 
-import com.faroc.gymanager.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.application.sessions.commands.addsessioncategory.AddSessionCategoriesCommand
-import com.faroc.gymanager.application.sessions.commands.addsessioncategory.AddSessionCategoriesHandler
-import com.faroc.gymanager.domain.gyms.Gym
-import com.faroc.gymanager.domain.sessions.errors.SessionCategoriesErrors
-import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
+import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
+import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsessioncategory.AddSessionCategoriesCommand
+import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsessioncategory.AddSessionCategoriesHandler
+import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
+import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionCategoriesErrors
+import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
 import spock.lang.Specification
 

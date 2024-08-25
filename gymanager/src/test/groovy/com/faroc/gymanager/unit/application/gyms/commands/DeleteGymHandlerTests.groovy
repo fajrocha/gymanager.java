@@ -1,16 +1,16 @@
 package com.faroc.gymanager.unit.application.gyms.commands
 
-import com.faroc.gymanager.application.gyms.commands.deletegym.DeleteGymCommand
-import com.faroc.gymanager.application.gyms.commands.deletegym.DeleteGymHandler
-import com.faroc.gymanager.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
-import com.faroc.gymanager.domain.gyms.Gym
-import com.faroc.gymanager.domain.gyms.errors.GymsErrors
-import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
-import com.faroc.gymanager.domain.subscriptions.Subscription
-import com.faroc.gymanager.domain.subscriptions.SubscriptionType
-import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors
+import com.faroc.gymanager.gymmanagement.application.gyms.commands.deletegym.DeleteGymCommand
+import com.faroc.gymanager.gymmanagement.application.gyms.commands.deletegym.DeleteGymHandler
+import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
+import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
+import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
+import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
+import com.faroc.gymanager.gymmanagement.domain.gyms.errors.GymsErrors
+import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors
 import net.datafaker.Faker
 import spock.lang.Specification
 

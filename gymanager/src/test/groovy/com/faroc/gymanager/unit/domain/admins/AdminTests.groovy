@@ -1,10 +1,10 @@
 package com.faroc.gymanager.unit.domain.admins
 
-import com.faroc.gymanager.domain.admins.Admin
-import com.faroc.gymanager.domain.admins.errors.AdminErrors
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
-import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
-import com.faroc.gymanager.domain.subscriptions.Subscription
+import com.faroc.gymanager.gymmanagement.domain.admins.Admin
+import com.faroc.gymanager.gymmanagement.domain.admins.errors.AdminErrors
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
+import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import com.faroc.gymanager.unit.domain.subscriptions.utils.SubscriptionsFactory
 import spock.lang.Specification
 

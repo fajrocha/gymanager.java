@@ -1,9 +1,9 @@
 package com.faroc.gymanager.unit.domain.participants
 
-import com.faroc.gymanager.domain.participants.Participant
-import com.faroc.gymanager.domain.participants.errors.ParticipantErrors
-import com.faroc.gymanager.domain.sessions.Session
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
+import com.faroc.gymanager.sessionmanagement.domain.participants.Participant
+import com.faroc.gymanager.sessionmanagement.domain.participants.errors.ParticipantErrors
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
 import com.faroc.gymanager.unit.domain.participants.utils.ParticipantFactory
 import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
 import spock.lang.Specification

@@ -1,13 +1,13 @@
 package com.faroc.gymanager.unit.application.users.commands
 
-import com.faroc.gymanager.application.users.DTOs.AuthDTO
-import com.faroc.gymanager.application.users.commands.registeruser.RegisterUserCommand
-import com.faroc.gymanager.application.users.commands.registeruser.RegisterUserHandler
-import com.faroc.gymanager.application.users.exceptions.EmailAlreadyExistsException
-import com.faroc.gymanager.application.users.gateways.TokenGenerator
-import com.faroc.gymanager.application.users.gateways.UsersGateway
-import com.faroc.gymanager.domain.users.User
-import com.faroc.gymanager.domain.users.abstractions.PasswordHasher
+import com.faroc.gymanager.usermanagement.application.users.dtos.AuthDTO
+import com.faroc.gymanager.usermanagement.application.users.commands.registeruser.RegisterUserCommand
+import com.faroc.gymanager.usermanagement.application.users.commands.registeruser.RegisterUserHandler
+import com.faroc.gymanager.usermanagement.application.users.exceptions.EmailAlreadyExistsException
+import com.faroc.gymanager.usermanagement.application.users.gateways.TokenGenerator
+import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGateway
+import com.faroc.gymanager.usermanagement.domain.users.User
+import com.faroc.gymanager.usermanagement.domain.users.abstractions.PasswordHasher
 import net.datafaker.Faker
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification

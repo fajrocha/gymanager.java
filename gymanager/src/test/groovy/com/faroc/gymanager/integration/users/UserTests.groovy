@@ -1,9 +1,9 @@
 package com.faroc.gymanager.integration.users
 
-import com.faroc.gymanager.application.admins.gateways.AdminsGateway
-import com.faroc.gymanager.application.participants.gateways.ParticipantsGateway
-import com.faroc.gymanager.application.trainers.gateways.TrainersGateway
-import com.faroc.gymanager.application.users.gateways.UsersGateway
+import com.faroc.gymanager.gymmanagement.application.admins.gateways.AdminsGateway
+import com.faroc.gymanager.sessionmanagement.application.participants.gateways.ParticipantsGateway
+import com.faroc.gymanager.sessionmanagement.application.trainers.gateways.TrainersGateway
+import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGateway
 import com.faroc.gymanager.integration.shared.ContainersSpecification
 
 import com.faroc.gymanager.integration.users.utils.IdentityHttpEndpoints

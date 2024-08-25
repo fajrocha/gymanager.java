@@ -1,14 +1,14 @@
 package com.faroc.gymanager.unit.domain.sessions
 
-import com.faroc.gymanager.domain.sessions.Session
-import com.faroc.gymanager.domain.sessions.SessionErrors
-import com.faroc.gymanager.domain.sessions.SessionReservation
-import com.faroc.gymanager.domain.sessions.exceptions.CancellationTooCloseToSession
-import com.faroc.gymanager.domain.sessions.exceptions.MaxParticipantsReachedException
-import com.faroc.gymanager.domain.shared.abstractions.InstantProvider
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
-import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionReservation
+import com.faroc.gymanager.sessionmanagement.domain.sessions.exceptions.CancellationTooCloseToSession
+import com.faroc.gymanager.sessionmanagement.domain.sessions.exceptions.MaxParticipantsReachedException
+import com.faroc.gymanager.common.domain.abstractions.InstantProvider
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
+import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
+import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
 import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
 import spock.lang.Specification
 

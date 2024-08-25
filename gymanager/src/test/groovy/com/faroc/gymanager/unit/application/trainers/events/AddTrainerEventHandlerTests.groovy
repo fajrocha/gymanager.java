@@ -1,11 +1,11 @@
 package com.faroc.gymanager.unit.application.trainers.events
 
 
-import com.faroc.gymanager.application.trainers.events.AddTrainerEventHandler
-import com.faroc.gymanager.application.trainers.gateways.TrainersGateway
-import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
-import com.faroc.gymanager.domain.trainers.Trainer
-import com.faroc.gymanager.domain.users.events.AddTrainerEvent
+import com.faroc.gymanager.sessionmanagement.application.trainers.events.AddTrainerEventHandler
+import com.faroc.gymanager.sessionmanagement.application.trainers.gateways.TrainersGateway
+import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
+import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer
+import com.faroc.gymanager.usermanagement.domain.users.events.AddTrainerEvent
 import spock.lang.Specification
 
 class AddTrainerEventHandlerTests extends Specification {

@@ -1,8 +1,7 @@
 package com.faroc.gymanager.unit.domain.shared
 
 
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot
-import com.faroc.gymanager.unit.domain.testutils.TimeTestsProvider
+import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
 import spock.lang.Specification
 
 import java.time.Instant

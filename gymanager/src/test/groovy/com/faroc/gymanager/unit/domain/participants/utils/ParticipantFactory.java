@@ -1,6 +1,6 @@
 package com.faroc.gymanager.unit.domain.participants.utils;
 
-import com.faroc.gymanager.domain.participants.Participant;
+import com.faroc.gymanager.sessionmanagement.domain.participants.Participant;
 
 import java.util.UUID;
 

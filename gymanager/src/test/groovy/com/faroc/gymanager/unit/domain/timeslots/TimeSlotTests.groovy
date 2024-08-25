@@ -1,6 +1,6 @@
 package com.faroc.gymanager.unit.domain.timeslots
 
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot
+import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
 import spock.lang.Specification
 
 import java.time.Instant

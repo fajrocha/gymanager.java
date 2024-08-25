@@ -1,16 +1,16 @@
 package com.faroc.gymanager.unit.application.subscriptions.commands
 
 
-import com.faroc.gymanager.application.admins.gateways.AdminsGateway
-import com.faroc.gymanager.application.shared.exceptions.ResourceNotFoundException
-import com.faroc.gymanager.application.subscriptions.commands.deletesubscription.DeleteSubscriptionCommand
-import com.faroc.gymanager.application.subscriptions.commands.deletesubscription.DeleteSubscriptionHandler
-import com.faroc.gymanager.application.subscriptions.gateways.SubscriptionsGateway
-import com.faroc.gymanager.domain.admins.Admin
-import com.faroc.gymanager.domain.admins.errors.AdminErrors
-import com.faroc.gymanager.domain.subscriptions.Subscription
-import com.faroc.gymanager.domain.subscriptions.SubscriptionType
-import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors
+import com.faroc.gymanager.gymmanagement.application.admins.gateways.AdminsGateway
+import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.DeleteSubscriptionCommand
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.DeleteSubscriptionHandler
+import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
+import com.faroc.gymanager.gymmanagement.domain.admins.Admin
+import com.faroc.gymanager.gymmanagement.domain.admins.errors.AdminErrors
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors
 import net.datafaker.Faker
 import org.springframework.context.ApplicationEventPublisher
 import spock.lang.Specification

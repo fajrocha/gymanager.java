@@ -1,6 +1,6 @@
 package com.faroc.gymanager.unit.application.reservations.utils;
 
-import com.faroc.gymanager.domain.sessions.SessionReservation;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionReservation;
 
 import java.util.UUID;
 

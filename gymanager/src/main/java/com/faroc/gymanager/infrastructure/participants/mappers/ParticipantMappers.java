@@ -1,9 +1,9 @@
 package com.faroc.gymanager.infrastructure.participants.mappers;
 
-import com.faroc.gymanager.domain.participants.Participant;
-import com.faroc.gymanager.domain.shared.entities.schedules.Schedule;
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
-import com.faroc.gymanager.infrastructure.shared.serialization.DefaultSerializer;
+import com.faroc.gymanager.sessionmanagement.domain.participants.Participant;
+import com.faroc.gymanager.sessionmanagement.domain.common.schedules.Schedule;
+import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot;
+import com.faroc.gymanager.common.infrastructure.serialization.DefaultSerializer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.jooq.JSONB;
 import org.jooq.codegen.maven.gymanager.tables.records.ParticipantsRecord;

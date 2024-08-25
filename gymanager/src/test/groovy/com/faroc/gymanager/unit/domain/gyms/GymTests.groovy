@@ -1,11 +1,11 @@
 package com.faroc.gymanager.unit.domain.gyms
 
-import com.faroc.gymanager.domain.gyms.Gym
-import com.faroc.gymanager.domain.gyms.errors.GymsErrors
-import com.faroc.gymanager.domain.gyms.exceptions.MaxRoomsReachedException
-import com.faroc.gymanager.domain.rooms.Room
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
-import com.faroc.gymanager.domain.trainers.Trainer
+import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
+import com.faroc.gymanager.gymmanagement.domain.gyms.errors.GymsErrors
+import com.faroc.gymanager.gymmanagement.domain.gyms.exceptions.MaxRoomsReachedException
+import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
+import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer
 import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
 import com.faroc.gymanager.unit.domain.rooms.utils.RoomsTestsFactory
 import com.faroc.gymanager.unit.domain.trainers.utils.TrainersTestsFactory
@@ -60,10 +60,11 @@ class GymTests extends Specification {
 
     def "when adding trainer already assigned to gym should throw conflict exception"() {
         given:
-        gym.addTrainer(trainer)
+        def trainedId = UUID.randomUUID();
+        gym.addTrainer(trainedId)
 
         when:
-        gym.addTrainer(trainer)
+        gym.addTrainer(trainedId)
 
         then:
         def ex = thrown(ConflictException)
@@ -71,11 +72,14 @@ class GymTests extends Specification {
     }
 
     def "when adding trainer should assign trainer to gym"() {
+        given:
+        def trainedId = UUID.randomUUID();
+
         when:
-        gym.addTrainer(trainer)
+        gym.addTrainer(trainedId)
 
         then:
-        gym.hasTrainer(trainer)
+        gym.hasTrainer(trainedId)
         gym.getTrainerIds().size() == 1
     }
 }

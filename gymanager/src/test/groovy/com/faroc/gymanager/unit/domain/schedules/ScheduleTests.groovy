@@ -1,11 +1,11 @@
 package com.faroc.gymanager.unit.domain.schedules
 
-import com.faroc.gymanager.domain.shared.entities.schedules.Schedule
-import com.faroc.gymanager.domain.shared.entities.schedules.ScheduleErrors
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
-import com.faroc.gymanager.domain.shared.exceptions.UnexpectedException
-import com.faroc.gymanager.domain.shared.time.TimeUtils
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot
+import com.faroc.gymanager.sessionmanagement.domain.common.schedules.Schedule
+import com.faroc.gymanager.sessionmanagement.domain.common.schedules.ScheduleErrors
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
+import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
+import com.faroc.gymanager.sessionmanagement.domain.common.time.TimeUtils
+import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
 import spock.lang.Specification
 
 import java.time.Instant

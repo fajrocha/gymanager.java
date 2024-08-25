@@ -1,6 +1,6 @@
 package com.faroc.gymanager.unit.domain.users.utils;
 
-import com.faroc.gymanager.domain.users.User;
+import com.faroc.gymanager.usermanagement.domain.users.User;
 import net.datafaker.Faker;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

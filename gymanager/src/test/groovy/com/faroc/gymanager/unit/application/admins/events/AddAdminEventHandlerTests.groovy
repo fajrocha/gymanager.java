@@ -1,10 +1,10 @@
 package com.faroc.gymanager.unit.application.admins.events
 
-import com.faroc.gymanager.application.admins.events.AddAdminEventHandler
-import com.faroc.gymanager.application.admins.gateways.AdminsGateway
-import com.faroc.gymanager.domain.admins.Admin
-import com.faroc.gymanager.domain.shared.exceptions.EventualConsistencyException
-import com.faroc.gymanager.domain.users.events.AddAdminEvent
+import com.faroc.gymanager.gymmanagement.application.admins.events.AddAdminEventHandler
+import com.faroc.gymanager.gymmanagement.application.admins.gateways.AdminsGateway
+import com.faroc.gymanager.gymmanagement.domain.admins.Admin
+import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
+import com.faroc.gymanager.usermanagement.domain.users.events.AddAdminEvent
 import spock.lang.Specification
 
 class AddAdminEventHandlerTests extends Specification {

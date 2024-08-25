@@ -1,9 +1,9 @@
 package com.faroc.gymanager.infrastructure.sessions.gateways;
 
-import com.faroc.gymanager.application.sessions.gateways.SessionsGateway;
-import com.faroc.gymanager.domain.sessions.SessionReservation;
-import com.faroc.gymanager.domain.sessions.Session;
-import com.faroc.gymanager.domain.shared.valueobjects.timeslots.TimeSlot;
+import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionsGateway;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionReservation;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.Session;
+import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot;
 import com.faroc.gymanager.infrastructure.sessions.mappers.SessionPersistenceMappers;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;

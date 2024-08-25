@@ -1,9 +1,9 @@
 package com.faroc.gymanager.unit.domain.subscriptions
 
-import com.faroc.gymanager.domain.shared.exceptions.ConflictException
-import com.faroc.gymanager.domain.subscriptions.Subscription
-import com.faroc.gymanager.domain.subscriptions.SubscriptionType
-import com.faroc.gymanager.domain.subscriptions.errors.SubscriptionErrors
+import com.faroc.gymanager.common.domain.exceptions.ConflictException
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors
 import com.faroc.gymanager.unit.domain.subscriptions.utils.SubscriptionsFactory
 import spock.lang.Specification
 
