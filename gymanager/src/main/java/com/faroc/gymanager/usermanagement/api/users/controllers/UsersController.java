@@ -2,8 +2,8 @@ package com.faroc.gymanager.usermanagement.api.users.controllers;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.usermanagement.application.admins.commands.addadmin.AddAdminCommand;
-import com.faroc.gymanager.sessionmanagement.application.participants.commands.addparticpant.AddParticipantCommand;
-import com.faroc.gymanager.sessionmanagement.application.trainers.addtrainer.AddTrainerCommand;
+import com.faroc.gymanager.usermanagement.application.participants.commands.addparticpant.AddParticipantCommand;
+import com.faroc.gymanager.usermanagement.application.trainers.commands.addtrainer.AddTrainerCommand;
 import com.faroc.gymanager.users.responses.AdminCreatedResponse;
 import com.faroc.gymanager.users.responses.ParticipantCreatedResponse;
 import com.faroc.gymanager.users.responses.TrainerCreatedResponse;

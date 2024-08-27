@@ -1,7 +1,7 @@
 package com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsession;
 
 import an.awesome.pipelinr.Command;
-import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway;
+import com.faroc.gymanager.sessionmanagement.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.sessionmanagement.application.rooms.gateways.RoomsGateway;
 import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher;
 import com.faroc.gymanager.sessionmanagement.application.trainers.gateways.TrainersGateway;

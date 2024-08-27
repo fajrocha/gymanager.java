@@ -1,6 +1,6 @@
 package com.faroc.gymanager.sessionmanagement.application.sessions.mappers;
 
-import com.faroc.gymanager.sessionmanagement.application.sessions.DTOs.AddSessionCategoryDTO;
+import com.faroc.gymanager.sessionmanagement.application.sessions.dtos.AddSessionCategoryDTO;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionCategory;
 
 public class SessionCategoryMappers {

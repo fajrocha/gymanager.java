@@ -1,7 +1,7 @@
 package com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsessioncategory;
 
 import an.awesome.pipelinr.Command;
-import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway;
+import com.faroc.gymanager.sessionmanagement.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionCategoriesErrors;
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class AddSessionCategoriesHandler implements Command.Handler<AddSessionCa
         var sessionCategories = command.sessionCategories();
         sessionCategories.forEach(gym::addCategory);
 
-        gymsGateway.update(gym);
+        gymsGateway.updateSessions(gym);
 
         return sessionCategories;
     }

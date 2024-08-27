@@ -33,5 +33,4 @@ public class AddParticipantEventHandler {
                     "Failed to add participant with id " + participantId + " to user with id" + userId + ".");
         }
     }
-
 }

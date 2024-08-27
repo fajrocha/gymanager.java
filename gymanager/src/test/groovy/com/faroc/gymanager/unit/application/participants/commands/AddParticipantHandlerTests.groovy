@@ -1,7 +1,7 @@
 package com.faroc.gymanager.unit.application.participants.commands
 
-import com.faroc.gymanager.sessionmanagement.application.participants.commands.addparticpant.AddParticipantCommand
-import com.faroc.gymanager.sessionmanagement.application.participants.commands.addparticpant.AddParticipantHandler
+import com.faroc.gymanager.usermanagement.application.participants.commands.addparticpant.AddParticipantCommand
+import com.faroc.gymanager.usermanagement.application.participants.commands.addparticpant.AddParticipantHandler
 import com.faroc.gymanager.common.application.security.CurrentUserProvider
 import com.faroc.gymanager.common.application.security.DTOs.CurrentUserDTO
 import com.faroc.gymanager.common.application.security.exceptions.UnauthorizedException
