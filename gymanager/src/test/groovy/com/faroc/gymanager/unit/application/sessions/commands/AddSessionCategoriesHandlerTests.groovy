@@ -6,7 +6,7 @@ import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addse
 import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
 import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionCategoriesErrors
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
-import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
+import com.faroc.gymanager.gymmanagement.unit.domain.gyms.utils.GymsTestsFactory
 import spock.lang.Specification
 
 class AddSessionCategoriesHandlerTests extends Specification {

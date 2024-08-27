@@ -10,7 +10,7 @@ import com.faroc.gymanager.usermanagement.domain.users.User
 import com.faroc.gymanager.usermanagement.domain.users.abstractions.PasswordHasher
 import net.datafaker.Faker
 import spock.lang.Specification
-import com.faroc.gymanager.unit.domain.users.utils.UsersTestsFactory
+import com.faroc.gymanager.usersmanagement.unit.domain.users.utils.UsersTestsFactory
 
 class LoginHandlerTests extends Specification {
 

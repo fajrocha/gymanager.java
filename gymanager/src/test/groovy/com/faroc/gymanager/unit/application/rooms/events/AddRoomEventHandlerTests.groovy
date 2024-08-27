@@ -5,7 +5,7 @@ import com.faroc.gymanager.sessionmanagement.application.rooms.gateways.RoomsGat
 import com.faroc.gymanager.gymmanagement.domain.gyms.events.AddRoomEvent
 import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
 import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
-import com.faroc.gymanager.unit.domain.rooms.utils.RoomsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.rooms.utils.RoomsTestsFactory
 import spock.lang.Specification
 
 class AddRoomEventHandlerTests extends Specification {

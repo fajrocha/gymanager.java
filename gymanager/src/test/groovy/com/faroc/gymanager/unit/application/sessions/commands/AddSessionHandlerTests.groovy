@@ -13,10 +13,10 @@ import com.faroc.gymanager.common.domain.exceptions.ConflictException
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
 import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer
-import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
-import com.faroc.gymanager.unit.domain.rooms.utils.RoomsTestsFactory
-import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
-import com.faroc.gymanager.unit.domain.trainers.utils.TrainersTestsFactory
+import com.faroc.gymanager.gymmanagement.unit.domain.gyms.utils.GymsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.rooms.utils.RoomsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils.SessionsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.trainers.utils.TrainersTestsFactory
 import spock.lang.Specification
 
 import java.time.Instant

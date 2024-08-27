@@ -10,8 +10,8 @@ import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
 import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import spock.lang.Specification
-import com.faroc.gymanager.unit.domain.rooms.utils.RoomsTestsFactory
-import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.rooms.utils.RoomsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils.SessionsTestsFactory
 
 class FetchSessionHandlerTests extends Specification {
     UUID roomId

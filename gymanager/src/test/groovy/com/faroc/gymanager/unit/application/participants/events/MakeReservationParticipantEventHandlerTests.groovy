@@ -9,7 +9,7 @@ import com.faroc.gymanager.sessionmanagement.domain.sessions.events.MakeReservat
 import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
 import com.faroc.gymanager.unit.application.participants.utils.ParticipantsTestsFactory
 import com.faroc.gymanager.unit.application.reservations.utils.SessionReservationTestsFactory
-import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils.SessionsTestsFactory
 import spock.lang.Specification
 
 class MakeReservationParticipantEventHandlerTests extends Specification {

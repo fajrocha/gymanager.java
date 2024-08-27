@@ -10,7 +10,7 @@ import com.faroc.gymanager.sessionmanagement.domain.rooms.errors.RoomErrors
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import com.faroc.gymanager.unit.application.subscriptions.utils.SubscriptionsTestsFactory
-import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
+import com.faroc.gymanager.gymmanagement.unit.domain.gyms.utils.GymsTestsFactory
 import spock.lang.Specification
 
 class AddRoomHandlerTests extends Specification {

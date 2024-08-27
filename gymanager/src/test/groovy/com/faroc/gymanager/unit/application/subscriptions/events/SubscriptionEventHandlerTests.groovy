@@ -7,7 +7,7 @@ import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionDelete
 import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import spock.lang.Specification
-import com.faroc.gymanager.unit.domain.subscriptions.utils.SubscriptionsFactory
+import com.faroc.gymanager.gymmanagement.unit.domain.subscriptions.utils.SubscriptionsFactory
 
 class SubscriptionEventHandlerTests extends Specification {
     Subscription subscription

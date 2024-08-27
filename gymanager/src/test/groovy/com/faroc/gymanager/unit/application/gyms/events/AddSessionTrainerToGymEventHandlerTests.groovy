@@ -7,9 +7,9 @@ import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
 import com.faroc.gymanager.sessionmanagement.domain.rooms.events.SessionReservationEvent
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
 import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
-import com.faroc.gymanager.unit.domain.gyms.utils.GymsTestsFactory
-import com.faroc.gymanager.unit.domain.rooms.utils.RoomsTestsFactory
-import com.faroc.gymanager.unit.domain.sessions.utils.SessionsTestsFactory
+import com.faroc.gymanager.gymmanagement.unit.domain.gyms.utils.GymsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.rooms.utils.RoomsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils.SessionsTestsFactory
 import spock.lang.Specification
 
 class AddSessionTrainerToGymEventHandlerTests extends Specification {
