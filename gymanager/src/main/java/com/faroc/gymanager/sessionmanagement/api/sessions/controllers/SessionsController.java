@@ -4,8 +4,8 @@ import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.sessionmanagement.api.sessions.mappers.SessionRequestMappers;
 import com.faroc.gymanager.sessionmanagement.api.sessions.mappers.SessionResponseMappers;
 import com.faroc.gymanager.sessionmanagement.application.sessions.queries.getsession.FetchSessionQuery;
-import com.faroc.gymanager.sessions.requests.AddSessionRequest;
-import com.faroc.gymanager.sessions.responses.SessionResponse;
+import com.faroc.gymanager.sessionmanagement.sessions.requests.AddSessionRequest;
+import com.faroc.gymanager.sessionmanagement.sessions.responses.SessionResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

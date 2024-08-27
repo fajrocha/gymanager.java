@@ -1,6 +1,6 @@
 package com.faroc.gymanager.integration.users.utils;
 
-import com.faroc.gymanager.users.requests.RegisterRequest;
+import com.faroc.gymanager.usermanagement.users.requests.RegisterRequest;
 import net.datafaker.Faker;
 
 public class RegisterRequestsTestsBuilder {

@@ -1,7 +1,7 @@
 package com.faroc.gymanager.usermanagement.api.users.mappers;
 
 import com.faroc.gymanager.usermanagement.application.users.dtos.AuthDTO;
-import com.faroc.gymanager.users.responses.AuthResponse;
+import com.faroc.gymanager.usermanagement.users.responses.AuthResponse;
 
 public class UsersResponseMappers {
 

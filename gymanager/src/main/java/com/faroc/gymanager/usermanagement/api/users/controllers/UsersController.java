@@ -4,9 +4,9 @@ import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.usermanagement.application.admins.commands.addadmin.AddAdminCommand;
 import com.faroc.gymanager.usermanagement.application.participants.commands.addparticpant.AddParticipantCommand;
 import com.faroc.gymanager.usermanagement.application.trainers.commands.addtrainer.AddTrainerCommand;
-import com.faroc.gymanager.users.responses.AdminCreatedResponse;
-import com.faroc.gymanager.users.responses.ParticipantCreatedResponse;
-import com.faroc.gymanager.users.responses.TrainerCreatedResponse;
+import com.faroc.gymanager.usermanagement.users.responses.AdminCreatedResponse;
+import com.faroc.gymanager.usermanagement.users.responses.ParticipantCreatedResponse;
+import com.faroc.gymanager.usermanagement.users.responses.TrainerCreatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

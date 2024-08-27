@@ -1,7 +1,7 @@
 package com.faroc.gymanager.gymmanagement.api.gyms.mappers;
 
 import com.faroc.gymanager.gymmanagement.domain.gyms.Gym;
-import com.faroc.gymanager.gyms.responses.GymResponse;
+import com.faroc.gymanager.gymmanagement.gyms.responses.GymResponse;
 
 import java.util.List;
 

@@ -9,10 +9,10 @@ import com.faroc.gymanager.integration.shared.ContainersSpecification
 import com.faroc.gymanager.integration.users.utils.IdentityHttpEndpoints
 import com.faroc.gymanager.integration.users.utils.UsersHttpEndpoints
 import com.faroc.gymanager.integration.users.utils.RegisterRequestsTestsBuilder
-import com.faroc.gymanager.users.responses.AdminCreatedResponse
-import com.faroc.gymanager.users.responses.AuthResponse
-import com.faroc.gymanager.users.responses.ParticipantCreatedResponse
-import com.faroc.gymanager.users.responses.TrainerCreatedResponse
+import com.faroc.gymanager.usermanagement.users.responses.AdminCreatedResponse
+import com.faroc.gymanager.usermanagement.users.responses.AuthResponse
+import com.faroc.gymanager.usermanagement.users.responses.ParticipantCreatedResponse
+import com.faroc.gymanager.usermanagement.users.responses.TrainerCreatedResponse
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import net.datafaker.Faker
