@@ -2,7 +2,7 @@ package com.faroc.gymanager.gymmanagement.infrastructure.subscriptions.gateways;
 
 import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription;
-import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType;
+import com.faroc.gymanager.gymmanagement.infrastructure.subscriptions.mappers.SubscriptionMappers;
 import org.jooq.DSLContext;
 import org.jooq.codegen.maven.gymanager.tables.records.SubscriptionsRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +51,7 @@ public class SubscriptionsRepository implements SubscriptionsGateway {
         if (subscriptionRecord == null)
             return Optional.empty();
 
-        var subscription = Subscription.mapFromStorage(
-                subscriptionRecord.getId(),
-                subscriptionRecord.getAdminId(),
-                SubscriptionType.valueOf(subscriptionRecord.getSubscriptionType()),
-                subscriptionRecord.getMaxGyms(),
-                subscriptionRecord.getGymIds());
+        var subscription = SubscriptionMappers.toDomain(subscriptionRecord);
 
         return Optional.of(subscription);
     }

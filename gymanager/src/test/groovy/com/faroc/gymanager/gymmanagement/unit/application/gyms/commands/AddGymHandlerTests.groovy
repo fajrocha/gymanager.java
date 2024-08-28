@@ -9,6 +9,7 @@ import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors
+import com.faroc.gymanager.gymmanagement.unit.application.subscriptions.utils.SubscriptionsTestsFactory
 import net.datafaker.Faker
 import spock.lang.Specification
 
@@ -17,7 +18,6 @@ class AddGymHandlerTests extends Specification {
     AddGymHandler sut
     UUID subscriptionId
     String gymName
-    UUID adminId
     Subscription subscription
     AddGymCommand command
 
@@ -27,16 +27,9 @@ class AddGymHandlerTests extends Specification {
     def setup() {
         faker = new Faker()
         gymName = faker.company().name()
-        subscriptionId = UUID.randomUUID()
-        adminId = UUID.randomUUID()
+        subscription = SubscriptionsTestsFactory.create()
+        subscriptionId = subscription.getId()
         command = new AddGymCommand(gymName, subscriptionId)
-        subscription = Subscription.mapFromStorage(
-                subscriptionId,
-                adminId,
-                SubscriptionType.Free,
-                1,
-                new UUID[0]
-        )
 
         mockSubscriptionsGateway = Mock(SubscriptionsGateway)
         mockDomainEventsPublisher = Mock(DomainEventsPublisher)
@@ -57,7 +50,7 @@ class AddGymHandlerTests extends Specification {
         ex.getDetail() == SubscriptionErrors.NOT_FOUND
     }
 
-    def "when called should creates gym and add to subscription gyms"() {
+    def "when called should create gym and add to subscription gyms"() {
         given:
         mockSubscriptionsGateway.findById(subscriptionId) >> Optional.of(subscription)
 

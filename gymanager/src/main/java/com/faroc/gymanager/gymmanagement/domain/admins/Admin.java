@@ -30,7 +30,7 @@ public class Admin extends AggregateRoot {
         this.subscriptionId = subscriptionId;
     }
 
-    public static Admin mapFromStorage(UUID id, UUID userId, UUID subscriptionId) {
+    public static Admin map(UUID id, UUID userId, UUID subscriptionId) {
         return new Admin(id, userId, subscriptionId);
     }
 

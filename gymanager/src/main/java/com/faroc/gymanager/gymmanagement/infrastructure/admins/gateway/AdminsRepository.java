@@ -51,7 +51,7 @@ public class AdminsRepository implements AdminsGateway {
         if (admin == null)
             return Optional.empty();
 
-        var adminDomain = Admin.mapFromStorage(admin.getId(), admin.getUserId(), admin.getSubscriptionId());
+        var adminDomain = Admin.map(admin.getId(), admin.getUserId(), admin.getSubscriptionId());
 
         return Optional.of(adminDomain);
     }

@@ -43,6 +43,17 @@ public class Subscription extends AggregateRoot {
         maxGyms = getMaxGyms();
     }
 
+    private Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
+        super(id);
+        this.adminId = adminId;
+        this.subscriptionType = subscriptionType;
+        this.maxGyms = maxGyms;
+    }
+
+    public static Subscription map(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
+        return new Subscription(id, adminId, subscriptionType, maxGyms);
+    }
+
     public void addGym(Gym gym) {
         addGym(gym.getId());
 
@@ -59,25 +70,6 @@ public class Subscription extends AggregateRoot {
             throw new MaxGymsReachedException(SubscriptionErrors.maxGymsReached(id));
 
         gymIds.add(gymId);
-    }
-
-    private Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
-        super(id);
-        this.adminId = adminId;
-        this.subscriptionType = subscriptionType;
-        this.maxGyms = maxGyms;
-    }
-
-    public static Subscription mapFromStorage(
-            UUID id,
-            UUID adminId,
-            SubscriptionType subscriptionType,
-            int maxGyms,
-            UUID[] gymIds) {
-        var subscription = new Subscription(id, adminId, subscriptionType, maxGyms);
-        subscription.gymIds.addAll(Arrays.asList(gymIds));
-
-        return subscription;
     }
 
     public void removeGym(UUID gymId) {

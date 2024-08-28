@@ -31,6 +31,15 @@ public class GymsTestsFactory {
         );
     }
 
+    public static Gym create(UUID id, UUID subscriptionId) {
+        return new Gym(
+                id,
+                subscriptionId,
+                GymConstants.GYM_NAME_DEFAULT,
+                Integer.MAX_VALUE
+        );
+    }
+
     public static Gym create(UUID id, String sessionCategory) {
         var gym = new Gym(
                 id,

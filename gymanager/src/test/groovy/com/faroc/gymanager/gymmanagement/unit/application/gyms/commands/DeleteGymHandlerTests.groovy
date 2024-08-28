@@ -11,6 +11,8 @@ import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors
+import com.faroc.gymanager.gymmanagement.unit.application.subscriptions.utils.SubscriptionsTestsFactory
+import com.faroc.gymanager.gymmanagement.unit.domain.gyms.utils.GymsTestsFactory
 import net.datafaker.Faker
 import spock.lang.Specification
 
@@ -19,7 +21,6 @@ class DeleteGymHandlerTests extends Specification {
     DeleteGymHandler sut
     UUID subscriptionId
     String gymName
-    UUID adminId
     UUID gymId
     UUID anotherGymId
     Gym gym
@@ -33,23 +34,10 @@ class DeleteGymHandlerTests extends Specification {
         faker = new Faker()
         subscriptionId = UUID.randomUUID()
         gymName = faker.company().name()
-        adminId = UUID.randomUUID()
         gymId = UUID.randomUUID()
         anotherGymId = UUID.randomUUID()
-        gym = new Gym(
-                gymId,
-                subscriptionId,
-                gymName,
-                Integer.MAX_VALUE,
-        )
-
-        subscription = Subscription.mapFromStorage(
-                subscriptionId,
-                adminId,
-                SubscriptionType.Free,
-                1,
-                new UUID[] { gymId }
-        )
+        gym = GymsTestsFactory.create(gymId, subscriptionId)
+        subscription = SubscriptionsTestsFactory.create(subscriptionId, List.of(gymId))
 
         command = new DeleteGymCommand(gymId, subscriptionId)
 
@@ -86,13 +74,7 @@ class DeleteGymHandlerTests extends Specification {
 
     def "when subscription does not have gym to delete should throw unexpected exception"() {
         given:
-        def subscription = Subscription.mapFromStorage(
-                subscriptionId,
-                adminId,
-                SubscriptionType.Free,
-                1,
-                new UUID[] { anotherGymId }
-        )
+        def subscription = SubscriptionsTestsFactory.create(subscriptionId, List.of(anotherGymId))
         mockGymsGateway.findById(gymId) >> Optional.of(gym)
         mockSubscriptionsGateway.findById(subscriptionId) >> Optional.of(subscription)
 

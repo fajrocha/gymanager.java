@@ -7,11 +7,12 @@ import org.jooq.codegen.maven.gymanager.tables.records.SubscriptionsRecord;
 import java.util.Arrays;
 
 public class SubscriptionMappers {
-    public Subscription toDomain(SubscriptionsRecord subscriptionsRecord) {
-        var subscription = new Subscription(
+    public static Subscription toDomain(SubscriptionsRecord subscriptionsRecord) {
+        var subscription = Subscription.map(
                 subscriptionsRecord.getId(),
                 subscriptionsRecord.getAdminId(),
-                SubscriptionType.valueOf(subscriptionsRecord.getSubscriptionType())
+                SubscriptionType.valueOf(subscriptionsRecord.getSubscriptionType()),
+                subscriptionsRecord.getMaxGyms()
         );
 
         Arrays.stream(subscriptionsRecord.getGymIds()).forEach(subscription::addGym);
