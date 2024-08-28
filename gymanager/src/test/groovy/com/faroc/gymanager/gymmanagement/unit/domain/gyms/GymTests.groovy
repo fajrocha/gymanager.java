@@ -4,8 +4,8 @@ import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
 import com.faroc.gymanager.gymmanagement.domain.gyms.errors.GymsErrors
 import com.faroc.gymanager.gymmanagement.domain.gyms.exceptions.MaxRoomsReachedException
 import com.faroc.gymanager.common.domain.exceptions.ConflictException
-import com.faroc.gymanager.gymmanagement.domain.rooms.Room
-import com.faroc.gymanager.gymmanagement.unit.domain.rooms.utils.RoomsTestsFactory
+import com.faroc.gymanager.gymmanagement.domain.rooms.RoomGym
+import com.faroc.gymanager.gymmanagement.unit.domain.rooms.utils.RoomsGymTestsFactory
 import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer
 import com.faroc.gymanager.gymmanagement.unit.domain.gyms.utils.GymsTestsFactory
 import com.faroc.gymanager.sessionmanagement.unit.domain.trainers.utils.TrainersTestsFactory
@@ -15,18 +15,18 @@ class GymTests extends Specification {
     final int GYM_MAX_ROOMS_DEFAULT = 1
 
     Trainer trainer
-    Room room
+    RoomGym room
 
     Gym gym
     def setup() {
         trainer = TrainersTestsFactory.create()
-        room = RoomsTestsFactory.create()
+        room = RoomsGymTestsFactory.create()
         gym = GymsTestsFactory.create(GYM_MAX_ROOMS_DEFAULT)
     }
 
     def "when adding room and maximum rooms has been reached should throw exception"() {
         given:
-        def anotherRoom = RoomsTestsFactory.create()
+        def anotherRoom = RoomsGymTestsFactory.create()
         gym.addRoom(room)
 
         when:

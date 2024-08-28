@@ -4,7 +4,7 @@ import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher;
 import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway;
-import com.faroc.gymanager.gymmanagement.domain.rooms.Room;
+import com.faroc.gymanager.gymmanagement.domain.rooms.RoomGym;
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import com.faroc.gymanager.gymmanagement.domain.rooms.errors.RoomErrors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class AddRoomHandler implements Command.Handler<AddRoomCommand, Room> {
+public class AddRoomHandler implements Command.Handler<AddRoomCommand, RoomGym> {
     private final GymsGateway gymsGateway;
     private final SubscriptionsGateway subscriptionsGateway;
     private final DomainEventsPublisher domainEventsHandler;
@@ -30,7 +30,7 @@ public class AddRoomHandler implements Command.Handler<AddRoomCommand, Room> {
 
     @Override
     @Transactional
-    public Room handle(AddRoomCommand addRoomCommand) {
+    public RoomGym handle(AddRoomCommand addRoomCommand) {
         var gymId = addRoomCommand.gymId();
 
         var gym = gymsGateway.findById(gymId)
@@ -46,7 +46,7 @@ public class AddRoomHandler implements Command.Handler<AddRoomCommand, Room> {
                         RoomErrors.SUBSCRIPTION_NOT_FOUND
                 ));
 
-        var room = new Room(
+        var room = new RoomGym(
                 gymId,
                 addRoomCommand.name(),
                 subscription.getMaxDailySessions()

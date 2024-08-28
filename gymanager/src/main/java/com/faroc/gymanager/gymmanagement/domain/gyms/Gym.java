@@ -5,7 +5,7 @@ import com.faroc.gymanager.gymmanagement.domain.gyms.events.AddRoomEvent;
 import com.faroc.gymanager.gymmanagement.domain.gyms.exceptions.MaxRoomsReachedException;
 import com.faroc.gymanager.common.domain.AggregateRoot;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;
-import com.faroc.gymanager.gymmanagement.domain.rooms.Room;
+import com.faroc.gymanager.gymmanagement.domain.rooms.RoomGym;
 import lombok.Getter;
 
 import java.util.*;
@@ -34,7 +34,7 @@ public class Gym extends AggregateRoot {
         this.maxRooms = maxRooms;
     }
 
-    public void addRoom(Room room) {
+    public void addRoom(RoomGym room) {
         var roomId = room.getId();
 
         addRoom(roomId);
@@ -54,7 +54,7 @@ public class Gym extends AggregateRoot {
         roomIds.add(roomId);
     }
 
-    public boolean hasRoom(Room room) {
+    public boolean hasRoom(RoomGym room) {
         return hasRoom(room.getId());
     }
 
