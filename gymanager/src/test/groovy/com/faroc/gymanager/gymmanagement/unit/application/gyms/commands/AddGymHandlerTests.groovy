@@ -1,10 +1,9 @@
 package com.faroc.gymanager.gymmanagement.unit.application.gyms.commands
 
+import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.gymmanagement.application.gyms.commands.addgym.AddGymCommand
 import com.faroc.gymanager.gymmanagement.application.gyms.commands.addgym.AddGymHandler
-import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
 import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
@@ -22,7 +21,7 @@ class AddGymHandlerTests extends Specification {
     Subscription subscription
     AddGymCommand command
 
-    GymsGateway mockGymsGateway
+    DomainEventsPublisher mockDomainEventsPublisher
     SubscriptionsGateway mockSubscriptionsGateway
 
     def setup() {
@@ -40,9 +39,9 @@ class AddGymHandlerTests extends Specification {
         )
 
         mockSubscriptionsGateway = Mock(SubscriptionsGateway)
-        mockGymsGateway = Mock(GymsGateway)
+        mockDomainEventsPublisher = Mock(DomainEventsPublisher)
 
-        sut = new AddGymHandler(mockSubscriptionsGateway, mockGymsGateway)
+        sut = new AddGymHandler(mockSubscriptionsGateway, mockDomainEventsPublisher)
     }
     
 
@@ -69,7 +68,7 @@ class AddGymHandlerTests extends Specification {
         subscription.hasGym(gym.getId())
         gym.getSubscriptionId() == subscriptionId
         gym.getName() == gymName
-        1 * mockGymsGateway.save(_ as Gym)
         1 * mockSubscriptionsGateway.update(subscription)
+        1 * mockDomainEventsPublisher.publishEventsFromAggregate(subscription)
     }
 }

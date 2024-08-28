@@ -1,6 +1,7 @@
 package com.faroc.gymanager.gymmanagement.application.gyms.commands.addgym;
 
 import an.awesome.pipelinr.Command;
+import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher;
 import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway;
 import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.gymmanagement.domain.gyms.Gym;
@@ -12,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class AddGymHandler implements Command.Handler<AddGymCommand, Gym> {
     private final SubscriptionsGateway subscriptionsGateway;
-    private final GymsGateway gymsGateway;
+    private final DomainEventsPublisher domainEventsPublisher;
 
-    public AddGymHandler(SubscriptionsGateway subscriptionsGateway, GymsGateway gymsGateway) {
+    public AddGymHandler(SubscriptionsGateway subscriptionsGateway, DomainEventsPublisher domainEventsPublisher) {
         this.subscriptionsGateway = subscriptionsGateway;
-        this.gymsGateway = gymsGateway;
+        this.domainEventsPublisher = domainEventsPublisher;
     }
 
     @Override
@@ -29,10 +30,9 @@ public class AddGymHandler implements Command.Handler<AddGymCommand, Gym> {
                         SubscriptionErrors.NOT_FOUND));
 
         var gym = new Gym(subscriptionId, addGymCommand.name(), subscription.getMaxRooms());
-        gymsGateway.save(gym);
-
-        subscription.addGym(gym.getId());
+        subscription.addGym(gym);
         subscriptionsGateway.update(subscription);
+        domainEventsPublisher.publishEventsFromAggregate(subscription);
 
         return gym;
     }

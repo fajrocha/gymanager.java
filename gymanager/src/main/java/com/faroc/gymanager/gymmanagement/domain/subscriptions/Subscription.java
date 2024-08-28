@@ -2,7 +2,9 @@
 
 import com.faroc.gymanager.common.domain.AggregateRoot;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;
+import com.faroc.gymanager.gymmanagement.domain.gyms.Gym;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors;
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.events.AddGymEvent;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.exceptions.MaxGymsReachedException;
 import lombok.Getter;
 
@@ -39,6 +41,12 @@ public class Subscription extends AggregateRoot {
         this.adminId = adminId;
         this.subscriptionType = subscriptionType;
         maxGyms = getMaxGyms();
+    }
+
+    public void addGym(Gym gym) {
+        addGym(gym.getId());
+
+        domainEvents.add(new AddGymEvent(this, gym));
     }
 
     public void addGym(UUID gymId) {
