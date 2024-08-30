@@ -22,7 +22,7 @@ public class Gym extends AggregateRoot {
         sessionCategories.add(sessionCategory);
     }
 
-    public boolean hasCategory(String categoryName) {
+    public boolean supportsCategory(String categoryName) {
         return sessionCategories.contains(categoryName);
     }
     public Set<String> getSessionCategories() {

@@ -1,4 +1,4 @@
-package com.faroc.gymanager.sessionmanagement.application.reservations.commands.addreservation;
+package com.faroc.gymanager.sessionmanagement.application.reservations.commands.makereservation;
 
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionsGateway;

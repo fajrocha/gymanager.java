@@ -1,7 +1,7 @@
 package com.faroc.gymanager.sessionmanagement.api.sessionreservations;
 
 import an.awesome.pipelinr.Pipeline;
-import com.faroc.gymanager.sessionmanagement.application.reservations.commands.addreservation.MakeSessionReservationCommand;
+import com.faroc.gymanager.sessionmanagement.application.reservations.commands.makereservation.MakeSessionReservationCommand;
 import com.faroc.gymanager.sessionmanagement.reservations.requests.MakeSessionReservationRequest;
 import com.faroc.gymanager.sessionmanagement.reservations.responses.MakeSessionReservationResponse;
 import org.springframework.beans.factory.annotation.Autowired;

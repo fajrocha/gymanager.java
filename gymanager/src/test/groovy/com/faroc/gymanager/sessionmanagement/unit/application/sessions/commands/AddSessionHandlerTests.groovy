@@ -143,8 +143,8 @@ class AddSessionHandlerTests extends Specification {
 
         then:
         def ex = thrown(UnexpectedException)
-        ex.getDetail() == SessionErrors.SESSION_CATEGORY_NOT_FOUND
-        ex.getMessage() == SessionErrors.sessionCategoryNotFound(gymId)
+        ex.getDetail() == SessionErrors.SESSION_CATEGORY_NOT_SUPPORTED
+        ex.getMessage() == SessionErrors.sessionCategoryNotSupported(gymId)
     }
 
     def "when adding session and room update fails should rethrow exception"() {
