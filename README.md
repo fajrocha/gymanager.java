@@ -135,7 +135,7 @@ implementations!) and should only reference **Domain** layer models.
 repositories. Here resides the references to data access/ORM libraries, in this case _jOOQ_. Other stuff like the 
 token generation services (for security) implementations are also defined here.
 - **Domain**: all business logic resides here and by extension all **domain models**. An effort was made to make them 
-**rich domain models** to encapsulate the business logic on the model.
+**rich domain models** to encapsulate the business logic on the model and also to make them **always valid models**.
 
 ## Eventual Consistency
 
