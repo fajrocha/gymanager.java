@@ -118,7 +118,9 @@ intends to add a `session`.
 
 ![screenshot](./docs/resources/bounded_contexts.png)
 
-# Architecture 🧱
+# Design Choices 🧱
+
+## Architecture 
 
 Each **bounded context** is separated on its own **package**. Any shared code is under a `common` **package**.
 
@@ -135,6 +137,62 @@ token generation services (for security) implementations are also defined here.
 - **Domain**: all business logic resides here and by extension all **domain models**. An effort was made to make them 
 **rich domain models** to encapsulate the business logic on the model.
 
-# Eventual Consistency 🔔
+## Eventual Consistency
 
-[TBD]
+Instead of a **transactional consistency** for each request, an **eventual consistency** approach was implemented. 
+Meaning, when something interesting from a business perspective occurs, instead of updating all relevant entities in a
+single transaction, the response is given to the client immediately and further changes will occur on the background.
+
+While this brings further complexity, it improves performance and allows to customize what happens when certain changes
+within and between the **bounded contexts** fail. Any failed event will go to the database and will be republished 
+either on restart or on a scheduled job. To simplify, _Spring Modulith_ out of the box features were used.
+
+Mainly two type of events are used, **domain events** (within the **bounded context**) and **integration events**
+(between **bounded contexts**).
+
+### Domain Events
+
+An example of a **domain event** is when adding a `gym`: 
+
+- The request should cause the `gym` to be added to the `subscription`. If it succeeds, it returns a `201` code 
+response to the client right away, and it will trigger an **event**.
+
+This **event** should lead to (on the background):
+
+- The `gym` is created in whatever external dependency (in this case a DB). 
+
+So the happy path would look something like this:
+
+![screenshot](./docs/resources/create_gym_happy.png)
+
+For errors, either it would fail right away on the `subscription` update, returning a `500` code response (it would not
+trigger an event):
+
+![screenshot](./docs/resources/create_gym_error_request.png)
+
+or the `subscription` updates but the `gym` is not created, in which case it will retry periodically:
+
+![screenshot](./docs/resources/create_gym_error_events.png)
+
+### Integration Events
+
+An example of an **integration event** would be when creating a new `session`. When a `session` is created:
+
+- The request should cause the respective `room` schedule to be updated. If it succeeds it would return a `201` code 
+response right away, and it should trigger an **event**. 
+
+This **event** should lead to (all on the background):
+
+- The new `session` should be created (within the **Session Management** bounded context).
+- The `trainer` schedule should be updated with the new `session` (within the **Session Management** bounded context).
+- The `gym` should be updated with the `trainer`, in case the `trainer` is not registered there (notification from 
+the **Session Management** to the **Gym Management** bounded context).
+
+Since there is an interaction between the **Session Management** and the **Gym Management** bounded contexts this could 
+be considered an **integration event**.
+
+It would look something like below. Note that the event handlers are parallel, they should not wait on 
+one another like the sequence diagram would indicate (perhaps a different diagram type is warranted here!).
+
+![screenshot](./docs/resources/create_session_request.png)
+
