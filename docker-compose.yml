@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres
+    container_name: gymanager-postgres-db
     environment:
       POSTGRES_USER: faroc
       POSTGRES_PASSWORD: changeit
@@ -9,7 +10,31 @@ services:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
+    networks:
+      - gymanager
     restart: unless-stopped
+  gymanager:
+    profiles:
+      - gymanager
+    image: fajr0cha/gymanager:0.0.1-SNAPSHOT
+    container_name: gymanager-api
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/gymanager
+      - SPRING_DATASOURCE_USERNAME=faroc
+      - SPRING_DATASOURCE_PASSWORD=changeit
+      - SPRING_FLYWAY_URL=jdbc:postgresql://postgres:5432/gymanager
+      - SPRING_FLYWAY_USER=faroc
+      - SPRING_FLYWAY_PASSWORD=changeit
+    ports:
+      - "8080:8080"
+    networks:
+      - gymanager
+    depends_on:
+      - postgres
 
 volumes:
   postgres:
+
+networks:
+  gymanager:
+    driver: bridge
