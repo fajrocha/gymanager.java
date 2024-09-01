@@ -20,9 +20,9 @@ public class SessionErrors {
         return "Failed to add session. Gym with id " + gymId + " not found.";
     }
 
-    public static String SESSION_CATEGORY_NOT_FOUND = "Session category not available on this gym.";
-    public static String sessionCategoryNotFound(UUID gymId) {
-        return "Failed to add session. Session category not available on gym with id " + gymId + ".";
+    public static String SESSION_CATEGORY_NOT_SUPPORTED = "Session category not supported on this gym.";
+    public static String sessionCategoryNotSupported(UUID gymId) {
+        return "Failed to add session. Session category not supported on gym with id " + gymId + ".";
     }
 
     public static String TRAINER_SCHEDULE_CONFLICT = "Trainer is not available during the time range selected.";

@@ -1,8 +1,8 @@
 package com.faroc.gymanager.sessionmanagement.unit.application.reservations.commands
 
 import com.faroc.gymanager.sessionmanagement.application.participants.gateways.ParticipantsGateway
-import com.faroc.gymanager.sessionmanagement.application.reservations.commands.addreservation.MakeSessionReservationCommand
-import com.faroc.gymanager.sessionmanagement.application.reservations.commands.addreservation.MakeSessionReservationHandler
+import com.faroc.gymanager.sessionmanagement.application.reservations.commands.makereservation.MakeSessionReservationCommand
+import com.faroc.gymanager.sessionmanagement.application.reservations.commands.makereservation.MakeSessionReservationHandler
 import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionsGateway
 import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.sessionmanagement.domain.participants.Participant
