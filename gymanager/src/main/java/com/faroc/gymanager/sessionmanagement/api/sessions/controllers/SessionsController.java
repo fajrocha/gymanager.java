@@ -6,12 +6,14 @@ import com.faroc.gymanager.sessionmanagement.api.sessions.mappers.SessionRespons
 import com.faroc.gymanager.sessionmanagement.application.sessions.queries.getsession.FetchSessionQuery;
 import com.faroc.gymanager.sessionmanagement.sessions.requests.AddSessionRequest;
 import com.faroc.gymanager.sessionmanagement.sessions.responses.SessionResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/rooms/{roomId}/sessions")
+@Tag(name = "Sessions")
 public class SessionsController {
 
     private final Pipeline pipeline;

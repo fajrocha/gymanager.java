@@ -7,6 +7,7 @@ import com.faroc.gymanager.usermanagement.application.trainers.commands.addtrain
 import com.faroc.gymanager.usermanagement.users.responses.AdminCreatedResponse;
 import com.faroc.gymanager.usermanagement.users.responses.ParticipantCreatedResponse;
 import com.faroc.gymanager.usermanagement.users.responses.TrainerCreatedResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/users/{userId}/profiles")
+@Tag(name = "Users")
 public class UsersController {
     private final Pipeline pipeline;
 

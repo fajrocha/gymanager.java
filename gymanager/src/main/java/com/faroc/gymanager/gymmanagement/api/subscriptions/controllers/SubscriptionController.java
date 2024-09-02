@@ -6,6 +6,7 @@ import com.faroc.gymanager.gymmanagement.api.subscriptions.mappers.SubscriptionR
 import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.DeleteSubscriptionCommand;
 import com.faroc.gymanager.gymmanagement.subscriptions.requests.SubscribeRequest;
 import com.faroc.gymanager.gymmanagement.subscriptions.responses.SubscriptionResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/subscriptions")
+@Tag(name = "Subscriptions")
 public class SubscriptionController {
     private final Pipeline pipeline;
 

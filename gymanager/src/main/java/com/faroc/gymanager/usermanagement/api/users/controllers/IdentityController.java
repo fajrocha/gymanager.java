@@ -8,6 +8,7 @@ import com.faroc.gymanager.common.application.security.exceptions.PasswordComple
 import com.faroc.gymanager.usermanagement.users.requests.LoginRequest;
 import com.faroc.gymanager.usermanagement.users.requests.RegisterRequest;
 import com.faroc.gymanager.usermanagement.users.responses.AuthResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/authentication")
+@Tag(name = "Identity")
 public class IdentityController {
     private final Pipeline pipeline;
 
