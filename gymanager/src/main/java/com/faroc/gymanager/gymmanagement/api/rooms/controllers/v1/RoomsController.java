@@ -1,4 +1,4 @@
-package com.faroc.gymanager.gymmanagement.api.rooms.controllers;
+package com.faroc.gymanager.gymmanagement.api.rooms.controllers.v1;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.gymmanagement.api.rooms.mappers.RoomResponseMappers;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/gyms/{gymId}/rooms")
+@RestController("Rooms Controller V1")
+@RequestMapping("v1/gyms/{gymId}/rooms")
 @Tag(name = "Rooms")
 public class RoomsController {
     private final Pipeline pipeline;

@@ -1,4 +1,4 @@
-package com.faroc.gymanager.gymmanagement.api.subscriptions.controllers;
+package com.faroc.gymanager.gymmanagement.api.subscriptions.controllers.v1;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.gymmanagement.api.subscriptions.mappers.SubscriptionRequestMappers;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/subscriptions")
+@RestController("Subscriptions Controller V1")
+@RequestMapping("v1/subscriptions")
 @Tag(name = "Subscriptions")
 public class SubscriptionController {
     private final Pipeline pipeline;

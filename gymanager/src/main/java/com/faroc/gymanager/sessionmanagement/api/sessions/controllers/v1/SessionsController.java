@@ -1,4 +1,4 @@
-package com.faroc.gymanager.sessionmanagement.api.sessions.controllers;
+package com.faroc.gymanager.sessionmanagement.api.sessions.controllers.v1;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.sessionmanagement.api.sessions.mappers.SessionRequestMappers;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/rooms/{roomId}/sessions")
+@RestController("Sessions Controller V1")
+@RequestMapping("v1/rooms/{roomId}/sessions")
 @Tag(name = "Sessions")
 public class SessionsController {
 

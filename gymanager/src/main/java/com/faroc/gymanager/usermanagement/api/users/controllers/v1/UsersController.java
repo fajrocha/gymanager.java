@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usermanagement.api.users.controllers;
+package com.faroc.gymanager.usermanagement.api.users.controllers.v1;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.usermanagement.application.admins.commands.addadmin.AddAdminCommand;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/users/{userId}/profiles")
+@RestController("Users Controller V1")
+@RequestMapping("v1/users/{userId}/profiles")
 @Tag(name = "Users")
 public class UsersController {
     private final Pipeline pipeline;

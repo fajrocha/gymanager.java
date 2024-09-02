@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usermanagement.api.users.controllers;
+package com.faroc.gymanager.usermanagement.api.users.controllers.v1;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.usermanagement.api.users.mappers.UsersRequestMappers;
@@ -14,8 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/authentication")
+@RestController("Identity Controller V1")
+@RequestMapping("v1/authentication")
 @Tag(name = "Identity")
 public class IdentityController {
     private final Pipeline pipeline;

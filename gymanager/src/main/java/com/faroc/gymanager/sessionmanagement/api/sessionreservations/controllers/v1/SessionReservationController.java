@@ -1,4 +1,4 @@
-package com.faroc.gymanager.sessionmanagement.api.sessionreservations;
+package com.faroc.gymanager.sessionmanagement.api.sessionreservations.controllers.v1;
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.sessionmanagement.application.reservations.commands.makereservation.MakeSessionReservationCommand;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("sessions/{sessionId}/reservations")
+@RequestMapping("v1/sessions/{sessionId}/reservations")
 @Tag(name = "Session Reservations")
 public class SessionReservationController {
     private final Pipeline pipeline;
