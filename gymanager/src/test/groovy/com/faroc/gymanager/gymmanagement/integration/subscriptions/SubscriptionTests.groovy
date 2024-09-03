@@ -13,8 +13,8 @@ import com.faroc.gymanager.usersmanagement.integration.users.utils.UsersHttpEndp
 import com.faroc.gymanager.gymmanagement.subscriptions.requests.SubscribeRequest
 import com.faroc.gymanager.gymmanagement.subscriptions.responses.SubscriptionResponse
 import com.faroc.gymanager.gymmanagement.subscriptions.shared.SubscriptionTypeApi
-import com.faroc.gymanager.usermanagement.users.responses.AdminCreatedResponse
-import com.faroc.gymanager.usermanagement.users.responses.AuthResponse
+import com.faroc.gymanager.usermanagement.api.users.responses.v1.AdminCreatedResponse
+import com.faroc.gymanager.usermanagement.api.users.responses.v1.AuthResponse
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import net.datafaker.Faker

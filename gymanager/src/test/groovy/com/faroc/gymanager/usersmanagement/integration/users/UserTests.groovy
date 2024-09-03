@@ -5,10 +5,10 @@ import com.faroc.gymanager.sessionmanagement.application.participants.gateways.P
 import com.faroc.gymanager.sessionmanagement.application.trainers.gateways.TrainersGateway
 import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGateway
 import com.faroc.gymanager.utils.integration.ContainersSpecification
-import com.faroc.gymanager.usermanagement.users.responses.AdminCreatedResponse
-import com.faroc.gymanager.usermanagement.users.responses.AuthResponse
-import com.faroc.gymanager.usermanagement.users.responses.ParticipantCreatedResponse
-import com.faroc.gymanager.usermanagement.users.responses.TrainerCreatedResponse
+import com.faroc.gymanager.usermanagement.api.users.responses.v1.AdminCreatedResponse
+import com.faroc.gymanager.usermanagement.api.users.responses.v1.AuthResponse
+import com.faroc.gymanager.usermanagement.api.users.responses.v1.ParticipantCreatedResponse
+import com.faroc.gymanager.usermanagement.api.users.responses.v1.TrainerCreatedResponse
 import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityHttpEndpoints
 import com.faroc.gymanager.usersmanagement.integration.users.utils.RegisterRequestsTestsBuilder
 import com.faroc.gymanager.usersmanagement.integration.users.utils.UsersHttpEndpoints

@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usermanagement.users.requests;
+package com.faroc.gymanager.usermanagement.api.users.requests.v1;
 
 public record RegisterRequest(
         String firstName,

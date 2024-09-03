@@ -32,7 +32,7 @@ public class SpringSecurity {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(
-                                "/authentication/**",
+                                "v1/authentication/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
