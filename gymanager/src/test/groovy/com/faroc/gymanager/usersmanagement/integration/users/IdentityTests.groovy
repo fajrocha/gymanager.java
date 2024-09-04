@@ -6,9 +6,9 @@ import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGatewa
 import com.faroc.gymanager.utils.integration.ContainersSpecification
 
 import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityHttpEndpoints
-import com.faroc.gymanager.usermanagement.api.users.requests.v1.LoginRequest
-import com.faroc.gymanager.usermanagement.api.users.requests.v1.RegisterRequest
-import com.faroc.gymanager.usermanagement.api.users.responses.v1.AuthResponse
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.LoginRequest
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.RegisterRequest
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AuthResponse
 import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityTestsHelpers
 import com.faroc.gymanager.usersmanagement.integration.users.utils.RegisterRequestsTestsBuilder
 import io.restassured.RestAssured

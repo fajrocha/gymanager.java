@@ -1,6 +1,6 @@
 package com.faroc.gymanager.sessionmanagement.api.sessions.controllers.v2;
 
-import com.faroc.gymanager.sessionmanagement.sessions.requests.AddSessionRequest;
+import com.faroc.gymanager.sessionmanagement.api.sessions.contracts.v1.requests.AddSessionRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 

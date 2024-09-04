@@ -10,11 +10,11 @@ import com.faroc.gymanager.gymmanagement.integration.subscriptions.utils.Subscri
 import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityHttpEndpoints
 import com.faroc.gymanager.usersmanagement.integration.users.utils.RegisterRequestsTestsBuilder
 import com.faroc.gymanager.usersmanagement.integration.users.utils.UsersHttpEndpoints
-import com.faroc.gymanager.gymmanagement.subscriptions.requests.SubscribeRequest
-import com.faroc.gymanager.gymmanagement.subscriptions.responses.SubscriptionResponse
-import com.faroc.gymanager.gymmanagement.subscriptions.shared.SubscriptionTypeApi
-import com.faroc.gymanager.usermanagement.api.users.responses.v1.AdminCreatedResponse
-import com.faroc.gymanager.usermanagement.api.users.responses.v1.AuthResponse
+import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.requests.SubscribeRequest
+import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.responses.SubscriptionResponse
+import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AdminCreatedResponse
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AuthResponse
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import net.datafaker.Faker

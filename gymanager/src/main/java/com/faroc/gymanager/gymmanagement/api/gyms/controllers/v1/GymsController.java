@@ -7,10 +7,10 @@ import com.faroc.gymanager.gymmanagement.application.gyms.commands.deletegym.Del
 import com.faroc.gymanager.gymmanagement.application.gyms.queries.getsubscriptiongyms.GetSubscriptionGymsQuery;
 import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsessioncategory.AddSessionCategoriesCommand;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.exceptions.MaxGymsReachedException;
-import com.faroc.gymanager.gymmanagement.gyms.requests.AddGymRequest;
-import com.faroc.gymanager.gymmanagement.gyms.responses.GymResponse;
-import com.faroc.gymanager.sessionmanagement.sessions.requests.AddSessionCategoryRequest;
-import com.faroc.gymanager.sessionmanagement.sessions.responses.AddSessionCategoryResponse;
+import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.requests.AddGymRequest;
+import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.responses.GymResponse;
+import com.faroc.gymanager.sessionmanagement.api.sessions.contracts.v1.requests.AddSessionCategoryRequest;
+import com.faroc.gymanager.sessionmanagement.api.sessions.contracts.v1.responses.AddSessionCategoryResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;

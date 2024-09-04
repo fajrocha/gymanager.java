@@ -2,8 +2,8 @@ package com.faroc.gymanager.sessionmanagement.api.sessionreservations.controller
 
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.sessionmanagement.application.reservations.commands.makereservation.MakeSessionReservationCommand;
-import com.faroc.gymanager.sessionmanagement.reservations.requests.MakeSessionReservationRequest;
-import com.faroc.gymanager.sessionmanagement.reservations.responses.MakeSessionReservationResponse;
+import com.faroc.gymanager.sessionmanagement.api.sessionreservations.contracts.v1.requests.MakeSessionReservationRequest;
+import com.faroc.gymanager.sessionmanagement.api.sessionreservations.contracts.v1.responses.MakeSessionReservationResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

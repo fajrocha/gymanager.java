@@ -1,7 +1,7 @@
 package com.faroc.gymanager.sessionmanagement.api.sessions.mappers;
 
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session;
-import com.faroc.gymanager.sessionmanagement.sessions.responses.SessionResponse;
+import com.faroc.gymanager.sessionmanagement.api.sessions.contracts.v1.responses.SessionResponse;
 
 public class SessionResponseMappers {
     public static SessionResponse toResponse(Session session) {

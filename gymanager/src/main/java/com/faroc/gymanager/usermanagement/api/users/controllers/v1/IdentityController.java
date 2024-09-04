@@ -5,9 +5,9 @@ import com.faroc.gymanager.usermanagement.api.users.mappers.UsersRequestMappers;
 import com.faroc.gymanager.usermanagement.api.users.mappers.UsersResponseMappers;
 import com.faroc.gymanager.usermanagement.application.users.exceptions.EmailAlreadyExistsException;
 import com.faroc.gymanager.common.application.security.exceptions.PasswordComplexityException;
-import com.faroc.gymanager.usermanagement.api.users.requests.v1.LoginRequest;
-import com.faroc.gymanager.usermanagement.api.users.requests.v1.RegisterRequest;
-import com.faroc.gymanager.usermanagement.api.users.responses.v1.AuthResponse;
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.LoginRequest;
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.RegisterRequest;
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AuthResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class IdentityController {
     }
 
     @PostMapping("register")
-    public AuthResponse userRegistration(@RequestBody RegisterRequest request) {
+    public AuthResponse userRegistration(@Valid @RequestBody RegisterRequest request) {
         var command = UsersRequestMappers.toCommand(request);
 
         var result = command.execute(pipeline);
