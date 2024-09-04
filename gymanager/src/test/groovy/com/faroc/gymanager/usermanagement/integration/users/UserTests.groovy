@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usersmanagement.integration.users
+package com.faroc.gymanager.usermanagement.integration.users
 
 import com.faroc.gymanager.gymmanagement.application.admins.gateways.AdminsGateway
 import com.faroc.gymanager.sessionmanagement.application.participants.gateways.ParticipantsGateway
@@ -9,9 +9,9 @@ import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.Admin
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AuthResponse
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.ParticipantCreatedResponse
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.TrainerCreatedResponse
-import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityHttpEndpoints
-import com.faroc.gymanager.usersmanagement.integration.users.utils.RegisterRequestsTestsBuilder
-import com.faroc.gymanager.usersmanagement.integration.users.utils.UsersHttpEndpoints
+import com.faroc.gymanager.usermanagement.integration.users.utils.IdentityHttpEndpoints
+import com.faroc.gymanager.usermanagement.integration.users.utils.RegisterRequestsTestsBuilder
+import com.faroc.gymanager.usermanagement.integration.users.utils.UsersHttpEndpoints
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import net.datafaker.Faker
@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
+
+import static java.util.concurrent.TimeUnit.SECONDS
+import static org.awaitility.Awaitility.await
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserTests extends ContainersSpecification {
@@ -33,6 +36,7 @@ class UserTests extends ContainersSpecification {
     @Autowired
     ParticipantsGateway participantsGateway
 
+    final int MAX_SECONDS_WAIT_EVENTS = 5
     final Faker faker = new Faker()
     String token
     UUID userId
@@ -117,6 +121,8 @@ class UserTests extends ContainersSpecification {
         def responseBody = response.body().as(AdminCreatedResponse.class)
         def user = usersGateway.findById(userId).orElseThrow()
         def adminId = responseBody.adminId()
+        await().atMost(MAX_SECONDS_WAIT_EVENTS, SECONDS)
+                .until(() -> adminsGateway.findById(adminId).isPresent())
         def admin = adminsGateway.findById(adminId).orElseThrow()
 
         user.getAdminId() == adminId
@@ -141,6 +147,8 @@ class UserTests extends ContainersSpecification {
         def responseBody = response.body().as(TrainerCreatedResponse.class)
         def user = usersGateway.findById(userId).orElseThrow()
         def trainerId = responseBody.trainerId()
+        await().atMost(MAX_SECONDS_WAIT_EVENTS, SECONDS)
+                .until(() -> trainersGateway.findById(trainerId).isPresent())
         def trainer = trainersGateway.findById(trainerId).orElseThrow()
 
         user.getTrainerId() == trainerId
@@ -165,6 +173,8 @@ class UserTests extends ContainersSpecification {
         def responseBody = response.body().as(ParticipantCreatedResponse.class)
         def user = usersGateway.findById(userId).orElseThrow()
         def participantId = responseBody.participantId()
+        await().atMost(MAX_SECONDS_WAIT_EVENTS, SECONDS)
+                .until(() -> participantsGateway.findById(participantId).isPresent())
         def participant = participantsGateway.findById(participantId).orElseThrow()
 
         user.getParticipantId() == participantId

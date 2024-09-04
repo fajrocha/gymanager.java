@@ -62,22 +62,11 @@
             <version>0.8</version>
         </dependency>
         <dependency>
-            <groupId>com.github.mvallim</groupId>
-            <artifactId>java-fluent-validator</artifactId>
-            <version>1.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.9.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.32</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
@@ -162,6 +151,12 @@
             <groupId>net.datafaker</groupId>
             <artifactId>datafaker</artifactId>
             <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility-groovy</artifactId>
+            <version>4.2.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <dependencyManagement>

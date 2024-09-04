@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usersmanagement.integration.users.utils;
+package com.faroc.gymanager.usermanagement.integration.users.utils;
 
 import java.util.UUID;
 
@@ -7,6 +7,6 @@ public class UsersHttpEndpoints {
         return getProfileEndpoint(userId, "admin");
     }
     public static String getProfileEndpoint(UUID userId, String profile) {
-        return "users/" + userId + "/profiles/" + profile;
+        return "v1/users/" + userId + "/profiles/" + profile;
     }
 }

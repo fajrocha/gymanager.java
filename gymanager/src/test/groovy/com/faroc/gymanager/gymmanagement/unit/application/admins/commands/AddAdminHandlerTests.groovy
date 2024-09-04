@@ -10,7 +10,7 @@ import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundExcepti
 import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGateway
 import com.faroc.gymanager.usermanagement.domain.users.User
 import com.faroc.gymanager.usermanagement.domain.users.errors.UserErrors
-import com.faroc.gymanager.usersmanagement.unit.domain.users.utils.UsersTestsFactory
+import com.faroc.gymanager.usermanagement.unit.domain.users.utils.UsersTestsFactory
 import spock.lang.Specification
 
 class AddAdminHandlerTests extends Specification {

@@ -10,10 +10,10 @@ import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.responses.GymResp
 import com.faroc.gymanager.gymmanagement.integration.gyms.utils.GymsEndpoints
 import com.faroc.gymanager.utils.integration.ContainersSpecification
 import com.faroc.gymanager.gymmanagement.integration.subscriptions.utils.SubscriptionsEndpoints
-import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityHttpEndpoints
-import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentitySharedConstants
-import com.faroc.gymanager.usersmanagement.integration.users.utils.RegisterRequestsTestsBuilder
-import com.faroc.gymanager.usersmanagement.integration.users.utils.UsersHttpEndpoints
+import com.faroc.gymanager.usermanagement.integration.users.utils.IdentityHttpEndpoints
+import com.faroc.gymanager.usermanagement.integration.users.utils.IdentitySharedConstants
+import com.faroc.gymanager.usermanagement.integration.users.utils.RegisterRequestsTestsBuilder
+import com.faroc.gymanager.usermanagement.integration.users.utils.UsersHttpEndpoints
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.requests.SubscribeRequest
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.responses.SubscriptionResponse
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi
@@ -53,7 +53,7 @@ class GymTests extends ContainersSpecification {
 
     def "when gym is added but token doesn't have the right permissions should get forbidden"() {
         given:
-        def endpoint = GymsEndpoints.getAddGymEndpoint(UUID.randomUUID())
+        def endpoint = GymsEndpoints.getAddGymEndpointV1(UUID.randomUUID())
         def request = new AddGymRequest(gymName)
 
         when:
@@ -72,7 +72,7 @@ class GymTests extends ContainersSpecification {
         given:
         def loginResponse = loginUser(registerResponse.email())
         def loginToken = loginResponse.token()
-        def endpoint = GymsEndpoints.getAddGymEndpoint(UUID.randomUUID())
+        def endpoint = GymsEndpoints.getAddGymEndpointV1(UUID.randomUUID())
         def request = new AddGymRequest(gymName)
 
         when:
@@ -96,7 +96,7 @@ class GymTests extends ContainersSpecification {
         def loginResponse = loginUser(registerResponse.email())
         def loginToken = loginResponse.token()
         def subscriptionId = subscribeResponse.id()
-        def endpoint = GymsEndpoints.getAddGymEndpoint(subscriptionId)
+        def endpoint = GymsEndpoints.getAddGymEndpointV1(subscriptionId)
         def request = new AddGymRequest(gymName)
 
         when:
@@ -133,7 +133,7 @@ class GymTests extends ContainersSpecification {
         def loginResponse = loginUser(registerResponse.email())
         def loginToken = loginResponse.token()
         def subscriptionId = subscribeResponse.id()
-        def endpoint = GymsEndpoints.getAddGymEndpoint(subscriptionId)
+        def endpoint = GymsEndpoints.getAddGymEndpointV1(subscriptionId)
 
         addMaxGymsPerSubscriptionType(endpoint, loginToken, subscriptionType)
 
@@ -220,7 +220,7 @@ class GymTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post(SubscriptionsEndpoints.SUBSCRIBE_ENDPOINT)
+                .post(SubscriptionsEndpoints.SUBSCRIBE_ENDPOINT_V1)
 
         return response.as(SubscriptionResponse)
     }

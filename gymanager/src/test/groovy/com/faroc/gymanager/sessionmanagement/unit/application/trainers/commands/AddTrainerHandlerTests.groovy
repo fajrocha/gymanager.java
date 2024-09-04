@@ -11,7 +11,7 @@ import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGatewa
 import com.faroc.gymanager.usermanagement.domain.users.User
 import com.faroc.gymanager.usermanagement.domain.users.errors.UserErrors
 import spock.lang.Specification
-import com.faroc.gymanager.usersmanagement.unit.domain.users.utils.UsersTestsFactory
+import com.faroc.gymanager.usermanagement.unit.domain.users.utils.UsersTestsFactory
 
 class AddTrainerHandlerTests extends Specification {
 

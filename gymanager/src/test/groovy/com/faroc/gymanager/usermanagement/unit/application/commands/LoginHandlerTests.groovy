@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usersmanagement.unit.application.commands
+package com.faroc.gymanager.usermanagement.unit.application.commands
 
 import com.faroc.gymanager.common.application.security.exceptions.UnauthorizedException
 import com.faroc.gymanager.usermanagement.application.users.dtos.AuthDTO
@@ -10,7 +10,7 @@ import com.faroc.gymanager.usermanagement.domain.users.User
 import com.faroc.gymanager.usermanagement.domain.users.abstractions.PasswordHasher
 import net.datafaker.Faker
 import spock.lang.Specification
-import com.faroc.gymanager.usersmanagement.unit.domain.users.utils.UsersTestsFactory
+import com.faroc.gymanager.usermanagement.unit.domain.users.utils.UsersTestsFactory
 
 class LoginHandlerTests extends Specification {
 

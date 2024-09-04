@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usersmanagement.integration.users.utils;
+package com.faroc.gymanager.usermanagement.integration.users.utils;
 
 public class IdentityTestsHelpers {
     public static String generateEmailFrom(String firstName, String lastName) {

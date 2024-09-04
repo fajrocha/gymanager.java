@@ -7,9 +7,9 @@ import com.faroc.gymanager.gymmanagement.domain.admins.errors.AdminErrors
 import com.faroc.gymanager.utils.integration.ContainersSpecification
 
 import com.faroc.gymanager.gymmanagement.integration.subscriptions.utils.SubscriptionsEndpoints
-import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityHttpEndpoints
-import com.faroc.gymanager.usersmanagement.integration.users.utils.RegisterRequestsTestsBuilder
-import com.faroc.gymanager.usersmanagement.integration.users.utils.UsersHttpEndpoints
+import com.faroc.gymanager.usermanagement.integration.users.utils.IdentityHttpEndpoints
+import com.faroc.gymanager.usermanagement.integration.users.utils.RegisterRequestsTestsBuilder
+import com.faroc.gymanager.usermanagement.integration.users.utils.UsersHttpEndpoints
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.requests.SubscribeRequest
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.responses.SubscriptionResponse
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi
@@ -54,7 +54,7 @@ class SubscriptionTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(subscribeRequest)
                 .when()
-                .post(SubscriptionsEndpoints.SUBSCRIBE_ENDPOINT)
+                .post(SubscriptionsEndpoints.SUBSCRIBE_ENDPOINT_V1)
 
         then:
         response.statusCode() == HttpStatus.NOT_FOUND.value()
@@ -77,7 +77,7 @@ class SubscriptionTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(subscribeRequest)
                 .when()
-                .post(SubscriptionsEndpoints.SUBSCRIBE_ENDPOINT)
+                .post(SubscriptionsEndpoints.SUBSCRIBE_ENDPOINT_V1)
 
         then:
         def responseBody = response.body().as(SubscriptionResponse.class)

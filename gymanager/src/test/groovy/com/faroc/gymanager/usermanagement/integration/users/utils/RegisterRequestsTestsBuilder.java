@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usersmanagement.integration.users.utils;
+package com.faroc.gymanager.usermanagement.integration.users.utils;
 
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.RegisterRequest;
 import net.datafaker.Faker;

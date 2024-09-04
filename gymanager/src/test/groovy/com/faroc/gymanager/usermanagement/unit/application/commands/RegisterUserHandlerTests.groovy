@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usersmanagement.unit.application.commands
+package com.faroc.gymanager.usermanagement.unit.application.commands
 
 import com.faroc.gymanager.usermanagement.application.users.dtos.AuthDTO
 import com.faroc.gymanager.usermanagement.application.users.commands.registeruser.RegisterUserCommand

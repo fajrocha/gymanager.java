@@ -1,16 +1,16 @@
-package com.faroc.gymanager.usersmanagement.integration.users
+package com.faroc.gymanager.usermanagement.integration.users
 
 import com.faroc.gymanager.common.application.security.exceptions.PasswordComplexityException
 import com.faroc.gymanager.common.application.exceptions.ValidationException
 import com.faroc.gymanager.usermanagement.application.users.gateways.UsersGateway
 import com.faroc.gymanager.utils.integration.ContainersSpecification
 
-import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityHttpEndpoints
+import com.faroc.gymanager.usermanagement.integration.users.utils.IdentityHttpEndpoints
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.LoginRequest
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.RegisterRequest
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AuthResponse
-import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityTestsHelpers
-import com.faroc.gymanager.usersmanagement.integration.users.utils.RegisterRequestsTestsBuilder
+import com.faroc.gymanager.usermanagement.integration.users.utils.IdentityTestsHelpers
+import com.faroc.gymanager.usermanagement.integration.users.utils.RegisterRequestsTestsBuilder
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import net.datafaker.Faker

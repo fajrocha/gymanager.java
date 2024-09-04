@@ -1,4 +1,4 @@
-package com.faroc.gymanager.usersmanagement.unit.domain.users.utils;
+package com.faroc.gymanager.usermanagement.unit.domain.users.utils;
 
 import com.faroc.gymanager.usermanagement.domain.users.User;
 import net.datafaker.Faker;

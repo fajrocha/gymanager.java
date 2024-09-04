@@ -1,11 +1,11 @@
-package com.faroc.gymanager.usersmanagement.unit.domain.users
+package com.faroc.gymanager.usermanagement.unit.domain.users
 
 import com.faroc.gymanager.common.domain.exceptions.ConflictException
 import com.faroc.gymanager.usermanagement.domain.users.User
 import com.faroc.gymanager.usermanagement.domain.users.UserProfileTypes
 import com.faroc.gymanager.usermanagement.domain.users.abstractions.PasswordHasher
 import com.faroc.gymanager.usermanagement.domain.users.errors.UserErrors
-import com.faroc.gymanager.usersmanagement.unit.domain.users.utils.UsersTestsFactory
+import com.faroc.gymanager.usermanagement.unit.domain.users.utils.UsersTestsFactory
 import net.datafaker.Faker
 import spock.lang.Specification
 
