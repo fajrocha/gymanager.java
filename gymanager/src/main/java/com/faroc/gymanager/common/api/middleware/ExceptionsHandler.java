@@ -1,9 +1,9 @@
 package com.faroc.gymanager.common.api.middleware;
 
-import com.faroc.gymanager.common.application.security.exceptions.UnauthorizedException;
 import com.faroc.gymanager.common.application.exceptions.ForbiddenException;
 import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.common.application.exceptions.ValidationException;
+import com.faroc.gymanager.common.application.security.exceptions.UnauthorizedException;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -41,9 +40,9 @@ public class ExceptionsHandler {
         var problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, VALIDATION_ERROR_DETAIL);
 
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
+        ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
+            String fieldName = fieldError.getField();
+            String errorMessage = fieldError.getDefaultMessage();  // Ensure this is extracting the custom message
             errors.put(fieldName, errorMessage);
         });
 

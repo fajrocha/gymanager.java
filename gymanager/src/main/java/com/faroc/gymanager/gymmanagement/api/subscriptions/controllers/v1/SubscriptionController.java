@@ -7,6 +7,7 @@ import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.dele
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.requests.SubscribeRequest;
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.responses.SubscriptionResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,8 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    public ResponseEntity<SubscriptionResponse> createSubscription(@RequestBody SubscribeRequest createSubscriptionRequest) {
+    public ResponseEntity<SubscriptionResponse> createSubscription(
+            @Valid @RequestBody SubscribeRequest createSubscriptionRequest) {
         var command = SubscriptionRequestMappers.toCommand(createSubscriptionRequest);
 
         var subscription = command.execute(pipeline);

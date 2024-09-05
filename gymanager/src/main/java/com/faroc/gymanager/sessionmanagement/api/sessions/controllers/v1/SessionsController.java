@@ -7,6 +7,7 @@ import com.faroc.gymanager.sessionmanagement.application.sessions.queries.getses
 import com.faroc.gymanager.sessionmanagement.api.sessions.contracts.v1.requests.AddSessionRequest;
 import com.faroc.gymanager.sessionmanagement.api.sessions.contracts.v1.responses.SessionResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -23,7 +24,9 @@ public class SessionsController {
     }
 
     @PostMapping
-    public SessionResponse addSession(@PathVariable UUID roomId, @RequestBody AddSessionRequest addSessionRequest) {
+    public SessionResponse addSession(
+            @PathVariable UUID roomId,
+            @Valid @RequestBody AddSessionRequest addSessionRequest) {
         var command = SessionRequestMappers.toCommand(addSessionRequest, roomId);
 
         var session = command.execute(pipeline);
