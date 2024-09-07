@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController("Identity Controller V1")
 @RequestMapping("v1/authentication")
-@Tag(name = "Identity")
+@Tag(name = "Identity", description = "Requests to manage authentication for the user.")
 public class IdentityController {
     private final Pipeline pipeline;
 

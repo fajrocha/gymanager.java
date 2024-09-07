@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @RestController("Users Controller V1")
 @RequestMapping("v1/users/{userId}/profiles")
-@Tag(name = "Users")
+@Tag(name = "Users", description = "Requests to manage user related attributes like profiles.")
 public class UsersController {
     private final Pipeline pipeline;
 
