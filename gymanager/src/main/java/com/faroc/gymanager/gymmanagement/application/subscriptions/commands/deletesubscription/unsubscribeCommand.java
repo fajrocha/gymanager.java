@@ -5,5 +5,5 @@ import an.awesome.pipelinr.Voidy;
 
 import java.util.UUID;
 
-public record DeleteSubscriptionCommand(UUID subscriptionId) implements Command<Voidy> {
+public record unsubscribeCommand(UUID subscriptionId) implements Command<Voidy> {
 }

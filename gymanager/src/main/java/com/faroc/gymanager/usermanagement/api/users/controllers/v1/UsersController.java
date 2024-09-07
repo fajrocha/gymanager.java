@@ -1,7 +1,6 @@
 package com.faroc.gymanager.usermanagement.api.users.controllers.v1;
 
 import an.awesome.pipelinr.Pipeline;
-import com.faroc.gymanager.common.api.contracts.responses.ValidationProblemDetail;
 import com.faroc.gymanager.usermanagement.application.admins.commands.addadmin.AddAdminCommand;
 import com.faroc.gymanager.usermanagement.application.participants.commands.addparticpant.AddParticipantCommand;
 import com.faroc.gymanager.usermanagement.application.trainers.commands.addtrainer.AddTrainerCommand;
@@ -45,14 +44,6 @@ public class UsersController {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = AdminCreatedResponse.class)
-                            )
-                    }),
-            @ApiResponse(responseCode = "400",
-                    description = "Invalid login data on the request body.",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ValidationProblemDetail.class)
                             )
                     }),
             @ApiResponse(
@@ -104,14 +95,6 @@ public class UsersController {
                                     schema = @Schema(implementation = TrainerCreatedResponse.class)
                             )
                     }),
-            @ApiResponse(responseCode = "400",
-                    description = "Invalid login data on the request body.",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ValidationProblemDetail.class)
-                            )
-                    }),
             @ApiResponse(
                     responseCode = "401",
                     description = "User on the request token is not the same as the user requesting to add the profile",
@@ -159,14 +142,6 @@ public class UsersController {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ParticipantCreatedResponse.class)
-                            )
-                    }),
-            @ApiResponse(responseCode = "400",
-                    description = "Invalid login data on the request body.",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ValidationProblemDetail.class)
                             )
                     }),
             @ApiResponse(

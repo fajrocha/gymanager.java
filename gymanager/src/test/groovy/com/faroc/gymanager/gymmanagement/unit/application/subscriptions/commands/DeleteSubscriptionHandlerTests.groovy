@@ -2,7 +2,7 @@ package com.faroc.gymanager.gymmanagement.unit.application.subscriptions.command
 
 import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.gymmanagement.application.admins.gateways.AdminsGateway
-import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.DeleteSubscriptionCommand
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.unsubscribeCommand
 import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.DeleteSubscriptionHandler
 import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
 import com.faroc.gymanager.gymmanagement.domain.admins.Admin
@@ -19,7 +19,7 @@ class DeleteSubscriptionHandlerTests extends Specification {
     UUID subscriptionId
     UUID adminId
     Subscription subscription
-    DeleteSubscriptionCommand command
+    unsubscribeCommand command
 
     AdminsGateway mockAdminsGateway
     SubscriptionsGateway mockSubscriptionsGateway
@@ -32,7 +32,7 @@ class DeleteSubscriptionHandlerTests extends Specification {
         subscription = SubscriptionsTestsFactory.create()
         subscriptionId = subscription.getId()
         adminId = subscription.getAdminId()
-        command = new DeleteSubscriptionCommand(subscriptionId)
+        command = new unsubscribeCommand(subscriptionId)
 
         mockAdminsGateway = Mock(AdminsGateway)
         mockSubscriptionsGateway = Mock(SubscriptionsGateway)
