@@ -1,6 +1,7 @@
 package com.faroc.gymanager.usermanagement.api.users.controllers.v1;
 
 import an.awesome.pipelinr.Pipeline;
+import com.faroc.gymanager.common.api.contracts.responses.ValidationProblemDetail;
 import com.faroc.gymanager.usermanagement.api.users.mappers.UsersRequestMappers;
 import com.faroc.gymanager.usermanagement.api.users.mappers.UsersResponseMappers;
 import com.faroc.gymanager.usermanagement.application.users.exceptions.EmailAlreadyExistsException;
@@ -8,6 +9,11 @@ import com.faroc.gymanager.common.application.security.exceptions.PasswordComple
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.LoginRequest;
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.RegisterRequest;
 import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AuthResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,38 @@ public class IdentityController {
     }
 
     @PostMapping("register")
+    @Operation(
+            summary = "Register user on the platform.",
+            description = "Registers user to the Gymanager platform."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Registration response with the user JWT token.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = AuthResponse.class)
+                            )
+                    }),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid registration data on the request body.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ValidationProblemDetail.class)
+                            )
+                    }),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error during registration.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ProblemDetail.class)
+                            )
+                    })
+    })
     public AuthResponse userRegistration(@Valid @RequestBody RegisterRequest request) {
         var command = UsersRequestMappers.toCommand(request);
 
@@ -36,6 +74,43 @@ public class IdentityController {
     }
 
     @PostMapping("login")
+    @Operation(
+            summary = "Login user on the platform.",
+            description = "Login user to the Gymanager platform."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Login response with the user JWT token.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = AuthResponse.class)
+                            )
+                    }),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid login data on the request body.",
+                    content = {
+                            @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = ValidationProblemDetail.class)
+                            )
+                    }),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "User login fails due to not existing or wrong credentials",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error during login.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ProblemDetail.class)
+                            )
+                    })
+    })
     public AuthResponse userLogin(@Valid @RequestBody LoginRequest request) {
         var command = UsersRequestMappers.toCommand(request);
 

@@ -1,5 +1,6 @@
 package com.faroc.gymanager.common.api.middleware;
 
+import com.faroc.gymanager.common.api.contracts.responses.ValidationProblemDetail;
 import com.faroc.gymanager.common.application.exceptions.ForbiddenException;
 import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.common.application.exceptions.ValidationException;
@@ -36,19 +37,15 @@ public class ExceptionsHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidationExceptions(
             MethodArgumentNotValidException ex) {
-        final String VALIDATION_ERROR_DETAIL = "The provided data is invalid.";
-        var problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, VALIDATION_ERROR_DETAIL);
+        var validationProblem = ValidationProblemDetail.create();
 
-        Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
             String fieldName = fieldError.getField();
-            String errorMessage = fieldError.getDefaultMessage();  // Ensure this is extracting the custom message
-            errors.put(fieldName, errorMessage);
+            String errorMessage = fieldError.getDefaultMessage();
+            validationProblem.addValidationError(fieldName, errorMessage);
         });
 
-        problem.setProperty("errors", errors);
-
-        return problem;
+        return validationProblem;
     }
 
     @ExceptionHandler(UnauthorizedException.class)
