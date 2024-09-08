@@ -7,5 +7,4 @@ import java.util.UUID;
 
 public interface GymsGateway {
     Optional<Gym> findById(UUID id);
-    void updateSessions(Gym sessions);
 }

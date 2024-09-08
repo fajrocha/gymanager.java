@@ -5,7 +5,7 @@ import com.faroc.gymanager.gymmanagement.api.gyms.mappers.GymResponseMappers;
 import com.faroc.gymanager.gymmanagement.application.gyms.commands.addgym.AddGymCommand;
 import com.faroc.gymanager.gymmanagement.application.gyms.commands.deletegym.DeleteGymCommand;
 import com.faroc.gymanager.gymmanagement.application.gyms.queries.getsubscriptiongyms.GetSubscriptionGymsQuery;
-import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsessioncategory.AddSessionCategoriesCommand;
+import com.faroc.gymanager.gymmanagement.application.gyms.commands.addsessioncategory.AddSessionCategoriesCommand;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.exceptions.MaxGymsReachedException;
 import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.requests.AddGymRequest;
 import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.responses.GymResponse;
@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -141,10 +142,12 @@ public class GymsController {
             description = "Adds further session categories to a given gym."
     )
     public ResponseEntity<AddSessionCategoryResponse> addGymCategories(
-            @PathVariable UUID gymId,
-            @RequestBody AddSessionCategoryRequest addSessionCategoryRequest) {
+            @Parameter(description = "Id of gym to delete.") @PathVariable UUID gymId,
+            @Parameter(description = "Id of subscription associated to gym.") @PathVariable UUID subscriptionId,
+            @Valid @RequestBody AddSessionCategoryRequest addSessionCategoryRequest) {
         var command = new AddSessionCategoriesCommand(
                 gymId,
+                subscriptionId,
                 addSessionCategoryRequest.sessionCategories());
 
         var sessionCategories = command.execute(pipeline);
