@@ -141,8 +141,45 @@ public class GymsController {
             summary = "Adds session categories to a gym.",
             description = "Adds further session categories to a given gym."
     )
-    public ResponseEntity<AddSessionCategoryResponse> addGymCategories(
-            @Parameter(description = "Id of gym to delete.") @PathVariable UUID gymId,
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Session categories added tog gym.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = AddSessionCategoryResponse.class)
+                            )
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "User is not authenticated.",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Subscription not found.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ProblemDetail.class)
+                            )
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Unexpected server error when adding the gym, for example due to " +
+                            "subscription given not matching the subscription associated to gym.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ProblemDetail.class)
+                            )
+                    })
+    })
+    public AddSessionCategoryResponse addGymCategories(
+            @Parameter(description = "Id of gym to add session categories.") @PathVariable UUID gymId,
             @Parameter(description = "Id of subscription associated to gym.") @PathVariable UUID subscriptionId,
             @Valid @RequestBody AddSessionCategoryRequest addSessionCategoryRequest) {
         var command = new AddSessionCategoriesCommand(
@@ -152,7 +189,7 @@ public class GymsController {
 
         var sessionCategories = command.execute(pipeline);
 
-        return new ResponseEntity<>(new AddSessionCategoryResponse(sessionCategories), HttpStatus.CREATED);
+        return new AddSessionCategoryResponse(sessionCategories);
     }
 
     @DeleteMapping("/{gymId}")

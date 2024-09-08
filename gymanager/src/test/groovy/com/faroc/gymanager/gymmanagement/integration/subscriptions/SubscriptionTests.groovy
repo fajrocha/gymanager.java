@@ -23,6 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
 
+import static com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi.*
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SubscriptionTests extends ContainersSpecification {
     @Autowired
@@ -44,7 +46,7 @@ class SubscriptionTests extends ContainersSpecification {
         userId = registerResponse.id()
     }
 
-    def "when subscribing and admin does not exist should return not found"(SubscriptionTypeApi subscriptionType) {
+    def "when subscribing and admin does not exist should return not found"(String subscriptionType) {
         given:
         def subscribeRequest = new SubscribeRequest(subscriptionType, UUID.randomUUID())
 
@@ -61,11 +63,10 @@ class SubscriptionTests extends ContainersSpecification {
         response.body().jsonPath().getString("detail") == AdminErrors.NOT_FOUND
 
         where:
-        subscriptionType << [SubscriptionTypeApi.Free, SubscriptionTypeApi.Starter, SubscriptionTypeApi.Pro]
+        subscriptionType << ["Free", "Starter", "Pro"]
     }
 
-    def "when subscribing should add subscription to admin and create subscription"(
-            SubscriptionTypeApi subscriptionType) {
+    def "when subscribing should add subscription to admin and create subscription"(String subscriptionType) {
         given:
         def addAdminResponse = addAdminProfile(userId, token)
         def adminId = addAdminResponse.adminId()
@@ -89,11 +90,11 @@ class SubscriptionTests extends ContainersSpecification {
         subscription.getId() == subscriptionId
         subscription.getAdminId() == adminId
         subscription.getSubscriptionType() == SubscriptionRequestMappers.toDomain(subscriptionType)
-        subscriptionType == responseBody.subscriptionType()
+        subscriptionType == responseBody.subscriptionType().name()
         response.statusCode() == HttpStatus.CREATED.value()
 
         where:
-        subscriptionType << [SubscriptionTypeApi.Free, SubscriptionTypeApi.Starter, SubscriptionTypeApi.Pro]
+        subscriptionType << ["Free", "Starter", "Pro"]
     }
 
     private AuthResponse registerUser() {

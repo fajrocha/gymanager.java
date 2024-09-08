@@ -28,6 +28,10 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
 
+import static com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi.Free
+import static com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi.Pro
+import static com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi.Starter
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GymTests extends ContainersSpecification {
     @Autowired
@@ -87,7 +91,7 @@ class GymTests extends ContainersSpecification {
         response.statusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()
     }
 
-    def "when gym is added should add gym to subscription and create gym"(SubscriptionTypeApi subscriptionType) {
+    def "when gym is added should add gym to subscription and create gym"(String subscriptionType) {
         given:
         def subscribeResponse = subscribe(
                 subscriptionType,
@@ -119,11 +123,11 @@ class GymTests extends ContainersSpecification {
         responseBody.name() == gymName
 
         where:
-        subscriptionType << [SubscriptionTypeApi.Free, SubscriptionTypeApi.Starter, SubscriptionTypeApi.Pro]
+        subscriptionType << ["Free", "Starter", "Pro"]
     }
 
     def "when gym is added and subscription allows no more gyms should get internal server error"(
-            SubscriptionTypeApi subscriptionType
+            String subscriptionType
     ) {
         given:
         def subscribeResponse = subscribe(
@@ -152,10 +156,10 @@ class GymTests extends ContainersSpecification {
         response.body().jsonPath().getString("detail") == SubscriptionErrors.MAX_GYMS_REACHED
 
         where:
-        subscriptionType << [SubscriptionTypeApi.Free, SubscriptionTypeApi.Starter]
+        subscriptionType << [Free, Starter]
     }
 
-    def addMaxGymsPerSubscriptionType(String endpoint, String loginToken, SubscriptionTypeApi subscriptionTypeRequest) {
+    def addMaxGymsPerSubscriptionType(String endpoint, String loginToken, String subscriptionTypeRequest) {
         def subscriptionType = SubscriptionRequestMappers.toDomain(subscriptionTypeRequest)
         def gymsToAdd = Subscription.getMaxGyms(subscriptionType)
 
@@ -212,7 +216,7 @@ class GymTests extends ContainersSpecification {
         return response.as(AdminCreatedResponse)
     }
 
-    private static SubscriptionResponse subscribe(SubscriptionTypeApi subscriptionType, UUID adminId, String token) {
+    private static SubscriptionResponse subscribe(String subscriptionType, UUID adminId, String token) {
         def request = new SubscribeRequest(subscriptionType, adminId)
 
         def response = RestAssured.given()
