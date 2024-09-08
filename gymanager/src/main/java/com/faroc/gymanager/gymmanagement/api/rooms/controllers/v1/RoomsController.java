@@ -5,8 +5,14 @@ import com.faroc.gymanager.gymmanagement.api.rooms.mappers.RoomResponseMappers;
 import com.faroc.gymanager.gymmanagement.application.rooms.commands.addroom.AddRoomCommand;
 import com.faroc.gymanager.gymmanagement.api.rooms.contracts.v1.requests.AddRoomRequest;
 import com.faroc.gymanager.gymmanagement.api.rooms.contracts.v1.responses.RoomResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +20,7 @@ import java.util.UUID;
 
 @RestController("Rooms Controller V1")
 @RequestMapping("v1/gyms/{gymId}/rooms")
-@Tag(name = "Rooms")
+@Tag(name = "Rooms", description = "Requests to manage gym rooms.")
 public class RoomsController {
     private final Pipeline pipeline;
 
@@ -23,6 +29,37 @@ public class RoomsController {
     }
 
     @PostMapping
+    @Operation(
+            summary = "Adds a gym to a subscription.",
+            description = "Adds a gym to a given subscription."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Room added to gym.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = RoomResponse.class)
+                            )
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "User is not authenticated.",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Unexpected server error when adding the gym, for example due to " +
+                            "subscription or gym not existing.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ProblemDetail.class)
+                            )
+                    })
+    })
     public ResponseEntity<RoomResponse> addRoom(@PathVariable UUID gymId, @RequestBody AddRoomRequest addRoomRequest) {
         var command = new AddRoomCommand(gymId, addRoomRequest.name());
 
