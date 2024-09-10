@@ -1,7 +1,7 @@
 package com.faroc.gymanager.gymmanagement.api.subscriptions.mappers;
 
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.requests.SubscribeRequest;
-import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.createsubscription.SubscribeCommand;
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.subscribe.SubscribeCommand;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType;
 
 public class SubscriptionRequestMappers {

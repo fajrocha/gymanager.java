@@ -24,7 +24,7 @@ class AdminTests extends Specification {
         admin.setSubscription(subscription)
 
         when:
-        admin.deleteSubscription(invalidSubscriptionId)
+        admin.unsubscribe(invalidSubscriptionId)
 
         then:
         def ex = thrown(UnexpectedException)
@@ -37,7 +37,7 @@ class AdminTests extends Specification {
         admin.setSubscription(subscription)
 
         when:
-        admin.deleteSubscription(subscription.getId())
+        admin.unsubscribe(subscription.getId())
 
         then:
         admin.getSubscriptionId() == null

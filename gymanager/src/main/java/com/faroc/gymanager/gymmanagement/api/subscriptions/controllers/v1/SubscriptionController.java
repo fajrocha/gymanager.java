@@ -3,7 +3,7 @@ package com.faroc.gymanager.gymmanagement.api.subscriptions.controllers.v1;
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.gymmanagement.api.subscriptions.mappers.SubscriptionRequestMappers;
 import com.faroc.gymanager.gymmanagement.api.subscriptions.mappers.SubscriptionResponseMappers;
-import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.unsubscribeCommand;
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.unsubscribe.UnsubscribeCommand;
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.requests.SubscribeRequest;
 import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.responses.SubscriptionResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -123,7 +123,7 @@ public class SubscriptionController {
     public void unsubscribe(
             @Parameter(description = "Subscription id to unsubscribe.")
             @PathVariable UUID subscriptionId) {
-        var command = new unsubscribeCommand(subscriptionId);
+        var command = new UnsubscribeCommand(subscriptionId);
 
         command.execute(pipeline);
     }

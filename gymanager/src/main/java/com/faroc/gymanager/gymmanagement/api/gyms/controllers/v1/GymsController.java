@@ -3,7 +3,7 @@ package com.faroc.gymanager.gymmanagement.api.gyms.controllers.v1;
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.gymmanagement.api.gyms.mappers.GymResponseMappers;
 import com.faroc.gymanager.gymmanagement.application.gyms.commands.addgym.AddGymCommand;
-import com.faroc.gymanager.gymmanagement.application.gyms.commands.deletegym.DeleteGymCommand;
+import com.faroc.gymanager.gymmanagement.application.gyms.commands.deletegym.RemoveGymCommand;
 import com.faroc.gymanager.gymmanagement.application.gyms.queries.getsubscriptiongyms.GetSubscriptionGymsQuery;
 import com.faroc.gymanager.gymmanagement.application.gyms.commands.addsessioncategory.AddSessionCategoriesCommand;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.exceptions.MaxGymsReachedException;
@@ -115,7 +115,7 @@ public class GymsController {
             @ApiResponse(
                     responseCode = "500",
                     description = "Internal server error or unexpected behavior like missing requested records " +
-                            "(subscription)  during request to add session.",
+                            "(subscription)  during request to add gym.",
                     content = {
                             @Content(
                                     mediaType = "application/json",
@@ -170,7 +170,7 @@ public class GymsController {
             @ApiResponse(
                     responseCode = "500",
                     description = "Internal server error or unexpected behavior like missing or inconsistent related " +
-                            "records (subscription) during request to add session.",
+                            "records (subscription) during request to add session categories.",
                     content = {
                             @Content(
                                     mediaType = "application/json",
@@ -227,7 +227,7 @@ public class GymsController {
             @ApiResponse(
                     responseCode = "500",
                     description = "Internal server error or unexpected behavior like missing or inconsistent related " +
-                            "records (subscription) during request to add session.",
+                            "records (subscription) during request to delete gym.",
                     content = {
                             @Content(
                                     mediaType = "application/json",
@@ -238,7 +238,7 @@ public class GymsController {
     public void deleteGym(
             @Parameter(description = "Id of gym to delete.") @PathVariable UUID gymId,
             @Parameter(description = "Id of subscription associated to gym.") @PathVariable UUID subscriptionId) {
-        var command = new DeleteGymCommand(gymId, subscriptionId);
+        var command = new RemoveGymCommand(gymId, subscriptionId);
 
         command.execute(pipeline);
     }

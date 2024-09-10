@@ -1,21 +1,20 @@
 package com.faroc.gymanager.gymmanagement.unit.application.subscriptions.commands
 
+import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.gymmanagement.application.admins.gateways.AdminsGateway
 import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
-import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.createsubscription.SubscribeCommand
-import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.createsubscription.SubscribeHandler
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.subscribe.SubscribeCommand
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.subscribe.SubscribeHandler
 import com.faroc.gymanager.gymmanagement.domain.admins.Admin
 import com.faroc.gymanager.gymmanagement.domain.admins.errors.AdminErrors
-import com.faroc.gymanager.common.domain.events.DomainEvent
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType
 import net.datafaker.Faker
-import org.springframework.context.ApplicationEventPublisher
 import spock.lang.Specification
 
 class SubscribeHandlerTests extends Specification {
     Faker faker
     AdminsGateway mockAdminsGateway
-    ApplicationEventPublisher mockEventPublisher
+    DomainEventsPublisher mockDomainEventsPublisher
     UUID adminId
     SubscribeHandler sut
     UUID userId
@@ -26,14 +25,14 @@ class SubscribeHandlerTests extends Specification {
     def setup() {
         faker = new Faker()
         mockAdminsGateway = Mock(AdminsGateway)
-        mockEventPublisher = Mock(ApplicationEventPublisher)
+        mockDomainEventsPublisher = Mock(DomainEventsPublisher)
         subscriptionType = SubscriptionType.Free
         adminId = UUID.randomUUID()
         userId = UUID.randomUUID()
         admin = new Admin(adminId, userId)
         command = new SubscribeCommand(subscriptionType, adminId)
 
-        sut = new SubscribeHandler(mockAdminsGateway, mockEventPublisher)
+        sut = new SubscribeHandler(mockAdminsGateway, mockDomainEventsPublisher)
     }
     
 
@@ -60,6 +59,6 @@ class SubscribeHandlerTests extends Specification {
         subscription.getAdminId() == adminId
         subscription.getSubscriptionType() == subscriptionType
         1 * mockAdminsGateway.update (admin)
-        1 * mockEventPublisher.publishEvent(_ as DomainEvent)
+        1 * mockDomainEventsPublisher.publishEventsFromAggregate(admin)
     }
 }

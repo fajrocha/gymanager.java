@@ -30,8 +30,8 @@ public class RoomsController {
 
     @PostMapping
     @Operation(
-            summary = "Adds a gym to a subscription.",
-            description = "Adds a gym to a given subscription."
+            summary = "Adds a room to a gym.",
+            description = "Adds a room to a given gym."
     )
     @ApiResponses({
             @ApiResponse(
@@ -52,7 +52,7 @@ public class RoomsController {
             @ApiResponse(
                     responseCode = "500",
                     description = "Internal server error or unexpected behavior like missing or inconsistent related " +
-                            "records (subscription, gym) during request to add session.",
+                            "records (subscription, gym) during request to add room.",
                     content = {
                             @Content(
                                     mediaType = "application/json",

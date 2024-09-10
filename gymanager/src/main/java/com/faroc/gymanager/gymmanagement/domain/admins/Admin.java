@@ -4,7 +4,7 @@ import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionCreate
 import com.faroc.gymanager.common.domain.AggregateRoot;
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import com.faroc.gymanager.gymmanagement.domain.admins.errors.AdminErrors;
-import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionDeletedEvent;
+import com.faroc.gymanager.gymmanagement.domain.admins.events.UnsubscribeEvent;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription;
 import lombok.Getter;
@@ -45,13 +45,13 @@ public class Admin extends AggregateRoot {
         this.subscriptionId = subscription.getId();
     }
 
-    public void deleteSubscription(UUID subscriptionId) {
+    public void unsubscribe(UUID subscriptionId) {
         if (!this.subscriptionId.equals(subscriptionId))
             throw new UnexpectedException(
                     AdminErrors.subscriptionIdNotMatching(subscriptionId, userId),
                     AdminErrors.SUBSCRIPTION_ID_NOT_MATCHING);
 
-        domainEvents.add(new SubscriptionDeletedEvent(subscriptionId));
+        domainEvents.add(new UnsubscribeEvent(subscriptionId));
 
         this.subscriptionId = null;
     }

@@ -5,7 +5,9 @@ import com.faroc.gymanager.common.domain.exceptions.ConflictException;
 import com.faroc.gymanager.gymmanagement.domain.gyms.Gym;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.events.AddGymEvent;
+import com.faroc.gymanager.gymmanagement.domain.subscriptions.events.RemoveGymEvent;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.exceptions.MaxGymsReachedException;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.*;
@@ -43,7 +45,11 @@ public class Subscription extends AggregateRoot {
         maxGyms = getMaxGyms();
     }
 
-    private Subscription(UUID id, UUID adminId, SubscriptionType subscriptionType, int maxGyms) {
+    private Subscription(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("adminId") UUID adminId,
+            @JsonProperty("subscriptionType") SubscriptionType subscriptionType,
+            @JsonProperty("maxGyms") int maxGyms) {
         super(id);
         this.adminId = adminId;
         this.subscriptionType = subscriptionType;
@@ -70,6 +76,12 @@ public class Subscription extends AggregateRoot {
             throw new MaxGymsReachedException(SubscriptionErrors.maxGymsReached(id));
 
         gymIds.add(gymId);
+    }
+
+    public void removeGym(Gym gym) {
+        gymIds.remove(gym.getId());
+
+        domainEvents.add(new RemoveGymEvent(this, gym));
     }
 
     public void removeGym(UUID gymId) {
