@@ -2,7 +2,7 @@ package com.faroc.gymanager.gymmanagement.application.subscriptions.events;
 
 import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway;
 import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionCreatedEvent;
-import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionDeletedEvent;
+import com.faroc.gymanager.gymmanagement.domain.admins.events.UnsubscribeEvent;
 import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.scheduling.annotation.Async;
@@ -18,8 +18,8 @@ public class SubscriptionEventHandler {
     }
 
     @ApplicationModuleListener
-    public void handle(SubscriptionDeletedEvent subscriptionDeletedEvent) {
-        var subscriptionId = subscriptionDeletedEvent.subscriptionId();
+    public void handle(UnsubscribeEvent unsubscribeEvent) {
+        var subscriptionId = unsubscribeEvent.subscriptionId();
 
         try {
             subscriptionsGateway.delete(subscriptionId);

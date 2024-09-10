@@ -1,24 +1,24 @@
 package com.faroc.gymanager.gymmanagement.unit.application.gyms.events
 
-import com.faroc.gymanager.gymmanagement.application.gyms.events.DeleteSubscriptionGymsEventHandler
+import com.faroc.gymanager.gymmanagement.application.gyms.events.UnsubscribeGymsEventHandler
 import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.gymmanagement.domain.admins.events.SubscriptionDeletedEvent
+import com.faroc.gymanager.gymmanagement.domain.admins.events.UnsubscribeEvent
 import com.faroc.gymanager.common.domain.exceptions.EventualConsistencyException
 import spock.lang.Specification
 
-class DeleteSubscriptionGymsEventHandlerTests extends Specification {
+class UnsubscribeGymsEventHandlerTests extends Specification {
     UUID subscriptionId
-    SubscriptionDeletedEvent event
+    UnsubscribeEvent event
     GymsGateway mockGymsGateway
 
-    DeleteSubscriptionGymsEventHandler sut
+    UnsubscribeGymsEventHandler sut
 
     def setup() {
         subscriptionId = UUID.randomUUID()
-        event = new SubscriptionDeletedEvent(subscriptionId)
+        event = new UnsubscribeEvent(subscriptionId)
         mockGymsGateway = Mock(GymsGateway)
 
-        sut = new DeleteSubscriptionGymsEventHandler(mockGymsGateway)
+        sut = new UnsubscribeGymsEventHandler(mockGymsGateway)
     }
 
 

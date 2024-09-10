@@ -1,4 +1,4 @@
-package com.faroc.gymanager.gymmanagement.application.subscriptions.commands.createsubscription;
+package com.faroc.gymanager.gymmanagement.application.subscriptions.commands.subscribe;
 
 import an.awesome.pipelinr.Command;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription;

@@ -6,6 +6,7 @@ import com.faroc.gymanager.gymmanagement.domain.gyms.exceptions.MaxRoomsReachedE
 import com.faroc.gymanager.common.domain.AggregateRoot;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;
 import com.faroc.gymanager.gymmanagement.domain.rooms.RoomGym;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.*;
@@ -27,7 +28,11 @@ public class Gym extends AggregateRoot {
         this.maxRooms = maxRooms;
     }
 
-    public Gym(UUID id, UUID subscriptionId, String name, int maxRooms) {
+    public Gym(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("subscriptionId") UUID subscriptionId,
+            @JsonProperty("name") String name,
+            @JsonProperty("maxRooms") int maxRooms) {
         super(id);
         this.subscriptionId = subscriptionId;
         this.name = name;

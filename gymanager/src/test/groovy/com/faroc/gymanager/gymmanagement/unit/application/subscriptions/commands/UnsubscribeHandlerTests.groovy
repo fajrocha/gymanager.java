@@ -1,9 +1,10 @@
 package com.faroc.gymanager.gymmanagement.unit.application.subscriptions.commands
 
+import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.gymmanagement.application.admins.gateways.AdminsGateway
-import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.unsubscribeCommand
-import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.deletesubscription.DeleteSubscriptionHandler
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.unsubscribe.UnsubscribeCommand
+import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.unsubscribe.UnsubscribeHandler
 import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
 import com.faroc.gymanager.gymmanagement.domain.admins.Admin
 import com.faroc.gymanager.gymmanagement.domain.admins.errors.AdminErrors
@@ -11,20 +12,19 @@ import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors
 import com.faroc.gymanager.gymmanagement.unit.application.subscriptions.utils.SubscriptionsTestsFactory
 import net.datafaker.Faker
-import org.springframework.context.ApplicationEventPublisher
 import spock.lang.Specification
 
-class DeleteSubscriptionHandlerTests extends Specification {
+class UnsubscribeHandlerTests extends Specification {
     Faker faker
     UUID subscriptionId
     UUID adminId
     Subscription subscription
-    unsubscribeCommand command
+    UnsubscribeCommand command
 
     AdminsGateway mockAdminsGateway
     SubscriptionsGateway mockSubscriptionsGateway
-    ApplicationEventPublisher mockAppEventPublisher
-    DeleteSubscriptionHandler sut
+    DomainEventsPublisher mockDomainEventsPublisher
+    UnsubscribeHandler sut
 
     def setup() {
         faker = new Faker()
@@ -32,13 +32,13 @@ class DeleteSubscriptionHandlerTests extends Specification {
         subscription = SubscriptionsTestsFactory.create()
         subscriptionId = subscription.getId()
         adminId = subscription.getAdminId()
-        command = new unsubscribeCommand(subscriptionId)
+        command = new UnsubscribeCommand(subscriptionId)
 
         mockAdminsGateway = Mock(AdminsGateway)
         mockSubscriptionsGateway = Mock(SubscriptionsGateway)
-        mockAppEventPublisher = Mock(ApplicationEventPublisher)
+        mockDomainEventsPublisher = Mock(DomainEventsPublisher)
 
-        sut = new DeleteSubscriptionHandler(mockAdminsGateway, mockSubscriptionsGateway, mockAppEventPublisher)
+        sut = new UnsubscribeHandler(mockAdminsGateway, mockSubscriptionsGateway, mockDomainEventsPublisher)
     }
 
     def "when subscription does not exist returns not found exception"() {
@@ -83,6 +83,6 @@ class DeleteSubscriptionHandlerTests extends Specification {
 
         then:
         admin.getSubscriptionId() == null
-        1 * mockAppEventPublisher._
+        1 * mockDomainEventsPublisher.publishEventsFromAggregate(admin)
     }
 }
