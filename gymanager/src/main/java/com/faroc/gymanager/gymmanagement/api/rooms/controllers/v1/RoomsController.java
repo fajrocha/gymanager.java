@@ -51,8 +51,8 @@ public class RoomsController {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Unexpected server error when adding the gym, for example due to " +
-                            "subscription or gym not existing.",
+                    description = "Internal server error or unexpected behavior like missing or inconsistent related " +
+                            "records (subscription, gym) during request to add session.",
                     content = {
                             @Content(
                                     mediaType = "application/json",

@@ -114,8 +114,8 @@ public class GymsController {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Unexpected server error when adding the gym, for example due to " +
-                            "subscription not existing.",
+                    description = "Internal server error or unexpected behavior like missing requested records " +
+                            "(subscription)  during request to add session.",
                     content = {
                             @Content(
                                     mediaType = "application/json",
@@ -169,8 +169,8 @@ public class GymsController {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Unexpected server error when adding the gym, for example due to " +
-                            "subscription given not matching the subscription associated to gym.",
+                    description = "Internal server error or unexpected behavior like missing or inconsistent related " +
+                            "records (subscription) during request to add session.",
                     content = {
                             @Content(
                                     mediaType = "application/json",
@@ -226,8 +226,8 @@ public class GymsController {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Unexpected server error when deleting the gym, for example due to " +
-                            "subscription not having the gym.",
+                    description = "Internal server error or unexpected behavior like missing or inconsistent related " +
+                            "records (subscription) during request to add session.",
                     content = {
                             @Content(
                                     mediaType = "application/json",
