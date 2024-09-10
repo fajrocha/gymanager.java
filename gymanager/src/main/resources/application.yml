@@ -30,3 +30,5 @@ domain:
     republish-periodicity-seconds: 300
     republish-older-than-seconds: 60
     clear-older-than-seconds: 600
+springdoc:
+  enable-spring-security: false

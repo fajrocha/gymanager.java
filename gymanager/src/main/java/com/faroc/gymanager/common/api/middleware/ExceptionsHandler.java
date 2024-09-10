@@ -1,9 +1,10 @@
 package com.faroc.gymanager.common.api.middleware;
 
-import com.faroc.gymanager.common.application.security.exceptions.UnauthorizedException;
+import com.faroc.gymanager.common.api.contracts.responses.ValidationProblemDetail;
 import com.faroc.gymanager.common.application.exceptions.ForbiddenException;
 import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.common.application.exceptions.ValidationException;
+import com.faroc.gymanager.common.application.security.exceptions.UnauthorizedException;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -27,6 +29,20 @@ public class ExceptionsHandler {
         problem.setProperty("errors", ex.getModelState());
 
         return problem;
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        var validationProblem = ValidationProblemDetail.create();
+
+        ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
+            String fieldName = fieldError.getField();
+            String errorMessage = fieldError.getDefaultMessage();
+            validationProblem.addValidationError(fieldName, errorMessage);
+        });
+
+        return validationProblem;
     }
 
     @ExceptionHandler(UnauthorizedException.class)

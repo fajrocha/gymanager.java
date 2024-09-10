@@ -5,21 +5,21 @@ import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
 import com.faroc.gymanager.gymmanagement.application.subscriptions.gateways.SubscriptionsGateway
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.Subscription
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.errors.SubscriptionErrors
-import com.faroc.gymanager.gymmanagement.gyms.requests.AddGymRequest
-import com.faroc.gymanager.gymmanagement.gyms.responses.GymResponse
+import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.requests.AddGymRequest
+import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.responses.GymResponse
 import com.faroc.gymanager.gymmanagement.integration.gyms.utils.GymsEndpoints
 import com.faroc.gymanager.utils.integration.ContainersSpecification
 import com.faroc.gymanager.gymmanagement.integration.subscriptions.utils.SubscriptionsEndpoints
-import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentityHttpEndpoints
-import com.faroc.gymanager.usersmanagement.integration.users.utils.IdentitySharedConstants
-import com.faroc.gymanager.usersmanagement.integration.users.utils.RegisterRequestsTestsBuilder
-import com.faroc.gymanager.usersmanagement.integration.users.utils.UsersHttpEndpoints
-import com.faroc.gymanager.gymmanagement.subscriptions.requests.SubscribeRequest
-import com.faroc.gymanager.gymmanagement.subscriptions.responses.SubscriptionResponse
-import com.faroc.gymanager.gymmanagement.subscriptions.shared.SubscriptionTypeApi
-import com.faroc.gymanager.usermanagement.users.requests.LoginRequest
-import com.faroc.gymanager.usermanagement.users.responses.AdminCreatedResponse
-import com.faroc.gymanager.usermanagement.users.responses.AuthResponse
+import com.faroc.gymanager.usermanagement.integration.users.utils.IdentityHttpEndpoints
+import com.faroc.gymanager.usermanagement.integration.users.utils.IdentitySharedConstants
+import com.faroc.gymanager.usermanagement.integration.users.utils.RegisterRequestsTestsBuilder
+import com.faroc.gymanager.usermanagement.integration.users.utils.UsersHttpEndpoints
+import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.requests.SubscribeRequest
+import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.responses.SubscriptionResponse
+import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.requests.LoginRequest
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AdminCreatedResponse
+import com.faroc.gymanager.usermanagement.api.users.contracts.v1.responses.AuthResponse
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import net.datafaker.Faker
@@ -27,6 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
+
+import static com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi.Free
+import static com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi.Pro
+import static com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.common.SubscriptionTypeApi.Starter
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GymTests extends ContainersSpecification {
@@ -53,7 +57,7 @@ class GymTests extends ContainersSpecification {
 
     def "when gym is added but token doesn't have the right permissions should get forbidden"() {
         given:
-        def endpoint = GymsEndpoints.getAddGymEndpoint(UUID.randomUUID())
+        def endpoint = GymsEndpoints.getAddGymEndpointV1(UUID.randomUUID())
         def request = new AddGymRequest(gymName)
 
         when:
@@ -72,7 +76,7 @@ class GymTests extends ContainersSpecification {
         given:
         def loginResponse = loginUser(registerResponse.email())
         def loginToken = loginResponse.token()
-        def endpoint = GymsEndpoints.getAddGymEndpoint(UUID.randomUUID())
+        def endpoint = GymsEndpoints.getAddGymEndpointV1(UUID.randomUUID())
         def request = new AddGymRequest(gymName)
 
         when:
@@ -87,7 +91,7 @@ class GymTests extends ContainersSpecification {
         response.statusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()
     }
 
-    def "when gym is added should add gym to subscription and create gym"(SubscriptionTypeApi subscriptionType) {
+    def "when gym is added should add gym to subscription and create gym"(String subscriptionType) {
         given:
         def subscribeResponse = subscribe(
                 subscriptionType,
@@ -96,7 +100,7 @@ class GymTests extends ContainersSpecification {
         def loginResponse = loginUser(registerResponse.email())
         def loginToken = loginResponse.token()
         def subscriptionId = subscribeResponse.id()
-        def endpoint = GymsEndpoints.getAddGymEndpoint(subscriptionId)
+        def endpoint = GymsEndpoints.getAddGymEndpointV1(subscriptionId)
         def request = new AddGymRequest(gymName)
 
         when:
@@ -119,11 +123,11 @@ class GymTests extends ContainersSpecification {
         responseBody.name() == gymName
 
         where:
-        subscriptionType << [SubscriptionTypeApi.Free, SubscriptionTypeApi.Starter, SubscriptionTypeApi.Pro]
+        subscriptionType << ["Free", "Starter", "Pro"]
     }
 
     def "when gym is added and subscription allows no more gyms should get internal server error"(
-            SubscriptionTypeApi subscriptionType
+            String subscriptionType
     ) {
         given:
         def subscribeResponse = subscribe(
@@ -133,7 +137,7 @@ class GymTests extends ContainersSpecification {
         def loginResponse = loginUser(registerResponse.email())
         def loginToken = loginResponse.token()
         def subscriptionId = subscribeResponse.id()
-        def endpoint = GymsEndpoints.getAddGymEndpoint(subscriptionId)
+        def endpoint = GymsEndpoints.getAddGymEndpointV1(subscriptionId)
 
         addMaxGymsPerSubscriptionType(endpoint, loginToken, subscriptionType)
 
@@ -152,10 +156,10 @@ class GymTests extends ContainersSpecification {
         response.body().jsonPath().getString("detail") == SubscriptionErrors.MAX_GYMS_REACHED
 
         where:
-        subscriptionType << [SubscriptionTypeApi.Free, SubscriptionTypeApi.Starter]
+        subscriptionType << [Free, Starter]
     }
 
-    def addMaxGymsPerSubscriptionType(String endpoint, String loginToken, SubscriptionTypeApi subscriptionTypeRequest) {
+    def addMaxGymsPerSubscriptionType(String endpoint, String loginToken, String subscriptionTypeRequest) {
         def subscriptionType = SubscriptionRequestMappers.toDomain(subscriptionTypeRequest)
         def gymsToAdd = Subscription.getMaxGyms(subscriptionType)
 
@@ -212,7 +216,7 @@ class GymTests extends ContainersSpecification {
         return response.as(AdminCreatedResponse)
     }
 
-    private static SubscriptionResponse subscribe(SubscriptionTypeApi subscriptionType, UUID adminId, String token) {
+    private static SubscriptionResponse subscribe(String subscriptionType, UUID adminId, String token) {
         def request = new SubscribeRequest(subscriptionType, adminId)
 
         def response = RestAssured.given()
@@ -220,7 +224,7 @@ class GymTests extends ContainersSpecification {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post(SubscriptionsEndpoints.SUBSCRIBE_ENDPOINT)
+                .post(SubscriptionsEndpoints.SUBSCRIBE_ENDPOINT_V1)
 
         return response.as(SubscriptionResponse)
     }

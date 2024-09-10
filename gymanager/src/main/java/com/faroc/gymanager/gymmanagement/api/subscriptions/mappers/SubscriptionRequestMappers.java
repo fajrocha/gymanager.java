@@ -1,9 +1,8 @@
 package com.faroc.gymanager.gymmanagement.api.subscriptions.mappers;
 
+import com.faroc.gymanager.gymmanagement.api.subscriptions.contracts.v1.requests.SubscribeRequest;
 import com.faroc.gymanager.gymmanagement.application.subscriptions.commands.createsubscription.SubscribeCommand;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.SubscriptionType;
-import com.faroc.gymanager.gymmanagement.subscriptions.requests.SubscribeRequest;
-import com.faroc.gymanager.gymmanagement.subscriptions.shared.SubscriptionTypeApi;
 
 public class SubscriptionRequestMappers {
     public static SubscribeCommand toCommand(SubscribeRequest request) {
@@ -13,11 +12,12 @@ public class SubscriptionRequestMappers {
         );
     }
 
-    public static SubscriptionType toDomain(SubscriptionTypeApi subscriptionTypeApi) {
-        return switch (subscriptionTypeApi) {
-            case Free -> SubscriptionType.Free;
-            case Starter -> SubscriptionType.Starter;
-            case Pro -> SubscriptionType.Pro;
+    public static SubscriptionType toDomain(String subscriptionTypeApi) {
+        return switch (subscriptionTypeApi.toLowerCase()) {
+            case "free" -> SubscriptionType.Free;
+            case "starter" -> SubscriptionType.Starter;
+            case "pro" -> SubscriptionType.Pro;
+            default -> throw new IllegalStateException("Unexpected value: " + subscriptionTypeApi.toLowerCase());
         };
     }
 }

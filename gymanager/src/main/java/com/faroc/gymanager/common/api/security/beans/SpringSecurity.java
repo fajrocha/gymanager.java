@@ -31,8 +31,12 @@ public class SpringSecurity {
     SecurityFilterChain web(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/authentication/**").permitAll()
-                        .requestMatchers("/test/**").permitAll()
+                        .requestMatchers(
+                                "v1/authentication/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(conf -> conf.jwt(Customizer.withDefaults()));

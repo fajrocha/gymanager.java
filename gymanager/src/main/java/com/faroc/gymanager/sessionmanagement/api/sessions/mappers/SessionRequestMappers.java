@@ -1,7 +1,7 @@
 package com.faroc.gymanager.sessionmanagement.api.sessions.mappers;
 
 import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsession.AddSessionCommand;
-import com.faroc.gymanager.sessionmanagement.sessions.requests.AddSessionRequest;
+import com.faroc.gymanager.sessionmanagement.api.sessions.contracts.v1.requests.AddSessionRequest;
 
 import java.util.UUID;
 

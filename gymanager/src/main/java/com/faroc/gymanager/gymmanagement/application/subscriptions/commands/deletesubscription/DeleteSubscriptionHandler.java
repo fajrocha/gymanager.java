@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class DeleteSubscriptionHandler implements Command.Handler<DeleteSubscriptionCommand, Voidy> {
+public class DeleteSubscriptionHandler implements Command.Handler<unsubscribeCommand, Voidy> {
     private final AdminsGateway adminsGateway;
     private final SubscriptionsGateway subscriptionsGateway;
     private final ApplicationEventPublisher eventsPublisher;
@@ -29,7 +29,7 @@ public class DeleteSubscriptionHandler implements Command.Handler<DeleteSubscrip
 
     @Override
     @Transactional
-    public Voidy handle(DeleteSubscriptionCommand deleteSubscriptionCommand) {
+    public Voidy handle(unsubscribeCommand deleteSubscriptionCommand) {
         var subscriptionId = deleteSubscriptionCommand.subscriptionId();
         var subscription = subscriptionsGateway.findById(subscriptionId)
                 .orElseThrow(() -> new ResourceNotFoundException(

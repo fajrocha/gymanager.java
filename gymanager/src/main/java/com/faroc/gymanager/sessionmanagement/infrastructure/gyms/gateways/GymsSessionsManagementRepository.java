@@ -32,12 +32,4 @@ public class GymsSessionsManagementRepository implements GymsGateway {
 
         return Optional.of(gym);
     }
-
-    @Override
-    public void updateSessions(Gym gym) {
-        context.update(GYMS)
-                .set(GYMS.SESSION_CATEGORIES, gym.getSessionCategories().toArray(new String[0]))
-                .where(GYMS.ID.eq(gym.getId()))
-                .execute();
-    }
 }

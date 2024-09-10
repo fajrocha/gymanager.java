@@ -16,6 +16,12 @@ public class GymsErrors {
         return "Gym with id " + gymId + " not found for subscription " + subscriptionId + ".";
     }
 
+    public static final String SUBSCRIPTION_MISMATCH = "Subscription given does not match gym subscription.";
+    public static String subscriptionMismatch(UUID gymId, UUID givenSubscriptionId, UUID expectedSubscriptionId) {
+        return "Subscription id given (" + givenSubscriptionId + ") for gym with id " + gymId + "does not match the " +
+                "gym's subscription id (" + expectedSubscriptionId + ").";
+    }
+
     public static final String CONFLICT_ROOM = "Room is already assigned to this gym.";
     public static String conflictRoom(UUID roomId, UUID gymId) {
         return "Room " + roomId + " is already assigned to the gym " + gymId + ".";
