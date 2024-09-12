@@ -29,9 +29,10 @@ public class AddSessionCategoriesHandler implements Command.Handler<AddSessionCa
                 GymsErrors.NOT_FOUND
         ));
 
-        if (gym.getSubscriptionId() != subscriptionId)
+        var gymRecordId = gym.getSubscriptionId();
+        if (!gymRecordId.equals(subscriptionId))
             throw new UnexpectedException(
-                    GymsErrors.subscriptionMismatch(gymId, subscriptionId, gym.getSubscriptionId()),
+                    GymsErrors.subscriptionMismatch(gymId, subscriptionId, gymRecordId),
                     GymsErrors.SUBSCRIPTION_MISMATCH);
 
         var sessionCategories = command.sessionCategories();
