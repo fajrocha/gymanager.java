@@ -6,6 +6,7 @@ services:
       POSTGRES_USER: faroc
       POSTGRES_PASSWORD: changeit
       PGDATA: /data/postgres
+      POSTGRES_DB: gymanager
     volumes:
       - postgres:/data/postgres
     ports:
@@ -16,7 +17,7 @@ services:
   gymanager:
     profiles:
       - gymanager
-    image: fajr0cha/gymanager:0.0.1-SNAPSHOT
+    image: fajr0cha/gymanager:1.0.0
     container_name: gymanager-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/gymanager

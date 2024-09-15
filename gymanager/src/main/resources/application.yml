@@ -1,6 +1,8 @@
 spring:
   application:
     name: gymanager-api
+  main:
+    banner-mode: off
   datasource:
     username: faroc
     password: changeit
