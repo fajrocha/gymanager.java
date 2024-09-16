@@ -1,6 +1,6 @@
 # Gymanager
 
-# Introduction
+## Introduction
 
 Small project I started to mess around both with _Java_ and _Domain Driven Design_ (DDD) concepts. Shout out to 
 [Amichai Mantinbad's DDD course](https://dometrain.com/course/getting-started-domain-driven-design-ddd/), where I 
@@ -10,7 +10,7 @@ It is a basic _REST API_ which would aim to provide the backend for a gym manage
 register their gyms as gym owners. Then, other users could participate as either trainers or 
 participants of the various gym training sessions. For storage a simple _PostgreSQL DB_ is used.
 
-# Framework and key libraries
+## Framework and key libraries
 
 - [Spring Boot 3](https://spring.io/projects/spring-boot);
 - [Spring Modulith](https://spring.io/projects/spring-modulith);
@@ -22,9 +22,9 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 - [Spock Framework](https://spockframework.org/) for unit and integration testing.
 - [Test Containers](https://testcontainers.com/) for integration testing.
 
-# The Ubiquitous Language 💬
+## The Ubiquitous Language 💬
 
-## Users
+### Users
 
 - A `user` can `create` an `admin profile`.
 - An `admin` can have an `subscription` on the platform by `subscribing`.
@@ -34,24 +34,24 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 - A `participant` can make a `session reservation` to participate in a `session`.
 - A `participant` can `cancel` their `session reservation`.
 
-## Subscriptions
+### Subscriptions
 
 - A `subscription` can be of type `Free`, `Starter` or `Pro`.
 - A `subscription` has a `maximum number` of `gyms`, `rooms` and `sessions` depending on the `subscription` type.
 
-## Gyms
+### Gyms
 
 - A `gym` can have multiple `rooms`.
 - A `gym` has a `subscription` attached which will define how many `rooms` it can have. 
 - A `gym` can `support` multiple `session categories` (like pilates, functional).
 - A `gym` can have multiple `trainers`.
 
-## Rooms
+### Rooms
 
 - Several `sessions` can be `reserved` in a `room` by `trainers`.
 - A `room` has a maximum number of `daily sessions` depending on the `subscription`.
 
-## Sessions
+### Sessions
 
 - `Trainer` can add a `session` for a given `gym`. 
 - There should be only one `trainer` for a given `session`.
@@ -59,9 +59,7 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 - `Session` have a `category` (like pilates or functional), which must be available on the `gym` where they are added.
 - Participants can make a `session reservation` to participate.
 
-# Invariants 📝
-
-## Users
+## Invariants 📝
 
 ### Admins 
 
@@ -75,7 +73,7 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 
 - A `participant` cannot `reserve` overlapping `sessions`.
 
-## Subscriptions
+### Subscriptions
 
 - A `subscription` cannot have more `gyms` than the `subscription` allows:
     - `Free`: 1.
@@ -90,22 +88,22 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
     - `Starter`: 10.
     - `Pro`: Infinite.
 
-## Gyms
+### Gyms
 
 - A `gym` cannot have more `rooms` than the `subscription` allows.
 - A `gym` only support certain `session categories`.
 
-## Rooms
+### Rooms
 
 - A `room` cannot have more `sessions` than the `subscription` allows.
 - A `room` cannot have two or more overlapping `sessions`.
 
-## Sessions
+### Sessions
 
 - A `session` cannot contain more than the maximum number of `participants` set by the `trainer`.
 - A `session reservation` cannot be `cancelled` less than 24h before the `session` `start time`.
 
-# Bounded Contexts 🚧
+## Bounded Contexts 🚧
 
 With the several **domain models** identified, the solution was divided into 3 **bounded contexts**:
 - **User Management**: responsible for the `users` management (registration, login), which can be `trainers`, 
@@ -118,9 +116,9 @@ intends to add a `session`.
 
 ![screenshot](./docs/resources/bounded_contexts.png)
 
-# Design Choices 🧱
+## Design Choices 🧱
 
-## Architecture 
+### Architecture 
 
 Each **bounded context** is separated on its own **package**. Any shared code is under a `common` **package**.
 
@@ -137,7 +135,7 @@ token generation services (for security) implementations are also defined here.
 - **Domain**: all business logic resides here and by extension all **domain models**. An effort was made to make them 
 **rich domain models** to encapsulate the business logic on the model and also to make them **always valid models**.
 
-## Eventual Consistency
+### Eventual Consistency
 
 Instead of a **transactional consistency** for each request, an **eventual consistency** approach was implemented. 
 Meaning, when something interesting from a business perspective occurs, instead of updating all relevant entities in a
@@ -151,7 +149,7 @@ either on restart or on a scheduled job. To simplify, _Spring Modulith_ out of t
 Mainly two type of events are used, **domain events** (within the **bounded context**) and **integration events**
 (between **bounded contexts**).
 
-### Domain Events
+#### Domain Events
 
 An example of a **domain event** is when adding a `gym`: 
 
@@ -175,7 +173,7 @@ or the `subscription` updates but the `gym` is not created, in which case it wil
 
 ![screenshot](./docs/resources/create_gym_error_events.png)
 
-### Integration Events
+#### Integration Events
 
 An example of an **integration event** would be when creating a new `session`. When a `session` is created:
 
@@ -197,9 +195,9 @@ one another like the sequence diagram would indicate (perhaps a different diagra
 
 ![screenshot](./docs/resources/create_session_request.png)
 
-## Project structure - following along a use case
+### Project structure - following along a use case
 
-Like any REST API application, everything starts on the controllers. From there however, since the 
+Like any _REST API_ application, everything starts on the controllers. From there however, since the 
 [PipelinR](https://github.com/sizovs/PipelinR) is being used, instead of services, the only dependency called is the 
 `Pipelinr` which will execute `commands`. Each `command` has a an `handler` and the library will by itself call the 
 `handler` when executing a `command` (all `commands` implement the `Command<>` interface).
@@ -224,7 +222,7 @@ use it on the response.
 
 Worth noting that any dependency called on the `handler` is an abstraction defined on the **Application Layer**, whose
 implementation is defined on the **Infrastructure Layer**. So to the `handler` these are mostly complete abstractions,
-ignorant (for the most part) if they relate to a file, a DB or another REST API.
+ignorant (for the most part) if they relate to a file, a DB or another _REST API_.
 
 As mentioned on the introduction, this library is being used as it is very similar to the 
 [MediatR](https://github.com/jbogard/MediatR), which I use quite often in _.NET_. Its continued usage here will depend 
@@ -234,11 +232,39 @@ approach, or try to implement something similar myself.
 Also, worth mentioning that an arguable disadvantage of using it is that it might make the flow from the 
 controller downwards unclear, making code readability a bit harder to someone who is not used to it.
 
-## Authentication
+### Authentication
 
-## Authorization
+In terms of authentication, a JWT token is generated upon login and registration of the users. 
 
+### Authorization
 
+Currently, authorization is not really implemented yet. Ideally, users with certain profiles should only be able to
+perform certain operations. 
 
+For example only an `user` with an `admin` profile should be able to add a `gym`. 
+As another example, only a `user` with a `trainer` profile should be able to add `sessions`, but a `participant` 
+could not.
 
+A skeleton of a possible implementation of authorization is implemented for adding a `gym` use case, however it is 
+still a work in progress.
 
+## Running the service 
+
+### Docker
+
+For running this locally for development be sure to have the _PostgreSQL DB_ up first, since it is needed to generate the
+record classes for [jOOQ](https://www.jooq.org/) as well as for [Flyway](https://github.com/flyway/flyway) to run the 
+migrations.
+
+I recommend to use _Docker_ containers, and by using the `docker-compose.yml` of the solution simply run the usual:
+
+```shell
+docker compose up -d
+```
+
+A _Docker_ image of the _REST API_ is also available. Also recommended to just run with the `docker-compose.yml` by
+passing the profile which includes the service:
+
+```shell
+docker compose --profile gymanager
+```
