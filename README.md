@@ -143,9 +143,10 @@ Instead of a **transactional consistency** for each request, an **eventual consi
 Meaning, when something interesting from a business perspective occurs, instead of updating all relevant entities in a
 single transaction, the response is given to the client immediately and further changes will occur on the background.
 
-While this brings further complexity, it improves performance and allows to customize what happens when certain changes
+While this brings further complexity, the client no longer has to wait on the whole transaction and allows to customize what happens when certain changes
 within and between the **bounded contexts** fail. Any failed event will go to the database and will be republished 
-either on restart or on a scheduled job. To simplify, _Spring Modulith_ out of the box features were used.
+either on restart or on a scheduled job. To simplify, _Spring Modulith_ out of the box features, like the
+[application events](https://docs.spring.io/spring-modulith/reference/events.html), were used.
 
 Mainly two type of events are used, **domain events** (within the **bounded context**) and **integration events**
 (between **bounded contexts**).
@@ -195,4 +196,49 @@ It would look something like below. Note that the event handlers are parallel, t
 one another like the sequence diagram would indicate (perhaps a different diagram type is warranted here!).
 
 ![screenshot](./docs/resources/create_session_request.png)
+
+## Project structure - following along a use case
+
+Like any REST API application, everything starts on the controllers. From there however, since the 
+[PipelinR](https://github.com/sizovs/PipelinR) is being used, instead of services, the only dependency called is the 
+`Pipelinr` which will execute `commands`. Each `command` has a an `handler` and the library will by itself call the 
+`handler` when executing a `command` (all `commands` implement the `Command<>` interface).
+
+As such, each use case (like adding a `gym`, adding a `session`) will have one `command` and one `handler`, reinforcing 
+the single responsibility rule. So the `handler` serves as the typical `service` class, but it only encapsulates a given
+use case. 
+
+The `handler` calls the dependencies it needs to process or fetch data required. Since the _Clean Architecture_ is 
+adopted here it is important that all these dependencies are as abstract as possible.
+
+So using the use case of adding a `gym` as an example:
+1. On the `GymsController` the `Pipelinr` dependency is called and executes the `AddGymCommand`.
+2. The respective handler `AddGymHandler` is called to process the request.
+3. On the `handler`, the **domain aggregates** or **entities** are changed and stored by calling the related 
+dependencies (for example, repositories) - in this case to add the `gym` to its respective `subscription`.
+4. Still on the `handler`, any **domain** or **integration events** are added to the changed domain **aggregate** or 
+**entity** and then published to let any subscribers that would like to do anything with this event 
+(in this case, to create the new `gym`).
+5. Finally, some object of interest is returned from the `AddGymHandler` back to the `GymsController`, which will
+use it on the response.
+
+Worth noting that any dependency called on the `handler` is an abstraction defined on the **Application Layer**, whose
+implementation is defined on the **Infrastructure Layer**. So to the `handler` these are mostly complete abstractions,
+ignorant (for the most part) if they relate to a file, a DB or another REST API.
+
+As mentioned on the introduction, this library is being used as it is very similar to the 
+[MediatR](https://github.com/jbogard/MediatR), which I use quite often in _.NET_. Its continued usage here will depend 
+on the proper maintenance of this library by its author(s), otherwise I'd switch to the usual `service` classes 
+approach, or try to implement something similar myself.
+
+Also, worth mentioning that an arguable disadvantage of using it is that it might make the flow from the 
+controller downwards unclear, making code readability a bit harder to someone who is not used to it.
+
+## Authentication
+
+## Authorization
+
+
+
+
 
