@@ -1,0 +1,925 @@
+{
+	"info": {
+		"_postman_id": "b2ef0c94-086b-4978-8abf-5b3a084e15c1",
+		"name": "gymanager-java",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24625827"
+	},
+	"item": [
+		{
+			"name": "gyms",
+			"item": [
+				{
+					"name": "Get Subscription Gyms",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/subscriptions/{{subscriptionId}}/gyms",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"subscriptions",
+								"{{subscriptionId}}",
+								"gyms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Gym Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/subscriptions/{{subscriptionId}}/gyms/{{gymId}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"subscriptions",
+								"{{subscriptionId}}",
+								"gyms",
+								"{{gymId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Gym",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"A-Team\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/subscriptions/{{subscriptionId}}/gyms",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"subscriptions",
+								"{{subscriptionId}}",
+								"gyms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Session Categories",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sessionCategories\": [\r\n        \"Functional\",\r\n        \"Zoomba\",\r\n        \"Pilates\",\r\n        \"Bike\"\r\n    ]\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/subscriptions/{{subscriptionId}}/gyms/{{gymId}}/session-categories",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"subscriptions",
+								"{{subscriptionId}}",
+								"gyms",
+								"{{gymId}}",
+								"session-categories"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "subscriptions",
+			"item": [
+				{
+					"name": "Subscribe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"subscriptionType\": \"Pro\",\r\n  \"adminId\": \"{{adminId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/subscriptions",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unsubscribe",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Fitness House\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/subscriptions/{{subscriptionId}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"subscriptions",
+								"{{subscriptionId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Login Admin User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" const user = pm.response.json();\r",
+									"\r",
+									"if (user.token) {\r",
+									"    console.log(\"Received token\" + user.token)\r",
+									"    pm.globals.set('gym_token', user.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"bobsinger@gmail.com\",\r\n  \"password\": \"Pwd12345!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/authentication/login",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Trainer User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" const user = pm.response.json();\r",
+									"\r",
+									" if (user.token) {\r",
+									"    console.log(\"Received token\" + user.token)\r",
+									"    pm.globals.set('gym_token', user.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"fabiolanzoni@gmail.com\",\r\n  \"password\": \"Pwd12345!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/authentication/login",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Participant User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" const user = pm.response.json();\r",
+									"\r",
+									" if (user.token) {\r",
+									"    console.log(\"Received token\" + user.token)\r",
+									"    pm.globals.set('gym_token', user.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"tomjackson@gmail.com\",\r\n  \"password\": \"Pwd12345!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/authentication/login",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Admin User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const user = pm.response.json();\r",
+									"\r",
+									"if (user.token) {\r",
+									"    console.log(\"Received token\" + user.token)\r",
+									"    pm.globals.set('gym_token', user.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Bob\",\r\n  \"lastName\": \"Singer\",\r\n  \"email\": \"bobsinger@gmail.com\",\r\n  \"password\": \"Pwd12345!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/authentication/register",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"authentication",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Trainer User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const user = pm.response.json();\r",
+									"\r",
+									"if (user.token) {\r",
+									"    console.log(\"Received token\" + user.token)\r",
+									"    pm.globals.set('gym_token', user.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Fabio\",\r\n  \"lastName\": \"Lanzoni\",\r\n  \"email\": \"fabiolanzoni@gmail.com\",\r\n  \"password\": \"Pwd12345!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/authentication/register",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"authentication",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Participant User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const user = pm.response.json();\r",
+									"\r",
+									"if (user.token) {\r",
+									"    console.log(\"Received token\" + user.token)\r",
+									"    pm.globals.set('gym_token', user.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Tom\",\r\n  \"lastName\": \"Jackson\",\r\n  \"email\": \"tomjackson@gmail.com\",\r\n  \"password\": \"Pwd12345!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/authentication/register",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"authentication",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Admin Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/users/{{adminUserId}}/profiles/admin",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{adminUserId}}",
+								"profiles",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Trainer Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/users/{{trainerUserId}}/profiles/trainer",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{trainerUserId}}",
+								"profiles",
+								"trainer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Participant Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/users/{{participantUserId}}/profiles/participant",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{participantUserId}}",
+								"profiles",
+								"participant"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{gym_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "rooms",
+			"item": [
+				{
+					"name": "Add Room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"War Room\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/gyms/{{gymId}}/rooms",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"gyms",
+								"{{gymId}}",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sessions",
+			"item": [
+				{
+					"name": "Add Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Functional Grind\",\r\n    \"description\": \"Hi I am Fabio Lanzoni the famous model who got hit by a goose while on a rollercoaster. Come over for one hour of pure move!\",\r\n    \"category\": \"Functional\",\r\n    \"maxParticipants\": 12,\r\n    \"startTime\": \"2024-07-27T17:00:00Z\",\r\n    \"endTime\": \"2024-07-27T18:00:00Z\",\r\n    \"trainerId\": \"{{trainerId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/rooms/{{roomId}}/sessions",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"rooms",
+								"{{roomId}}",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Session",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Functional Grind\",\r\n    \"description\": \"Hi I am Fabio Lanzoni the famous model who got hit by a goose while on a rollercoaster. Come over for one hour of pure move!\",\r\n    \"category\": \"Functional\",\r\n    \"maxParticipants\": 12,\r\n    \"startTime\": \"2024-07-21T23:00:00Z\",\r\n    \"endTime\": \"2024-07-22T00:00:00Z\",\r\n    \"trainerId\": \"{{trainerId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/rooms/{{roomId}}/sessions/{{sessionId}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"rooms",
+								"{{roomId}}",
+								"sessions",
+								"{{sessionId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sessions reservations",
+			"item": [
+				{
+					"name": "Make Session Reservation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"participantId\": \"{{participantId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/sessions/{{sessionId}}/reservations",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"{{sessionId}}",
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{gym_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "hostname",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "subscriptionId",
+			"value": "405bf8bc-0eaa-4f2c-ad0f-2f8fc362106d",
+			"type": "string"
+		},
+		{
+			"key": "gymId",
+			"value": "8326e50f-673f-43ee-bc7d-5a855b5e54c0",
+			"type": "string"
+		},
+		{
+			"key": "adminId",
+			"value": "f06fd978-489e-44a2-95ea-ea330ca98a75",
+			"type": "string"
+		},
+		{
+			"key": "adminUserId",
+			"value": "bc6c8c49-c22d-4da5-9dd3-dd7259f2fdce",
+			"type": "string"
+		},
+		{
+			"key": "trainerUserId",
+			"value": "414cf524-4ed5-4724-a737-57853d9537c4",
+			"type": "string"
+		},
+		{
+			"key": "participantUserId",
+			"value": "3b4adc49-eb50-4101-a05d-cb9985087270",
+			"type": "string"
+		},
+		{
+			"key": "roomId",
+			"value": "44fbbb36-9ef4-450c-9968-4df5de1d01b5",
+			"type": "string"
+		},
+		{
+			"key": "trainerId",
+			"value": "c0502606-ab95-4a22-b330-18ac3aff6def",
+			"type": "string"
+		},
+		{
+			"key": "sessionId",
+			"value": "9d4273fe-2e47-4156-973f-15aed3547577",
+			"type": "string"
+		},
+		{
+			"key": "participantId",
+			"value": "abccb152-4a91-47f0-b7dc-e3aa88899e6a",
+			"type": "string"
+		}
+	]
+}
