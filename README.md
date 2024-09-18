@@ -1,6 +1,37 @@
 # Gymanager
 
-## Introduction
+<!-- TOC -->
+* [Gymanager](#gymanager)
+  * [Introduction 🛈](#introduction-)
+  * [Key frameworks and libraries 📕](#key-frameworks-and-libraries-)
+  * [The Ubiquitous Language 💬](#the-ubiquitous-language-)
+    * [Users](#users)
+    * [Subscriptions](#subscriptions)
+    * [Gyms](#gyms)
+    * [Rooms](#rooms)
+    * [Sessions](#sessions)
+  * [Invariants 📜](#invariants-)
+    * [Admins](#admins-)
+    * [Trainers](#trainers)
+    * [Participants](#participants)
+    * [Subscriptions](#subscriptions-1)
+    * [Gyms](#gyms-1)
+    * [Rooms](#rooms-1)
+    * [Sessions](#sessions-1)
+  * [Bounded Contexts 🚧](#bounded-contexts-)
+  * [Design Choices 🧱](#design-choices-)
+    * [Architecture](#architecture-)
+    * [Eventual Consistency](#eventual-consistency)
+      * [Domain Events](#domain-events)
+      * [Integration Events](#integration-events)
+    * [Project structure - following along a use case](#project-structure---following-along-a-use-case)
+    * [Authentication](#authentication)
+    * [Authorization](#authorization)
+  * [Running the service 🔄](#running-the-service-)
+    * [Docker](#docker)
+<!-- TOC -->
+
+## Introduction 🛈
 
 Small project I started to mess around both with _Java_ and _Domain Driven Design_ (DDD) concepts. Shout out to 
 [Amichai Mantinbad's DDD course](https://dometrain.com/course/getting-started-domain-driven-design-ddd/), where I 
@@ -10,7 +41,7 @@ It is a basic _REST API_ which would aim to provide the backend for a gym manage
 register their gyms as gym owners. Then, other users could participate as either trainers or 
 participants of the various gym training sessions. For storage a simple _PostgreSQL DB_ is used.
 
-## Key frameworks and libraries
+## Key frameworks and libraries 📕
 
 - [Spring Boot 3](https://spring.io/projects/spring-boot);
 - [Spring Modulith](https://spring.io/projects/spring-modulith);
@@ -59,7 +90,7 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 - A `session` has a `category` (like pilates or functional), which must be available on the `gym` where they are added.
 - Participants can make a `session reservation` to participate in it.
 
-## Invariants 📝
+## Invariants 📜
 
 ### Admins 
 
@@ -250,7 +281,7 @@ could not.
 A skeleton of a possible implementation of authorization is implemented for adding a `gym` use case, however it is 
 still a work in progress.
 
-## Running the service 
+## Running the service 🔄
 
 ### Docker
 
