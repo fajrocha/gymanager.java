@@ -1,5 +1,36 @@
 # Gymanager
 
+<!-- TOC -->
+* [Gymanager](#gymanager)
+  * [Introduction](#introduction)
+  * [Key frameworks and libraries](#key-frameworks-and-libraries)
+  * [The Ubiquitous Language 💬](#the-ubiquitous-language-)
+    * [Users](#users)
+    * [Subscriptions](#subscriptions)
+    * [Gyms](#gyms)
+    * [Rooms](#rooms)
+    * [Sessions](#sessions)
+  * [Invariants 📝](#invariants-)
+    * [Admins](#admins-)
+    * [Trainers](#trainers)
+    * [Participants](#participants)
+    * [Subscriptions](#subscriptions-1)
+    * [Gyms](#gyms-1)
+    * [Rooms](#rooms-1)
+    * [Sessions](#sessions-1)
+  * [Bounded Contexts 🚧](#bounded-contexts-)
+  * [Design Choices 🧱](#design-choices-)
+    * [Architecture](#architecture-)
+    * [Eventual Consistency](#eventual-consistency)
+      * [Domain Events](#domain-events)
+      * [Integration Events](#integration-events)
+    * [Project structure - following along a use case](#project-structure---following-along-a-use-case)
+    * [Authentication](#authentication)
+    * [Authorization](#authorization)
+  * [Running the service](#running-the-service-)
+    * [Docker](#docker)
+<!-- TOC -->
+
 ## Introduction
 
 Small project I started to mess around both with _Java_ and _Domain Driven Design_ (DDD) concepts. Shout out to 
