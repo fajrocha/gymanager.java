@@ -27,7 +27,7 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 ### Users
 
 - A `user` can `create` an `admin profile`.
-- An `admin` can have an `subscription` on the platform by `subscribing`.
+- An `admin` can have a `subscription` on the platform by `subscribing`.
 - A `user` can `create` a `trainer profile`.
 - A `trainer` can `add` `sessions` across several `gyms`.
 - A `user` can `create` a `participant profile`.
@@ -43,21 +43,21 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 
 - A `gym` can have multiple `rooms`.
 - A `gym` has a `subscription` attached which will define how many `rooms` it can have. 
-- A `gym` can `support` multiple `session categories` (like pilates, functional).
+- A `gym` can `support` multiple `session categories` (like bike, pilates, functional).
 - A `gym` can have multiple `trainers`.
 
 ### Rooms
 
-- Several `sessions` can be `reserved` in a `room` by `trainers`.
+- A `session` can be `reserved` in a `room` by `trainers`.
 - A `room` has a maximum number of `daily sessions` depending on the `subscription`.
 
 ### Sessions
 
-- `Trainer` can add a `session` for a given `gym`. 
+- A `trainer` can add a `session` for a given `gym`. 
 - There should be only one `trainer` for a given `session`.
 - `Sessions` should have a `maximum number` of `participants` set by the `trainer`.
-- `Session` have a `category` (like pilates or functional), which must be available on the `gym` where they are added.
-- Participants can make a `session reservation` to participate.
+- A `session` has a `category` (like pilates or functional), which must be available on the `gym` where they are added.
+- Participants can make a `session reservation` to participate in it.
 
 ## Invariants 📝
 
@@ -76,17 +76,17 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 ### Subscriptions
 
 - A `subscription` cannot have more `gyms` than the `subscription` allows:
-    - `Free`: 1.
-    - `Starter`: 3.
-    - `Pro`: Infinite.
+    - **Free**: 1.
+    - **Starter**: 3.
+    - **Pro**: Unlimited.
 - A `subscription` cannot allow more `rooms` than the `subscription` allows:
-    - `Free`: 3.
-    - `Starter`: 10.
-    - `Pro`: Infinite.
+    - **Free**: 1.
+    - **Starter**: 10.
+    - **Pro**: Unlimited.
 - A `subscription` cannot allow more `sessions` than the `subscription` allows:
-    - `Free`: 3.
-    - `Starter`: 10.
-    - `Pro`: Infinite.
+    - **Free**: 3.
+    - **Starter**: Unlimited.
+    - **Pro**: Unlimited.
 
 ### Gyms
 
@@ -111,7 +111,7 @@ With the several **domain models** identified, the solution was divided into 3 *
 - **Gym Management**: responsible for `admins`, `subscriptions`, `gyms` management and communicating any downstream 
 request of `room` to the **Session Management** bounded context.
 - **Session Management**: management of `rooms`, `sessions`, `trainers`, `participants` and `session reservations`. It
-should have a `gym` model only to fetch the supported `session categories` supported by a gym where the `trainer`
+should have a `gym` model only to fetch the supported `session categories` supported by a **gym** where the `trainer`
 intends to add a `session`.
 
 ![screenshot](./docs/resources/bounded_contexts.png)
@@ -122,14 +122,14 @@ intends to add a `session`.
 
 Each **bounded context** is separated on its own **package**. Any shared code is under a `common` **package**.
 
-Each **bounded context** follows the _Clean Architecture_. Some main points:
+Also, each **bounded context** follows the _Clean Architecture_. Some main points:
 - **API**: presentation layer of all **bounded contexts**, with the controllers and any middleware like exception 
 handlers.
 - **Application**: application logic resides here. Hard rule to not mention any implementations, 
 the data could come virtually from anywhere, so no data access/ORM libraries references (like _JPA_, _JDBC_ or in this 
-case _jOOQ_). All abstractions (`gateways`) of the **Infrastructure** layer are defined with interfaces here (but no
-implementations!) and should only reference **Domain** layer models.
-- **Infrastructure**: implementations of the abstractions (`gateways`) defined in the **Application** layer, mainly 
+case _jOOQ_). All abstractions (conveyed as `gateways`) of the **Infrastructure** layer are defined with interfaces here (but no
+implementations!) and should only work with the **Domain** layer models.
+- **Infrastructure**: implementations of the abstractions (`gateways`) defined in the **Application** layer, like 
 repositories. Here resides the references to data access/ORM libraries, in this case _jOOQ_. Other stuff like the 
 token generation services (for security) implementations are also defined here.
 - **Domain**: all business logic resides here and by extension all **domain models**. An effort was made to make them 
@@ -139,11 +139,12 @@ token generation services (for security) implementations are also defined here.
 
 Instead of a **transactional consistency** for each request, an **eventual consistency** approach was implemented. 
 Meaning, when something interesting from a business perspective occurs, instead of updating all relevant entities in a
-single transaction, the response is given to the client immediately and further changes will occur on the background.
+single transaction, only one entity is changed and the response is given to the client immediately. Any further changes 
+will occur on the background.
 
 While this brings further complexity, the client no longer has to wait on the whole transaction and allows to customize what happens when certain changes
 within and between the **bounded contexts** fail. Any failed event will go to the database and will be republished 
-either on restart or on a scheduled job. To simplify, _Spring Modulith_ out of the box features, like the
+either on restart or on a scheduled job. To simplify, _Spring Modulith_ out of the box features, like
 [application events](https://docs.spring.io/spring-modulith/reference/events.html), were used.
 
 Mainly two type of events are used, **domain events** (within the **bounded context**) and **integration events**
@@ -212,12 +213,13 @@ adopted here it is important that all these dependencies are as abstract as poss
 So using the use case of adding a `gym` as an example:
 1. On the `GymsController` the `Pipelinr` dependency is called and executes the `AddGymCommand`.
 2. The respective handler `AddGymHandler` is called to process the request.
-3. On the `handler`, the **domain aggregates** or **entities** are changed and stored by calling the related 
-dependencies (for example, repositories) - in this case to add the `gym` to its respective `subscription`.
-4. Still on the `handler`, any **domain** or **integration events** are added to the changed domain **aggregate** or 
-**entity** and then published to let any subscribers that would like to do anything with this event 
-(in this case, to create the new `gym`).
-5. Finally, some object of interest is returned from the `AddGymHandler` back to the `GymsController`, which will
+3. On the `AddGymHandler`, the **domain aggregate** `subscription` is changed - in this case to add the `gym` to 
+its respective `subscription` - and stored by calling its related **gateway**, which an abstraction of its repository, 
+defined on the **Infrastructure Layer**.
+4. Still on the `AddGymHandler`, any **domain** or **integration events** are added to the changed domain **aggregate** 
+and then published to let any subscribers that would like to do anything with this event
+(in this case, to create the new `gym` on the background).
+5. Finally, an object of interest is returned from the `AddGymHandler` back to the `GymsController`, which will
 use it on the response.
 
 Worth noting that any dependency called on the `handler` is an abstraction defined on the **Application Layer**, whose
