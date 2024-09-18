@@ -10,7 +10,7 @@ It is a basic _REST API_ which would aim to provide the backend for a gym manage
 register their gyms as gym owners. Then, other users could participate as either trainers or 
 participants of the various gym training sessions. For storage a simple _PostgreSQL DB_ is used.
 
-## Framework and key libraries
+## Key frameworks and libraries
 
 - [Spring Boot 3](https://spring.io/projects/spring-boot);
 - [Spring Modulith](https://spring.io/projects/spring-modulith);
@@ -258,7 +258,7 @@ For running this locally for development be sure to have the _PostgreSQL DB_ up 
 record classes for [jOOQ](https://www.jooq.org/) as well as for [Flyway](https://github.com/flyway/flyway) to run the 
 migrations.
 
-I recommend to use _Docker_ containers, and by using the `docker-compose.yml` of the solution simply run the usual:
+It is recommended to use _Docker_ containers, and by using the `docker-compose.yml` of the solution simply run the usual:
 
 ```shell
 docker compose up -d
@@ -268,5 +268,8 @@ A _Docker_ image of the _REST API_ is also available. Also recommended to just r
 passing the profile which includes the service:
 
 ```shell
-docker compose --profile gymanager
+docker compose --profile gymanager up -d
 ```
+
+Since there is not a lot of complexity on this service and to explore other options than the usual _Dockerfile_
+[Paketo Buildpacks](https://paketo.io/) were used to build its image.
