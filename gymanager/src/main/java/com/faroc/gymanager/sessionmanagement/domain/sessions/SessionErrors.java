@@ -62,4 +62,6 @@ public class SessionErrors {
     public static String roomNotFound(UUID roomId, UUID sessionId) {
         return "Failed to get room with id " + roomId + " while retrieving session " + sessionId + ".";
     }
+
+
 }

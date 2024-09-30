@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +73,7 @@ public class SessionReservationController {
     })
     public MakeSessionReservationResponse makeReservation(
             @Parameter(description = "Session id to make reservation on.") @PathVariable UUID sessionId,
-            @RequestBody MakeSessionReservationRequest request) {
+            @RequestBody @Valid MakeSessionReservationRequest request) {
         var command = new MakeSessionReservationCommand(sessionId, request.participantId());
 
         var sessionReservation = command.execute(pipeline);

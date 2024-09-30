@@ -14,8 +14,8 @@ import lombok.Getter;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
-
 public class Session extends AggregateRoot {
+
     public static final int MIN_CANCELLATION_HOURS = 24;
 
     @Getter

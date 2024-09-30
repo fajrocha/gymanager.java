@@ -1,19 +1,18 @@
 package com.faroc.gymanager.sessionmanagement.unit.application.sessions.commands
 
-import com.faroc.gymanager.sessionmanagement.application.gyms.gateways.GymsGateway
 import com.faroc.gymanager.sessionmanagement.application.rooms.gateways.RoomsGateway
 import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsession.AddSessionCommand
 import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsession.AddSessionHandler
 import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.sessionmanagement.application.trainers.gateways.TrainersGateway
-import com.faroc.gymanager.sessionmanagement.domain.gyms.Gym
+
 import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
 import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors
 import com.faroc.gymanager.common.domain.exceptions.ConflictException
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
 import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer
-import com.faroc.gymanager.sessionmanagement.unit.application.gyms.utils.GymsTestsFactory
+
 import com.faroc.gymanager.sessionmanagement.unit.domain.rooms.utils.RoomsTestsFactory
 import com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils.SessionsTestsFactory
 import com.faroc.gymanager.sessionmanagement.unit.domain.trainers.utils.TrainersTestsFactory
@@ -52,7 +51,6 @@ class AddSessionHandlerTests extends Specification {
 
         room = RoomsTestsFactory.create(roomId, gymId)
         trainer = TrainersTestsFactory.create(trainerId)
-        gym = GymsTestsFactory.create(gymId, SESSION_CATEGORY)
 
         command = new AddSessionCommand(
                 SESSION_NAME,

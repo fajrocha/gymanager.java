@@ -9,8 +9,7 @@ public class GymResponseMappers {
     public static GymResponse toResponse(Gym gym) {
         return new GymResponse(
                 gym.getId(),
-                gym.getName(),
-                gym.getSessionCategories().stream().toList()
+                gym.getName()
         );
     }
 
@@ -18,8 +17,7 @@ public class GymResponseMappers {
         return gyms.stream()
                 .map(gym -> new GymResponse(
                         gym.getId(),
-                        gym.getName(),
-                        gym.getSessionCategories().stream().toList()))
+                        gym.getName()))
                 .toList();
     }
 }

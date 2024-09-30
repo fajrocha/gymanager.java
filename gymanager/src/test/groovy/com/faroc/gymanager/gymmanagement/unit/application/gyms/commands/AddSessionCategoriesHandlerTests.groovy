@@ -5,8 +5,7 @@ import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.gymmanagement.domain.gyms.errors.GymsErrors
 import com.faroc.gymanager.gymmanagement.unit.domain.gyms.utils.GymsTestsFactory
 import com.faroc.gymanager.gymmanagement.application.gyms.gateways.GymsGateway
-import com.faroc.gymanager.gymmanagement.application.gyms.commands.addsessioncategory.AddSessionCategoriesCommand
-import com.faroc.gymanager.gymmanagement.application.gyms.commands.addsessioncategory.AddSessionCategoriesHandler
+
 import com.faroc.gymanager.gymmanagement.domain.gyms.Gym
 import spock.lang.Specification
 
