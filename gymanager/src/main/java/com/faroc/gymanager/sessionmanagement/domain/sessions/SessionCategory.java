@@ -1,13 +1,15 @@
 package com.faroc.gymanager.sessionmanagement.domain.sessions;
 
 import com.faroc.gymanager.common.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
 public class SessionCategory extends Entity {
     private final String name;
 
-    public SessionCategory(String name) {
+    public SessionCategory(
+            @JsonProperty("name") String name) {
         this.name = name;
     }
 }

@@ -2,5 +2,5 @@ package com.faroc.gymanager.sessionmanagement.api.sessionreservations.contracts.
 
 import java.util.UUID;
 
-public record MakeSessionReservationResponse(UUID id, UUID participantId) {
+public record SessionReservationResponse(UUID id, UUID participantId) {
 }

@@ -9,6 +9,7 @@ import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.exceptions.CancellationTooCloseToSession;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.exceptions.MaxParticipantsReachedException;
 import com.faroc.gymanager.common.domain.abstractions.InstantProvider;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.time.Duration;
@@ -56,14 +57,14 @@ public class Session extends AggregateRoot {
     }
 
     public Session(
-            UUID id,
-            UUID trainerId,
-            UUID roomId,
-            TimeSlot timeSlot,
-            String name,
-            String description,
-            String category,
-            int maximumNumberParticipant) {
+            @JsonProperty("id") UUID id,
+            @JsonProperty("trainerId") UUID trainerId,
+            @JsonProperty("roomId") UUID roomId,
+            @JsonProperty("timeSlot") TimeSlot timeSlot,
+            @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("category") String category,
+            @JsonProperty("maximumNumberParticipant") int maximumNumberParticipant) {
         super(id);
         this.trainerId = trainerId;
         this.roomId = roomId;
@@ -118,6 +119,10 @@ public class Session extends AggregateRoot {
     public boolean hasReservationForParticipant(UUID participantId) {
 
         return reservations.stream().anyMatch(reservation -> reservation.getParticipantId().equals(participantId));
+    }
+
+    public Set<SessionReservation> getReservations() {
+        return Collections.unmodifiableSet(reservations);
     }
 
     private boolean tooCloseToSession(Duration timeDifference) {

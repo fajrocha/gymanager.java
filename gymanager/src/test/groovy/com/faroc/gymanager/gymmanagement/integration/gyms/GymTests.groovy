@@ -164,11 +164,11 @@ class GymTests extends ContainersSpecification {
         def gymsToAdd = Subscription.getMaxGyms(subscriptionType)
 
         for (int gym = 0; gym < gymsToAdd; gym++) {
-            def addGymRequest1 = new AddGymRequest(faker.marketing().buzzwords())
+            def addGymRequest = new AddGymRequest(faker.marketing().buzzwords())
             RestAssured.given()
                     .header("Authorization", "Bearer " + loginToken)
                     .contentType(ContentType.JSON)
-                    .body(addGymRequest1)
+                    .body(addGymRequest)
                     .when()
                     .post(endpoint)
         }

@@ -3,7 +3,7 @@ package com.faroc.gymanager.sessionmanagement.api.sessionreservations.controller
 import an.awesome.pipelinr.Pipeline;
 import com.faroc.gymanager.sessionmanagement.application.reservations.commands.makereservation.MakeSessionReservationCommand;
 import com.faroc.gymanager.sessionmanagement.api.sessionreservations.contracts.v1.requests.MakeSessionReservationRequest;
-import com.faroc.gymanager.sessionmanagement.api.sessionreservations.contracts.v1.responses.MakeSessionReservationResponse;
+import com.faroc.gymanager.sessionmanagement.api.sessionreservations.contracts.v1.responses.SessionReservationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,7 +13,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -36,12 +38,12 @@ public class SessionReservationController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Session reservation made by participant.",
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = MakeSessionReservationResponse.class)
+                                    schema = @Schema(implementation = SessionReservationResponse.class)
                             )
                     }
             ),
@@ -71,13 +73,16 @@ public class SessionReservationController {
                             )
                     })
     })
-    public MakeSessionReservationResponse makeReservation(
+    public ResponseEntity<SessionReservationResponse> makeReservation(
             @Parameter(description = "Session id to make reservation on.") @PathVariable UUID sessionId,
             @RequestBody @Valid MakeSessionReservationRequest request) {
         var command = new MakeSessionReservationCommand(sessionId, request.participantId());
 
         var sessionReservation = command.execute(pipeline);
 
-        return new MakeSessionReservationResponse(sessionReservation.getId(), sessionReservation.getParticipantId());
+        return new ResponseEntity<>(
+                new SessionReservationResponse(sessionReservation.getId(), sessionReservation.getParticipantId()),
+                HttpStatus.CREATED
+        );
     }
 }

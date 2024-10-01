@@ -3,13 +3,11 @@ package com.faroc.gymanager.sessionmanagement.infrastructure.sessions.gateways;
 import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionCategoriesGateway;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionCategory;
 import org.jooq.DSLContext;
-import org.jooq.codegen.maven.gymanager.Tables;
-import org.jooq.codegen.maven.gymanager.tables.SessionCategories;
-import org.jooq.codegen.maven.gymanager.tables.Sessions;
 import org.jooq.codegen.maven.gymanager.tables.records.SessionCategoriesRecord;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.jooq.codegen.maven.gymanager.Tables.SESSION_CATEGORIES;
 
@@ -39,10 +37,46 @@ public class SessionCategoriesRepository implements SessionCategoriesGateway {
     }
 
     @Override
+    public void exceptExisting(List<String> sessionCategories) {
+        List<String> existingEntries =
+                context.select(SESSION_CATEGORIES.NAME)
+                        .from(SESSION_CATEGORIES)
+                        .where(SESSION_CATEGORIES.NAME.in(sessionCategories))
+                        .fetch(SESSION_CATEGORIES.NAME);
+
+        sessionCategories.removeAll(existingEntries);
+    }
+
+    @Override
     public boolean existsByName(String categoryName) {
         return context.fetchExists(
                 context.selectFrom(SESSION_CATEGORIES)
-                        .where(SESSION_CATEGORIES.NAME
-                                .eq(categoryName)));
+                        .where(SESSION_CATEGORIES.NAME.eq(categoryName)));
+    }
+
+    @Override
+    public boolean exists(UUID id) {
+        return context.fetchExists(
+                context.selectFrom(SESSION_CATEGORIES)
+                        .where(SESSION_CATEGORIES.ID.eq(id)));
+    }
+
+    @Override
+    public boolean existsAll(List<UUID> ids) {
+        var count = context.selectCount()
+                .from(SESSION_CATEGORIES)
+                .where(SESSION_CATEGORIES.ID.in(ids))
+                .fetchOne(0, Integer.class);
+
+        if (count == null) return false;
+
+        return count == ids.size();
+    }
+
+    @Override
+    public void deleteAll(List<UUID> ids) {
+        context.deleteFrom(SESSION_CATEGORIES)
+                .where(SESSION_CATEGORIES.ID.in(ids))
+                .execute();
     }
 }

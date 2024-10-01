@@ -7,7 +7,6 @@ import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionReservation;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session;
 import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors;
-import com.faroc.gymanager.sessionmanagement.infrastructure.sessions.mappers.SessionPersistenceMappers;
 import org.jooq.DSLContext;
 import org.jooq.codegen.maven.gymanager.tables.records.SessionsRecord;
 import org.springframework.stereotype.Repository;
@@ -54,6 +53,8 @@ public class SessionsRepository implements SessionsGateway {
     public Optional<Session> findById(UUID id) {
         var fetchResult = context.select()
                 .from(SESSIONS)
+                .join(SESSION_CATEGORIES)
+                .on(SESSIONS.SESSION_CATEGORY_ID.eq(SESSION_CATEGORIES.ID))
                 .leftJoin(SESSION_RESERVATIONS)
                 .on(SESSIONS.ID.eq(SESSION_RESERVATIONS.SESSION_ID))
                 .where(SESSIONS.ID.eq(id))
@@ -68,6 +69,7 @@ public class SessionsRepository implements SessionsGateway {
             if (session == null) {
                 var startTime = record.get(SESSIONS.TIME_START);
                 var endTime = record.get(SESSIONS.TIME_END);
+                var sessionCategoryName = record.get(SESSION_CATEGORIES.NAME);
 
                 var timeSlot = new TimeSlot(
                         startTime.toInstant(),
@@ -81,7 +83,7 @@ public class SessionsRepository implements SessionsGateway {
                         timeSlot,
                         record.get(SESSIONS.NAME),
                         record.get(SESSIONS.DESCRIPTION),
-                        "",
+                        sessionCategoryName,
                         record.get(SESSIONS.MAX_PARTICIPANTS)
                 );
             }

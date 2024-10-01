@@ -4,6 +4,7 @@ import com.faroc.gymanager.sessionmanagement.application.rooms.gateways.RoomsGat
 import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsession.AddSessionCommand
 import com.faroc.gymanager.sessionmanagement.application.sessions.commands.addsession.AddSessionHandler
 import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
+import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionCategoriesGateway
 import com.faroc.gymanager.sessionmanagement.application.trainers.gateways.TrainersGateway
 
 import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
@@ -12,7 +13,7 @@ import com.faroc.gymanager.common.domain.exceptions.ConflictException
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
 import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer
-
+import com.faroc.gymanager.sessionmanagement.infrastructure.sessions.gateways.SessionCategoriesRepository
 import com.faroc.gymanager.sessionmanagement.unit.domain.rooms.utils.RoomsTestsFactory
 import com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils.SessionsTestsFactory
 import com.faroc.gymanager.sessionmanagement.unit.domain.trainers.utils.TrainersTestsFactory
@@ -29,14 +30,12 @@ class AddSessionHandlerTests extends Specification {
 
     UUID roomId
     UUID trainerId
-    UUID gymId
     Room room
     Trainer trainer
-    Gym gym
     AddSessionCommand command
     RoomsGateway mockRoomsGateway
     TrainersGateway mockTrainersGateway
-    GymsGateway mockGymsGateway
+    SessionCategoriesGateway mockSessionCategoriesRepository
     DomainEventsPublisher mockDomainEventsPublisher
 
     AddSessionHandler sut
@@ -47,9 +46,8 @@ class AddSessionHandlerTests extends Specification {
 
         roomId = UUID.randomUUID()
         trainerId = UUID.randomUUID()
-        gymId = UUID.randomUUID()
 
-        room = RoomsTestsFactory.create(roomId, gymId)
+        room = RoomsTestsFactory.create(roomId)
         trainer = TrainersTestsFactory.create(trainerId)
 
         command = new AddSessionCommand(
@@ -64,10 +62,10 @@ class AddSessionHandlerTests extends Specification {
         )
         mockRoomsGateway = Mock(RoomsGateway)
         mockTrainersGateway = Mock(TrainersGateway)
-        mockGymsGateway = Mock(GymsGateway)
+        mockSessionCategoriesRepository = Mock(SessionCategoriesGateway)
         mockDomainEventsPublisher = Mock(DomainEventsPublisher)
 
-        sut = new AddSessionHandler(mockRoomsGateway, mockTrainersGateway, mockGymsGateway, mockDomainEventsPublisher)
+        sut = new AddSessionHandler(mockRoomsGateway, mockTrainersGateway, mockSessionCategoriesRepository, mockDomainEventsPublisher)
     }
 
     def "when adding session and room does not exist should throw unexpected exception"() {
@@ -114,27 +112,11 @@ class AddSessionHandlerTests extends Specification {
         ex.getMessage() == SessionErrors.trainerScheduleConflict(trainerId, timeSlot)
     }
 
-    def "when adding session and gym does not exist should throw unexpected exception"() {
+    def "when adding session and platform does not support the category should throw unexpected exception"() {
         given:
         mockRoomsGateway.findById(roomId) >> Optional.of(room)
         mockTrainersGateway.findById(trainerId) >> Optional.of(trainer)
-        mockGymsGateway.findById(gymId) >> Optional.empty()
-
-        when:
-        sut.handle(command)
-
-        then:
-        def ex = thrown(UnexpectedException)
-        ex.getDetail() == SessionErrors.GYM_NOT_FOUND
-        ex.getMessage() == SessionErrors.gymNotFound(gymId)
-    }
-
-    def "when adding session and gym does not offer the category exist should throw unexpected exception"() {
-        given:
-        mockRoomsGateway.findById(roomId) >> Optional.of(room)
-        mockTrainersGateway.findById(trainerId) >> Optional.of(trainer)
-        def gym = GymsTestsFactory.create(gymId)
-        mockGymsGateway.findById(gymId) >> Optional.of(gym)
+        mockSessionCategoriesRepository.existsByName(SESSION_CATEGORY) >> false
 
         when:
         sut.handle(command)
@@ -142,14 +124,14 @@ class AddSessionHandlerTests extends Specification {
         then:
         def ex = thrown(UnexpectedException)
         ex.getDetail() == SessionErrors.SESSION_CATEGORY_NOT_SUPPORTED
-        ex.getMessage() == SessionErrors.sessionCategoryNotSupported(gymId)
+        ex.getMessage() == SessionErrors.sessionCategoryNotSupported()
     }
 
     def "when adding session and room update fails should rethrow exception"() {
         given:
         mockRoomsGateway.findById(roomId) >> Optional.of(room)
         mockTrainersGateway.findById(trainerId) >> Optional.of(trainer)
-        mockGymsGateway.findById(gymId) >> Optional.of(gym)
+        mockSessionCategoriesRepository.existsByName(SESSION_CATEGORY) >> true
         mockRoomsGateway.update(room) >> { throw new RuntimeException() }
 
         when:
@@ -163,7 +145,7 @@ class AddSessionHandlerTests extends Specification {
         given:
         mockRoomsGateway.findById(roomId) >> Optional.of(room)
         mockTrainersGateway.findById(trainerId) >> Optional.of(trainer)
-        mockGymsGateway.findById(gymId) >> Optional.of(gym)
+        mockSessionCategoriesRepository.existsByName(SESSION_CATEGORY) >> true
 
         when:
         def session = sut.handle(command)
