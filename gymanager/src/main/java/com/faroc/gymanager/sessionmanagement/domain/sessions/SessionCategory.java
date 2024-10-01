@@ -11,7 +11,7 @@ public class SessionCategory extends Entity {
     private final String name;
 
     public SessionCategory(
-            @JsonProperty("name") String name) {
+            String name) {
         this.name = name;
     }
 
