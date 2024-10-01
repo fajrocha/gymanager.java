@@ -74,7 +74,6 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 
 - A `gym` can have multiple `rooms`.
 - A `gym` has a `subscription` attached which will define how many `rooms` it can have. 
-- A `gym` can `support` multiple `session categories` (like bike, pilates, functional).
 - A `gym` can have multiple `trainers`.
 
 ### Rooms
@@ -87,8 +86,8 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 - A `trainer` can add a `session` for a given `gym`. 
 - There should be only one `trainer` for a given `session`.
 - `Sessions` should have a `maximum number` of `participants` set by the `trainer`.
-- A `session` has a `category` (like pilates or functional), which must be available on the `gym` where they are added.
-- Participants can make a `session reservation` to participate in it.
+- A `session` has a `category` (like pilates or functional).
+- Participants can make a `reservation` to participate in it.
 
 ## Invariants 📜
 
@@ -133,6 +132,7 @@ a CQRS(ish) pattern where each request is separated in its own **command/query**
 
 - A `session` cannot contain more than the maximum number of `participants` set by the `trainer`.
 - A `session reservation` cannot be `cancelled` less than 24h before the `session` `start time`.
+- The `session category` must be available on the platform.
 
 ## Bounded Contexts 🚧
 
@@ -141,9 +141,7 @@ With the several **domain models** identified, the solution was divided into 3 *
 `participants` and/or `admins`.
 - **Gym Management**: responsible for `admins`, `subscriptions`, `gyms` management and communicating any downstream 
 request of `room` to the **Session Management** bounded context.
-- **Session Management**: management of `rooms`, `sessions`, `trainers`, `participants` and `session reservations`. It
-should have a `gym` model only to fetch the supported `session categories` supported by a **gym** where the `trainer`
-intends to add a `session`.
+- **Session Management**: management of `rooms`, `sessions`, `trainers`, `participants` and `session reservations`.
 
 ![screenshot](./docs/resources/bounded_contexts.png)
 
