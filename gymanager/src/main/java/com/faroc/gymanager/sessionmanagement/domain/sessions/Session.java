@@ -1,5 +1,6 @@
 package com.faroc.gymanager.sessionmanagement.domain.sessions;
 
+import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.events.MakeReservationEvent;
 import com.faroc.gymanager.common.domain.AggregateRoot;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;

@@ -6,10 +6,10 @@ import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionCategoriesGateway;
 import com.faroc.gymanager.sessionmanagement.application.trainers.gateways.TrainersGateway;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session;
-import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,8 +38,8 @@ public class AddSessionHandler implements Command.Handler<AddSessionCommand, Ses
 
         var room = roomsGateway.findById(roomId)
                 .orElseThrow(() -> new UnexpectedException(
-                        SessionErrors.roomNotFound(roomId),
-                        SessionErrors.ROOM_NOT_FOUND
+                        SessionErrors.addSessionRoomNotFound(roomId),
+                        SessionErrors.ADD_SESSION_ROOM_NOT_FOUND
                 ));
 
         var trainerId = addSessionCommand.trainerId();

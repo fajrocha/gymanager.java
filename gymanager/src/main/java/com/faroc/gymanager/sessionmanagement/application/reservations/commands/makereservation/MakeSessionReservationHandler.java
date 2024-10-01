@@ -5,7 +5,7 @@ import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.Sessi
 import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher;
 import com.faroc.gymanager.sessionmanagement.application.participants.gateways.ParticipantsGateway;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionReservation;
-import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors;
 import com.faroc.gymanager.common.domain.exceptions.ConflictException;
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import org.springframework.beans.factory.annotation.Autowired;

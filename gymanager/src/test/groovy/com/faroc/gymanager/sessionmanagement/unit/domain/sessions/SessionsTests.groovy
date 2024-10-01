@@ -1,7 +1,7 @@
 package com.faroc.gymanager.sessionmanagement.unit.domain.sessions
 
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
-import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors
+import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors
 import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionReservation
 import com.faroc.gymanager.sessionmanagement.domain.sessions.exceptions.CancellationTooCloseToSession
 import com.faroc.gymanager.sessionmanagement.domain.sessions.exceptions.MaxParticipantsReachedException
