@@ -78,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"A-Team\"\r\n}",
+							"raw": "{\r\n    \"name\": \"B-Team\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -95,37 +95,6 @@
 								"subscriptions",
 								"{{subscriptionId}}",
 								"gyms"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add Session Categories",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"sessionCategories\": [\r\n        \"Functional\",\r\n        \"Zoomba\",\r\n        \"Pilates\",\r\n        \"Bike\"\r\n    ]\r\n}\r\n\r\n\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{hostname}}/v1/subscriptions/{{subscriptionId}}/gyms/{{gymId}}/session-categories",
-							"host": [
-								"{{hostname}}"
-							],
-							"path": [
-								"v1",
-								"subscriptions",
-								"{{subscriptionId}}",
-								"gyms",
-								"{{gymId}}",
-								"session-categories"
 							]
 						}
 					},
@@ -334,11 +303,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{hostname}}/authentication/login",
+							"raw": "{{hostname}}/v1/authentication/login",
 							"host": [
 								"{{hostname}}"
 							],
 							"path": [
+								"v1",
 								"authentication",
 								"login"
 							]
@@ -381,11 +351,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{hostname}}/authentication/login",
+							"raw": "{{hostname}}/v1/authentication/login",
 							"host": [
 								"{{hostname}}"
 							],
 							"path": [
+								"v1",
 								"authentication",
 								"login"
 							]
@@ -516,7 +487,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"Tom\",\r\n  \"lastName\": \"Jackson\",\r\n  \"email\": \"tomjackson@gmail.com\",\r\n  \"password\": \"Pwd12345!\"\r\n}",
+							"raw": "{\r\n  \"firstName\": \"Tommy\",\r\n  \"lastName\": \"Jackson\",\r\n  \"email\": \"tommmyjackson@gmail.com\",\r\n  \"password\": \"Pwd12345!\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -795,12 +766,35 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "sessions reservations",
-			"item": [
+				},
+				{
+					"name": "Add Session Categories",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sessionCategories\": [\r\n        \"Functional\",\r\n        \"Zoomba\",\r\n        \"Pilates\",\r\n        \"Bike\"\r\n    ]\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/v1/sessions/session-categories",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"session-categories"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Make Session Reservation",
 					"request": {
@@ -873,52 +867,52 @@
 		},
 		{
 			"key": "subscriptionId",
-			"value": "405bf8bc-0eaa-4f2c-ad0f-2f8fc362106d",
+			"value": "455470db-ffac-437d-a191-2165e4075275",
 			"type": "string"
 		},
 		{
 			"key": "gymId",
-			"value": "8326e50f-673f-43ee-bc7d-5a855b5e54c0",
+			"value": "ca277b6f-d807-4391-bc75-b4972a505f1e",
 			"type": "string"
 		},
 		{
 			"key": "adminId",
-			"value": "f06fd978-489e-44a2-95ea-ea330ca98a75",
+			"value": "fe3be8d4-909b-4621-9c62-fb0303c1ff75",
 			"type": "string"
 		},
 		{
 			"key": "adminUserId",
-			"value": "bc6c8c49-c22d-4da5-9dd3-dd7259f2fdce",
+			"value": "728e5cbd-b1bf-45dd-879d-16f025cf1aaf",
 			"type": "string"
 		},
 		{
 			"key": "trainerUserId",
-			"value": "414cf524-4ed5-4724-a737-57853d9537c4",
+			"value": "0646c540-1174-4958-91ed-f51375d138ac",
 			"type": "string"
 		},
 		{
 			"key": "participantUserId",
-			"value": "3b4adc49-eb50-4101-a05d-cb9985087270",
+			"value": "74dbe58f-34b0-4a1e-8003-fc35b80c79aa",
 			"type": "string"
 		},
 		{
 			"key": "roomId",
-			"value": "44fbbb36-9ef4-450c-9968-4df5de1d01b5",
+			"value": "aa31b2f6-82a6-431d-8aba-5f3e9c1ae375",
 			"type": "string"
 		},
 		{
 			"key": "trainerId",
-			"value": "c0502606-ab95-4a22-b330-18ac3aff6def",
+			"value": "a736c310-011c-4946-8ba3-3f026899d790",
 			"type": "string"
 		},
 		{
 			"key": "sessionId",
-			"value": "9d4273fe-2e47-4156-973f-15aed3547577",
+			"value": "68f9cb0b-caf3-489e-b07d-e9228b906866",
 			"type": "string"
 		},
 		{
 			"key": "participantId",
-			"value": "abccb152-4a91-47f0-b7dc-e3aa88899e6a",
+			"value": "27ed3a50-638f-49a1-8393-862eec367a3a",
 			"type": "string"
 		}
 	]
