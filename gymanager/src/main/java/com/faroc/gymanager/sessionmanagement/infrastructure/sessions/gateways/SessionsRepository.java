@@ -1,9 +1,8 @@
 package com.faroc.gymanager.sessionmanagement.infrastructure.sessions.gateways;
 
-import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionsGateway;
 import com.faroc.gymanager.sessionmanagement.domain.common.time.TimeUtils;
-import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionCategory;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionReservation;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session;
 import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot;
@@ -26,15 +25,10 @@ public class SessionsRepository implements SessionsGateway {
 
     @Override
     public void create(Session session) {
-        var sessionCategoryRecord = context.selectFrom(SESSION_CATEGORIES)
-                .where(SESSION_CATEGORIES.NAME.eq(session.getCategory()))
-                .fetchOptional()
-                .orElseThrow(() -> new UnexpectedException(SessionErrors.sessionCategoryNotSupported()));
-
         var sessionRecord = new SessionsRecord();
 
         sessionRecord.setId(session.getId());
-        sessionRecord.setSessionCategoryId(sessionCategoryRecord.getId());
+        sessionRecord.setSessionCategoryId(session.getCategory().getId());
         sessionRecord.setDate(session.getDate());
         var startTime = TimeUtils.toOffsetDateTimeFromInstant(session.getTimeSlot().getStartTime());
         sessionRecord.setTimeStart(startTime);
@@ -69,6 +63,7 @@ public class SessionsRepository implements SessionsGateway {
             if (session == null) {
                 var startTime = record.get(SESSIONS.TIME_START);
                 var endTime = record.get(SESSIONS.TIME_END);
+                var sessionCategoryId = record.get(SESSION_CATEGORIES.ID);
                 var sessionCategoryName = record.get(SESSION_CATEGORIES.NAME);
 
                 var timeSlot = new TimeSlot(
@@ -83,7 +78,7 @@ public class SessionsRepository implements SessionsGateway {
                         timeSlot,
                         record.get(SESSIONS.NAME),
                         record.get(SESSIONS.DESCRIPTION),
-                        sessionCategoryName,
+                        new SessionCategory(sessionCategoryId, sessionCategoryName),
                         record.get(SESSIONS.MAX_PARTICIPANTS)
                 );
             }

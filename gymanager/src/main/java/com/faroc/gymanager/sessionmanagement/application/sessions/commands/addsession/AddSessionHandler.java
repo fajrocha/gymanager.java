@@ -59,10 +59,10 @@ public class AddSessionHandler implements Command.Handler<AddSessionCommand, Ses
 
         var categoryName = addSessionCommand.category();
 
-        if (!sessionCategoriesGateway.existsByName(categoryName))
-            throw new UnexpectedException(
-                    SessionErrors.sessionCategoryNotSupported(),
-                    SessionErrors.SESSION_CATEGORY_NOT_SUPPORTED);
+        var sessionCategory = sessionCategoriesGateway.findByName(categoryName)
+                .orElseThrow(() -> new UnexpectedException(
+                        SessionErrors.sessionCategoryNotSupported(),
+                        SessionErrors.SESSION_CATEGORY_NOT_SUPPORTED));
 
         var session = new Session(
                 trainerId,
@@ -70,7 +70,7 @@ public class AddSessionHandler implements Command.Handler<AddSessionCommand, Ses
                 timeSlot,
                 addSessionCommand.name(),
                 addSessionCommand.description(),
-                addSessionCommand.category(),
+                sessionCategory,
                 addSessionCommand.maxParticipants()
         );
 

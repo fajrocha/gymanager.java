@@ -39,7 +39,9 @@ public class GymsManagementRepository implements GymsGateway {
 
     @Override
     public Optional<Gym> findById(UUID id) {
-        var gymRecord = context.selectFrom(GYMS).where(GYMS.ID.eq(id)).fetchOne();
+        var gymRecord = context.selectFrom(GYMS)
+                .where(GYMS.ID.eq(id))
+                .fetchOne();
 
         if (gymRecord == null)
             return Optional.empty();

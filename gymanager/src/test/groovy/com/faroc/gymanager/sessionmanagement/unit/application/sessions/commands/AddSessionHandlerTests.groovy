@@ -12,9 +12,11 @@ import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
 import com.faroc.gymanager.common.domain.exceptions.ConflictException
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionCategory
 import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors
 import com.faroc.gymanager.sessionmanagement.domain.trainers.Trainer
 import com.faroc.gymanager.sessionmanagement.unit.domain.rooms.utils.RoomsTestsFactory
+import com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils.SessionConstants
 import com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils.SessionsTestsFactory
 import com.faroc.gymanager.sessionmanagement.unit.domain.trainers.utils.TrainersTestsFactory
 import spock.lang.Specification
@@ -23,9 +25,10 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 
 class AddSessionHandlerTests extends Specification {
-    final String SESSION_NAME = "Amazing Session"
-    final String SESSION_DESCRIPTION = "Amazing session indeed"
-    final String SESSION_CATEGORY = "Pilates"
+    final String SESSION_NAME = SessionConstants.NAME_DEFAULT
+    final String SESSION_DESCRIPTION = SessionConstants.DESCRIPTION_DEFAULT
+    final String SESSION_CATEGORY_NAME = SessionConstants.CATEGORY_DEFAULT
+    final SessionCategory sessionCategory = new SessionCategory(UUID.randomUUID(), SESSION_CATEGORY_NAME)
     final int SESSION_MAX_PARTICIPANTS = 12
 
     UUID roomId
@@ -53,7 +56,7 @@ class AddSessionHandlerTests extends Specification {
         command = new AddSessionCommand(
                 SESSION_NAME,
                 SESSION_DESCRIPTION,
-                SESSION_CATEGORY,
+                SESSION_CATEGORY_NAME,
                 SESSION_MAX_PARTICIPANTS,
                 startTime,
                 endTime,
@@ -116,7 +119,7 @@ class AddSessionHandlerTests extends Specification {
         given:
         mockRoomsGateway.findById(roomId) >> Optional.of(room)
         mockTrainersGateway.findById(trainerId) >> Optional.of(trainer)
-        mockSessionCategoriesRepository.existsByName(SESSION_CATEGORY) >> false
+        mockSessionCategoriesRepository.findByName(SESSION_CATEGORY_NAME) >> Optional.empty()
 
         when:
         sut.handle(command)
@@ -131,7 +134,7 @@ class AddSessionHandlerTests extends Specification {
         given:
         mockRoomsGateway.findById(roomId) >> Optional.of(room)
         mockTrainersGateway.findById(trainerId) >> Optional.of(trainer)
-        mockSessionCategoriesRepository.existsByName(SESSION_CATEGORY) >> true
+        mockSessionCategoriesRepository.existsByName(SESSION_CATEGORY_NAME) >> Optional.of(sessionCategory)
         mockRoomsGateway.update(room) >> { throw new RuntimeException() }
 
         when:
@@ -145,7 +148,7 @@ class AddSessionHandlerTests extends Specification {
         given:
         mockRoomsGateway.findById(roomId) >> Optional.of(room)
         mockTrainersGateway.findById(trainerId) >> Optional.of(trainer)
-        mockSessionCategoriesRepository.existsByName(SESSION_CATEGORY) >> true
+        mockSessionCategoriesRepository.findByName(SESSION_CATEGORY_NAME) >> Optional.of(sessionCategory)
 
         when:
         def session = sut.handle(command)
@@ -159,7 +162,7 @@ class AddSessionHandlerTests extends Specification {
         session.getRoomId() == roomId
         session.getName() == SESSION_NAME
         session.getDescription() == SESSION_DESCRIPTION
-        session.getCategory() == SESSION_CATEGORY
+        session.getCategory().getName() == SESSION_CATEGORY_NAME
         session.getMaximumNumberParticipants() == SESSION_MAX_PARTICIPANTS
     }
 }

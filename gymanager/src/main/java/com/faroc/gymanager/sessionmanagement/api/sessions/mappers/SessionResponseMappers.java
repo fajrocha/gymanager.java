@@ -14,7 +14,7 @@ public class SessionResponseMappers {
                 session.getId(),
                 session.getName(),
                 session.getDescription(),
-                session.getCategory(),
+                session.getCategory().getName(),
                 session.getMaximumNumberParticipants(),
                 session.getTimeSlot().getStartTime(),
                 session.getTimeSlot().getEndTime(),

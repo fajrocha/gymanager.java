@@ -37,7 +37,7 @@ public class Session extends AggregateRoot {
     private final Set<SessionReservation> reservations = new HashSet<>();
 
     @Getter
-    private final String category;
+    private final SessionCategory category;
 
     public Session(
             UUID trainerId,
@@ -45,7 +45,7 @@ public class Session extends AggregateRoot {
             TimeSlot timeSlot,
             String name,
             String description,
-            String category,
+            SessionCategory category,
             int maxNumberParticipants) {
         this.trainerId = trainerId;
         this.roomId = roomId;
@@ -64,7 +64,7 @@ public class Session extends AggregateRoot {
             @JsonProperty("timeSlot") TimeSlot timeSlot,
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
-            @JsonProperty("category") String category,
+            @JsonProperty("category") SessionCategory category,
             @JsonProperty("maximumNumberParticipant") int maximumNumberParticipant) {
         super(id);
         this.trainerId = trainerId;

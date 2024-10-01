@@ -7,6 +7,7 @@ import org.jooq.codegen.maven.gymanager.tables.records.SessionCategoriesRecord;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.jooq.codegen.maven.gymanager.Tables.SESSION_CATEGORIES;
@@ -52,6 +53,19 @@ public class SessionCategoriesRepository implements SessionCategoriesGateway {
         return context.fetchExists(
                 context.selectFrom(SESSION_CATEGORIES)
                         .where(SESSION_CATEGORIES.NAME.eq(categoryName)));
+    }
+
+    @Override
+    public Optional<SessionCategory> findByName(String name) {
+        var sessionCategoryRecord = context.selectFrom(SESSION_CATEGORIES)
+                .where(SESSION_CATEGORIES.NAME.eq(name))
+                .fetchOne();
+
+        if (sessionCategoryRecord == null) return Optional.empty();
+
+        var sessionCategory = new SessionCategory(sessionCategoryRecord.getId(), sessionCategoryRecord.getName());
+
+        return Optional.of(sessionCategory);
     }
 
     @Override
