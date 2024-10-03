@@ -2,6 +2,7 @@ package com.faroc.gymanager.sessionmanagement.unit.domain.sessions.utils;
 
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session;
 import com.faroc.gymanager.sessionmanagement.domain.common.timeslots.TimeSlot;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionCategory;
 
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public class SessionsTestsFactory {
                 SessionConstants.SESSION_TIMESLOT_DEFAULT,
                 SessionConstants.NAME_DEFAULT,
                 SessionConstants.DESCRIPTION_DEFAULT,
-                SessionConstants.CATEGORY_DEFAULT,
+                new SessionCategory(UUID.randomUUID(), SessionConstants.CATEGORY_DEFAULT),
                 SessionConstants.MAX_PARTICIPANTS_DEFAULT);
     }
 
@@ -29,7 +30,7 @@ public class SessionsTestsFactory {
                 timeSlot,
                 SessionConstants.NAME_DEFAULT,
                 SessionConstants.DESCRIPTION_DEFAULT,
-                SessionConstants.CATEGORY_DEFAULT,
+                new SessionCategory(UUID.randomUUID(), SessionConstants.CATEGORY_DEFAULT),
                 SessionConstants.MAX_PARTICIPANTS_DEFAULT);
     }
 
@@ -40,7 +41,7 @@ public class SessionsTestsFactory {
                 SessionConstants.SESSION_TIMESLOT_DEFAULT,
                 SessionConstants.NAME_DEFAULT,
                 SessionConstants.DESCRIPTION_DEFAULT,
-                SessionConstants.CATEGORY_DEFAULT,
+                new SessionCategory(UUID.randomUUID(), SessionConstants.CATEGORY_DEFAULT),
                 maxNumberParticipants);
     }
 
@@ -51,7 +52,7 @@ public class SessionsTestsFactory {
                 timeSlot,
                 SessionConstants.NAME_DEFAULT,
                 SessionConstants.DESCRIPTION_DEFAULT,
-                SessionConstants.CATEGORY_DEFAULT,
+                new SessionCategory(UUID.randomUUID(), SessionConstants.CATEGORY_DEFAULT),
                 maxNumberParticipants);
     }
 
@@ -63,7 +64,7 @@ public class SessionsTestsFactory {
                 timeSlot,
                 SessionConstants.NAME_DEFAULT,
                 SessionConstants.DESCRIPTION_DEFAULT,
-                SessionConstants.CATEGORY_DEFAULT,
+                new SessionCategory(UUID.randomUUID(), SessionConstants.CATEGORY_DEFAULT),
                 maxNumberParticipants);
     }
 }

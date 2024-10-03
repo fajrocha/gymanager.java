@@ -5,7 +5,6 @@ import com.faroc.gymanager.gymmanagement.api.gyms.mappers.GymResponseMappers;
 import com.faroc.gymanager.gymmanagement.application.gyms.commands.addgym.AddGymCommand;
 import com.faroc.gymanager.gymmanagement.application.gyms.commands.deletegym.RemoveGymCommand;
 import com.faroc.gymanager.gymmanagement.application.gyms.queries.getsubscriptiongyms.GetSubscriptionGymsQuery;
-import com.faroc.gymanager.gymmanagement.application.gyms.commands.addsessioncategory.AddSessionCategoriesCommand;
 import com.faroc.gymanager.gymmanagement.domain.subscriptions.exceptions.MaxGymsReachedException;
 import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.requests.AddGymRequest;
 import com.faroc.gymanager.gymmanagement.api.gyms.contracts.v1.responses.GymResponse;
@@ -134,62 +133,6 @@ public class GymsController {
         var gym = command.execute(pipeline);
 
         return new ResponseEntity<>(GymResponseMappers.toResponse(gym), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/{gymId}/session-categories")
-    @Operation(
-            summary = "Adds session categories to a gym.",
-            description = "Adds further session categories to a given gym."
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Session categories added tog gym.",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = AddSessionCategoryResponse.class)
-                            )
-                    }
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "User is not authenticated.",
-                    content = @Content
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Subscription not found.",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ProblemDetail.class)
-                            )
-                    }
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Internal server error or unexpected behavior like missing or inconsistent related " +
-                            "records (subscription) during request to add session categories.",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ProblemDetail.class)
-                            )
-                    })
-    })
-    public AddSessionCategoryResponse addGymCategories(
-            @Parameter(description = "Id of gym to add session categories.") @PathVariable UUID gymId,
-            @Parameter(description = "Id of subscription associated to gym.") @PathVariable UUID subscriptionId,
-            @Valid @RequestBody AddSessionCategoryRequest addSessionCategoryRequest) {
-        var command = new AddSessionCategoriesCommand(
-                gymId,
-                subscriptionId,
-                addSessionCategoryRequest.sessionCategories());
-
-        var sessionCategories = command.execute(pipeline);
-
-        return new AddSessionCategoryResponse(sessionCategories);
     }
 
     @DeleteMapping("/{gymId}")

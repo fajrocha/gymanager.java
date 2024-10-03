@@ -1,6 +1,7 @@
 package com.faroc.gymanager.sessionmanagement.domain.sessions;
 
 import com.faroc.gymanager.common.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -9,15 +10,15 @@ import java.util.UUID;
 public class SessionCategory extends Entity {
     private final String name;
 
-    public SessionCategory(String name) {
-        this.name = name;
-    }
-    public SessionCategory(UUID id, String name) {
-        super(id);
+    public SessionCategory(
+            String name) {
         this.name = name;
     }
 
-    public SessionCategory(long id, String name) {
+    public SessionCategory(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("name") String name) {
+        super(id);
         this.name = name;
     }
 }

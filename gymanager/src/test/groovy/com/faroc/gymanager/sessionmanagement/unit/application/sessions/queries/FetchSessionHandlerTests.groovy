@@ -7,7 +7,7 @@ import com.faroc.gymanager.sessionmanagement.application.sessions.queries.getses
 import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException
 import com.faroc.gymanager.sessionmanagement.domain.rooms.Room
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
-import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors
+import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import spock.lang.Specification
 import com.faroc.gymanager.sessionmanagement.unit.domain.rooms.utils.RoomsTestsFactory
@@ -46,8 +46,8 @@ class FetchSessionHandlerTests extends Specification {
 
         then:
         def ex = thrown(UnexpectedException)
-        ex.getDetail() == SessionErrors.ROOM_NOT_FOUND
-        ex.getMessage() == SessionErrors.roomNotFound(roomId, sessionId)
+        ex.getDetail() == SessionErrors.FETCH_SESSION_ROOM_NOT_FOUND
+        ex.getMessage() == SessionErrors.fetchSessionRoomNotFound(roomId, sessionId)
     }
 
     def "when fetching session and session is not found should throw not found exception"() {

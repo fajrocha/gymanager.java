@@ -5,7 +5,7 @@ import com.faroc.gymanager.sessionmanagement.application.rooms.gateways.RoomsGat
 import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.SessionsGateway;
 import com.faroc.gymanager.common.application.exceptions.ResourceNotFoundException;
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session;
-import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors;
+import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors;
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +26,8 @@ public class FetchSessionHandler implements Command.Handler<FetchSessionQuery, S
 
         var room = roomsGateway.findById(roomId)
                 .orElseThrow(() -> new UnexpectedException(
-                        SessionErrors.roomNotFound(roomId, sessionId),
-                        SessionErrors.ROOM_NOT_FOUND
+                        SessionErrors.fetchSessionRoomNotFound(roomId, sessionId),
+                        SessionErrors.FETCH_SESSION_ROOM_NOT_FOUND
                 ));
 
         var session = sessionGateway.findById(sessionId)

@@ -7,7 +7,7 @@ import com.faroc.gymanager.sessionmanagement.application.sessions.gateways.Sessi
 import com.faroc.gymanager.common.application.abstractions.DomainEventsPublisher
 import com.faroc.gymanager.sessionmanagement.domain.participants.Participant
 import com.faroc.gymanager.sessionmanagement.domain.sessions.Session
-import com.faroc.gymanager.sessionmanagement.domain.sessions.SessionErrors
+import com.faroc.gymanager.sessionmanagement.domain.sessions.errors.SessionErrors
 import com.faroc.gymanager.common.domain.exceptions.ConflictException
 import com.faroc.gymanager.common.domain.exceptions.UnexpectedException
 import com.faroc.gymanager.sessionmanagement.unit.application.participants.utils.ParticipantsTestsFactory

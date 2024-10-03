@@ -14,7 +14,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -37,7 +39,7 @@ public class SessionsController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Session added to room.",
                     content = {
                             @Content(
@@ -72,14 +74,14 @@ public class SessionsController {
                             )
                     })
     })
-    public SessionResponse addSession(
+    public ResponseEntity<SessionResponse> addSession(
             @Parameter(description = "Room id to add session to.") @PathVariable UUID roomId,
             @Valid @RequestBody AddSessionRequest addSessionRequest) {
         var command = SessionRequestMappers.toCommand(addSessionRequest, roomId);
 
         var session = command.execute(pipeline);
 
-        return SessionResponseMappers.toResponse(session);
+        return new ResponseEntity<>(SessionResponseMappers.toResponse(session), HttpStatus.CREATED) ;
     }
 
     @Operation(
